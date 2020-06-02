@@ -1,0 +1,36 @@
+{
+  "name": "tv-tracker",
+  "version": "1.0.0",
+  "description": "Keep track of your favorite shows, which episodes you've watched and be notified when new episodes are available",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "nodemon server/server.js",
+    "database-reset": "node database/index.js",
+    "test": "jest --detectOpenHandles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianprice88/TV-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brianprice88/TV-Tracker/issues"
+  },
+  "homepage": "https://github.com/brianprice88/TV-Tracker#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^26.0.1",
+    "pg": "^8.2.1",
+    "postgres": "^1.0.2",
+    "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
