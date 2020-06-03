@@ -1,11 +1,11 @@
 const userQueries = require('../../database/queries/users');
-const bcrypt = require('../utils/bcrypt')
+const hashFunctions = require('../utils/hashFunctions')
 
 const authenticationControllers = {
 
     signUp: function (req, res) {
         let { email_address, password, time_zone, security_question, security_answer } = req.body;
-        bcrypt.hashPassword(password)
+        hashFunctions.hashPassword(password)
             .then((hashedPassword) => {
                 password = hashedPassword
             })
@@ -24,7 +24,7 @@ const authenticationControllers = {
                     res.status(404).send('Invalid email address')
                 } else {
                     let userPassword = userInfo.rows[0].password;
-                    bcrypt.comparePasswords(password, userPassword)
+                    hashFunctions.comparePasswords(password, userPassword)
                         .then(function (answer) {
                             if (!answer) {
                                 res.status(404).send('Invalid password')

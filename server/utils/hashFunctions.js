@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const bcryptFunctions = {
+const hashFunctions = {
     
     hashPassword: (password) => {
         return new Promise((resolve, reject) =>
@@ -20,4 +20,4 @@ const bcryptFunctions = {
 
 }
 
-module.exports = bcryptFunctions;
+module.exports = hashFunctions;

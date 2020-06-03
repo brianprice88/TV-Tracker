@@ -41,6 +41,21 @@ const users = {
             .then(res => pool.query(
                 `DELETE FROM users where email_address='${email}'`
             )),
+
+    createSession: (email, session) =>
+        pool.query(
+            `UPDATE users set session='${session}' where email_address='${email}'`
+        ),
+
+    getSession: (email) =>
+        pool.query(
+            `SELECT (session) from users where email_address='${email}'`
+        ),
+
+    deleteSession: (email) =>
+        pool.query(
+            `UPDATE users set session=null where email_address='${email}'`
+        ),
 }
 
 module.exports = users;

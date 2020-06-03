@@ -14,7 +14,7 @@ pool.connect()
             .then(res => client.query('DROP TABLE IF EXISTS users'))
             .then(res => client.query('DROP TABLE IF EXISTS shows'))
             .then(res => client.query(
-                'CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, email_address VARCHAR NOT NULL UNIQUE, password VARCHAR NOT NULL, time_zone VARCHAR NOT NULL, security_question VARCHAR NOT NULL, security_answer VARCHAR NOT NULL);'
+                'CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, email_address VARCHAR NOT NULL UNIQUE, password VARCHAR NOT NULL, time_zone VARCHAR NOT NULL, security_question VARCHAR NOT NULL, security_answer VARCHAR NOT NULL, session VARCHAR);'
             ))
             .then(res => client.query(
                 'CREATE TABLE IF NOT EXISTS shows(id SERIAL PRIMARY KEY, tvmaze_id INT NOT NULL UNIQUE, name VARCHAR NOT NULL, episodes DECIMAL [] NOT NULL);'
