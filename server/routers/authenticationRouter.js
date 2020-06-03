@@ -18,7 +18,7 @@ authenticationRouter
   .post(authenticationControllers.checkSecurityAnswer)
 
 authenticationRouter
-  .route('/signOut/:email')
-  .get(authenticationControllers.signOut)
+  .route('/signOut')
+  .post(authenticationControllers.signOut)
 
 module.exports = authenticationRouter

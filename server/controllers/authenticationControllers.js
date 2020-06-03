@@ -73,16 +73,26 @@ const authenticationControllers = {
                 let createSession = await userQueries.createSession(email_address, session);
                 let userShows = await userShowQueries.findShowsForUser(userId)
                 let shows = userShows.rows;
-                res.status(200).send({ message: 'Signing you in now.  Please make sure to update your password.', session, shows})
+                res.status(200).send({ message: 'Signing you in now.  Please make sure to update your password.', session, shows })
             }
         } catch (err) {
             res.status(400).send(err)
         }
     },
 
-    signOut: function (req, res) {
-        let email_address = req.params.email;
-        // delete user session and confirm with user if successful
+    signOut: async function (req, res) {
+        let { email_address, session } = req.body
+        try {
+            let userSession = await userQueries.getSession(email_address);
+            if (userSession.rows[0] && userSession.rows[0].session === session) {
+                let deleteSession = await userQueries.deleteSession(email_address);
+                res.status(200).send({ message: 'You are now signed out' })
+            } else {
+                res.status(400).send({ message: 'Invalid session' })
+            }
+        } catch (err) {
+            res.status(400).send(err)
+        }
     }
 
 }

@@ -9,6 +9,7 @@ let password = 'password';
 let time_zone = 'EST';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
+let session = 'fakeSession'
 
 describe('signing up a new user', () => {
     beforeEach(async () => {
@@ -119,6 +120,7 @@ describe('handing a forgotten password', () => {
 describe('signing out a user', () => {
     beforeAll(async () => {
         await users.createUser(email_address, password, time_zone, security_question, security_answer);
+        await users.createSession(email_address, session)
     })
 
     afterAll(async () => {
@@ -126,10 +128,14 @@ describe('signing out a user', () => {
     })
 
     it('should sign out a user and delete their session when they sign out', async (done) => {
+        let deleteSession = await request.post('/authentication/signOut').send({ email_address, session })
+        expect(deleteSession.body.message).toBe('You are now signed out')
         done();
     })
 
     it('should not allow a user who has signed out to make a request, without first signing back in', async (done) => {
+        let signoutAgain = await request.post('/authentication/signOut').send({ email_address, session });
+        expect(signoutAgain.body.message).toBe('Invalid session')
         done();
     })
 
