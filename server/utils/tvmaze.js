@@ -27,8 +27,9 @@ const apiRequests = {
             .catch(err => console.error(err))
     },
 
-    searchForShow: (query) => {
+    searchbyShowName: (query) => {
         let endpoint = `${url}/search/shows?q=${query}`;
+        return new Promise((resolve, reject) =>
         axios.get(endpoint)
             .then(function (response) {
                 let data = response.data;
@@ -37,15 +38,15 @@ const apiRequests = {
                 for (var i = 0; i < availShows.length; i++) {
                     let show = availShows[i];
                     let showInfo = {};
-                    showInfo.tvmazeId = show.id;
-                    showInfo.name = show.name;
-                    showInfo.network = show.network.name;
-                    showInfo.summary = show.summary;
+                    showInfo.tvmazeId = show.show.id;
+                    showInfo.name = show.show.name;
+                    showInfo.network = show.show.network.name;
+                    showInfo.summary = show.show.summary;
                     shows.push(showInfo)
                 }
-                return shows;
-            }).catch(err => console.error(err))
-    },
+                resolve(shows);
+            }).catch(err => reject(err))
+        )},
 
     getShowEpisodes: (tvmazeId) => {
         let endpoint = `${url}/shows/${tvmazeId}/episodes`;
