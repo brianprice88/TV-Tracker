@@ -81,15 +81,10 @@ const authenticationControllers = {
     },
 
     signOut: async function (req, res) {
-        let { email_address, session } = req.body
+        let { email_address } = req.body
         try {
-            let userSession = await userQueries.getSession(email_address);
-            if (userSession.rows[0] && userSession.rows[0].session === session) {
-                let deleteSession = await userQueries.deleteSession(email_address);
-                res.status(200).send({ message: 'You are now signed out' })
-            } else {
-                res.status(400).send({ message: 'Invalid session' })
-            }
+            let deleteSession = await userQueries.deleteSession(email_address);
+            res.status(200).send({ message: 'You are now signed out' })
         } catch (err) {
             res.status(400).send(err)
         }

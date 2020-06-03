@@ -1,11 +1,14 @@
 const authenticationRouter = require('express').Router();
 const authenticationControllers = require('../controllers/authenticationControllers')
+const { verifySession } = require('../utils/sessionVerifier')
+
+authenticationRouter.use('/signOut', verifySession) // only this request will be after user is assigned a session
 
 authenticationRouter
   .route('/signUp')
   .post(authenticationControllers.signUp)
 
-authenticationRouter  
+authenticationRouter
   .route('/signIn')
   .post(authenticationControllers.signIn)
 
