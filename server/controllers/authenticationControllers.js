@@ -64,11 +64,16 @@ const authenticationControllers = {
         let { email_address, security_answer } = req.body;
         try {
             let userInfo = await userQueries.getUser(email_address);
+            let userId = userInfo.rows[0].id;
             let actualAnswer = userInfo.rows[0].security_answer;
             if (security_answer.toLowerCase() !== actualAnswer.toLowerCase()) { // don't make answers case sensitive
                 res.status(404).send({ message: 'That answer is incorrect' })
             } else {
-                res.status(200).send({ message: 'Signing you in now.  Please make sure to update your password.' })
+                let session = await createToken();
+                let createSession = await userQueries.createSession(email_address, session);
+                let userShows = await userShowQueries.findShowsForUser(userId)
+                let shows = userShows.rows;
+                res.status(200).send({ message: 'Signing you in now.  Please make sure to update your password.', session, shows})
             }
         } catch (err) {
             res.status(400).send(err)

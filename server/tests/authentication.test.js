@@ -75,7 +75,6 @@ describe('signing in a user', () => {
         let signin = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         let userInfo = await users.getUser(email_address);
         let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
-        expect(signin.status).toBe(200)
         expect(signin.body.session).toBe(userInfo.rows[0].session)
         expect(signin.body.shows).toStrictEqual(userShows.rows)
         done();
@@ -105,10 +104,13 @@ describe('handing a forgotten password', () => {
         done();
     })
 
-    it('should sign in a user if they provide the correct response to their security question, and provide them with a token', async (done) => {
+    it('should sign in a user if they provide the correct response to their security question, and provide them with a token and their list of shows', async (done) => {
         let correctAnswer = await request.post('/authentication/checkSecurityAnswer').send({ email_address, security_answer: 'Blue' })
-        expect(correctAnswer.status).toBe(200);
+        let userInfo = await users.getUser(email_address);
+        let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
         expect(correctAnswer.body.message).toBe('Signing you in now.  Please make sure to update your password.')
+        expect(correctAnswer.body.session).toBe(userInfo.rows[0].session)
+        expect(correctAnswer.body.shows).toStrictEqual(userShows.rows)
         done();
     })
 
