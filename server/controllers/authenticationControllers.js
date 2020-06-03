@@ -1,11 +1,12 @@
 const userQueries = require('../../database/queries/users');
-const hashFunctions = require('../utils/hashFunctions')
+const { hashPassword, comparePasswords } = require('../utils/hashFunctions')
+const {createToken} = require('../utils/sessionCreator')
 
 const authenticationControllers = {
 
     signUp: function (req, res) {
         let { email_address, password, time_zone, security_question, security_answer } = req.body;
-        hashFunctions.hashPassword(password)
+        hashPassword(password)
             .then((hashedPassword) => {
                 password = hashedPassword
             })
@@ -24,11 +25,13 @@ const authenticationControllers = {
                     res.status(404).send('Invalid email address')
                 } else {
                     let userPassword = userInfo.rows[0].password;
-                    hashFunctions.comparePasswords(password, userPassword)
+                    comparePasswords(password, userPassword)
                         .then(function (answer) {
                             if (!answer) {
                                 res.status(404).send('Invalid password')
                             } else {
+                                // createToken()
+                                // .then(token => console.log(token))
                                 res.status(200).send('successful login!')
                             }
                         })
