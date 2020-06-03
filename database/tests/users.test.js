@@ -63,4 +63,21 @@ describe('user table queries', () => {
         done();
     })
 
+    it('should create a new user session', async (done) => {
+        let create = await users.createUser(email, pass, time, question, answer);
+        let newSession = await users.createSession(email, 'sessionToken')
+        let getSession = await users.getSession(email)
+        expect(getSession.rows[0].session).toBe('sessionToken')
+        done();
+    })
+
+    it('should delete a user session', async (done) => {
+        let create = await users.createUser(email, pass, time, question, answer);
+        let newSession = await users.createSession(email, 'sessionToken')
+        let deleteSession = await users.deleteSession(email)
+        let getSession = await users.getSession(email)
+        expect(getSession.rows[0].session).toBe(null)
+        done();
+    })
+
 })
