@@ -8,6 +8,9 @@ userActionRouter
   .route('/showSearch')
   .post(userActionControllers.searchForShow)
 
+// userActionRouter
+//   .route('/getShowEpisodes')
+
 
 
 

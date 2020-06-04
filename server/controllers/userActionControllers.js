@@ -7,11 +7,16 @@ const userActionControllers = {
         let search = req.body.search;
         try {
             let searchResults = await searchbyShowName(search);
-            res.status(200).send({results: searchResults})
+            let results = searchResults
+            res.status(200).send({results})
         }
         catch (err) {
             res.status(400).send(err)
         }
+    },
+
+    getShowEpisodes: async function (req, res) {
+
     }
 
 }
