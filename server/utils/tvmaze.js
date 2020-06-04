@@ -9,9 +9,7 @@ const apiRequests = {
             axios.get(endpoint)
                 .then(function (response) {
                     let data = response.data;
-                    let shows = [];
-                    for (var i = 0; i < data.length; i++) {
-                        let show = data[i];
+                    let shows = data.map(function (show) {
                         let showInfo = {};
                         showInfo.showtvmazeId = show.show.id;
                         showInfo.showName = show.show.name;
@@ -21,8 +19,8 @@ const apiRequests = {
                         showInfo.time = show.airtime;
                         showInfo.summary = show.summary;
                         showInfo.network = show.show.network.name;
-                        shows.push(showInfo)
-                    }
+                        return showInfo
+                    })
                     resolve(shows);
                 })
                 .catch(err => reject(err))
@@ -35,11 +33,10 @@ const apiRequests = {
             axios.get(endpoint)
                 .then(function (response) {
                     let data = response.data;
-                    let showsData = data.map(function(show) {
+                    let showsData = data.map(function (show) {
                         let showInfo = {};
                         showInfo.tvmazeId = show.show.id;
                         showInfo.name = show.show.name;
-                        showInfo.network = show.show.network.name;
                         showInfo.summary = show.show.summary;
                         return showInfo;
                     })
@@ -54,7 +51,7 @@ const apiRequests = {
             axios.get(endpoint)
                 .then(function (response) {
                     let data = response.data;
-                    let episodeData = data.map(function(episode) {
+                    let episodeData = data.map(function (episode) {
                         let episodeInfo = {};
                         episodeInfo.season = episode.season;
                         episodeInfo.number = episode.number;

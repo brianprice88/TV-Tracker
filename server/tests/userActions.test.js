@@ -33,20 +33,16 @@ describe('user actions', () => {
         let matches = searchQuery.body.results;
         expect(matches.length).toBeGreaterThanOrEqual(1);
         let showNames = matches.map(show => show.name)
-        let showNetworks = matches.map(show => show.network)
         expect(showNames).toContain("Game of Thrones")
-        expect(showNetworks).toContain("HBO")
         done()
     })
 
     it('should let a user search for shows with only a partial result', async (done) => {
         let searchQuery = await request.post('/userAction/showSearch').send({ email_address, session, search: "break" })
-        // let matches = searchQuery.body.results;
-        //  expect(matches.length).toBeGreaterThanOrEqual(1);
-        // let showNames = matches.map(show => show.name)
-        // let showNetworks = matches.map(show => show.network)
-        // expect(showNames).toContain("Breaking Bad")
-        // expect(showNetworks).toContain("AMC")
+        let matches = searchQuery.body.results;
+        expect(matches.length).toBeGreaterThanOrEqual(1);
+        let showNames = matches.map(show => show.name)
+        expect(showNames).toContain("Prison Break")
         done()
     })
 
