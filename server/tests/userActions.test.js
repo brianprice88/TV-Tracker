@@ -14,10 +14,10 @@ let session = 'fakeSession';
 
 let name = 'Fake Show'
 let tvmaze_id = 0;
-let episodes = [1.1, 1.2, 1.3];
+let episodes = ['1.1', '1.2', '1.3'];
 
-var userId;
-var showId;
+let userId;
+let showId;
 
 describe('user actions', () => {
     beforeAll(async () => {
@@ -32,21 +32,22 @@ describe('user actions', () => {
 
     afterAll(async () => {
         await users.deleteUser(email_address);
-        await shows.deleteShow(tvmaze_id)
+        await shows.deleteShow(tvmaze_id);
+        await shows.deleteShow(82)
     })
 
     it('should not perform the user request without a valid session token', async (done) => {
-        let invalidQuery = await request.post('/userAction/showSearch').send({ email_address, session: 'invalidSession', search: "Game of Thrones" })
+        let invalidQuery = await request.post('/userAction/showSearch').send({ email_address, session: 'invalidSession', search: "Breaking Bad" })
         expect(invalidQuery.body.message).toBe('Invalid session')
         done()
     })
 
     it('should let a user search for shows based on an exact match', async (done) => {
-        let searchQuery = await request.post('/userAction/showSearch').send({ email_address, session, search: "Game of Thrones" })
+        let searchQuery = await request.post('/userAction/showSearch').send({ email_address, session, search: "Breaking Bad" })
         let matches = searchQuery.body.results;
         expect(matches.length).toBeGreaterThanOrEqual(1);
         let showNames = matches.map(show => show.name)
-        expect(showNames).toContain("Game of Thrones")
+        expect(showNames).toContain("Breaking Bad")
         done()
     })
 
@@ -69,6 +70,16 @@ describe('user actions', () => {
     })
 
     it('should upon receiving a user request to add a show to their list, if that show is not in the database, get it from tvmaze api then add to the database and the user list, then send them the episodes available', async (done) => {
+        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name: "Game of Thrones", tvmaze_id: 82 })
+        let showEpisodes = await shows.searchForShow(82);
+        expect(showEpisodes.rows[0].name).toBe('Game of Thrones')
+        expect(showEpisodes.rows[0].tvmaze_id).toBe(82)
+        expect(showEpisodes.rows[0].episodes.length).toBe(73) // # of Game of Thrones episodes
+        let showId = showEpisodes.rows[0].id;
+        let userShowList = await usersShows.findShowsForUser(userId);
+        let userShowIDs = userShowList.rows.map(show => show.show_id);
+        expect(userShowIDs).toContain(showId)
+        expect(userRequest.body.episodes).toStrictEqual(showEpisodes.rows[0].episodes)
         done();
     })
 

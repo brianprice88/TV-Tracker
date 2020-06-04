@@ -1,4 +1,4 @@
-const { searchbyShowName, getShowEpisodes } = require('../utils/tvmaze')
+const { searchbyShowName, queryForShowEpisodes } = require('../utils/tvmaze')
 const showQueries = require('../../database/queries/shows');
 const userShowQueries = require('../../database/queries/users_shows');
 const userQueries = require('../../database/queries/users');
@@ -21,8 +21,8 @@ const userActionControllers = {
         let { tvmaze_id, name, email_address } = req.body;
         try {
             let databaseSearch = await showQueries.searchForShow(tvmaze_id);
-            if (databaseSearch.rows[0].length === 0) {
-                databaseSearch = await getShowEpisodes(tvmaze_id);
+            if (databaseSearch.rows.length === 0) {
+                databaseSearch = await queryForShowEpisodes(tvmaze_id);
                 let createShow = await showQueries.addNewShow(tvmaze_id, name, databaseSearch)
             }
             let userId = await userQueries.getUser(email_address);

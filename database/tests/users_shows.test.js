@@ -18,11 +18,11 @@ describe('users_shows table queries', () => {
 
     let show1TVMazeid = 1;
     let show1Name = 'not a real show';
-    let show1episodes = [1.1, 1.2];
+    let show1episodes = ['1.1', '1.2'];
 
     let show2TVMazeid = 2;
     let show2Name = 'also not a real show';
-    let show2episodes = [1.1, 1.2];
+    let show2episodes = ['1.1', '1.2'];
 
     beforeAll(async () => {
         await users.createUser(user1email, user1pass, user1time, user1question, user1answer);
@@ -109,10 +109,10 @@ describe('users_shows table queries', () => {
         let user1id = user1.rows[0].id;
         let show1id = show1.rows[0].id;
         let newRecord = await users_shows.addShowToUserList(user1id, show1id, true);
-        let watchedEpisode = await users_shows.addEpisodeWatched(user1id, show1id, 1.1);
+        let watchedEpisode = await users_shows.addEpisodeWatched(user1id, show1id, '1.1');
         let recordSearch = await users_shows.findShowsForUser(user1id);
-        expect(recordSearch.rows[0].episodes_watched[0]).toBe(1.1);
-        let didntWatchEpisode = await users_shows.removeEpisodeWatched(user1id, show1id, 1.1);
+        expect(recordSearch.rows[0].episodes_watched[0]).toBe('1.1');
+        let didntWatchEpisode = await users_shows.removeEpisodeWatched(user1id, show1id, '1.1');
         let reSearch = await users_shows.findShowsForUser(user1id);
         expect(reSearch.rows[0].episodes_watched.length).toBe(0)
         done()

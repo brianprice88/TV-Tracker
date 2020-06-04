@@ -45,7 +45,7 @@ const apiRequests = {
         )
     },
 
-    getShowEpisodes: (tvmazeId) => {
+    queryForShowEpisodes: (tvmazeId) => {
         let endpoint = `${url}/shows/${tvmazeId}/episodes`;
         return new Promise((resolve, reject) =>
             axios.get(endpoint)
@@ -54,7 +54,7 @@ const apiRequests = {
                     let episodeData = data.map(function (episode) {
                         season = episode.season;
                         number = episode.number;
-                        return `${season}.${number}`
+                        return `${season.toString()}.${number.toString()}`
                     })
                     resolve(episodeData);
                 }).catch(err => reject(err))
