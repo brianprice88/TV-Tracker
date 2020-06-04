@@ -52,10 +52,9 @@ const apiRequests = {
                 .then(function (response) {
                     let data = response.data;
                     let episodeData = data.map(function (episode) {
-                        let episodeInfo = {};
-                        episodeInfo.season = episode.season;
-                        episodeInfo.number = episode.number;
-                        return episodeInfo
+                        season = episode.season;
+                        number = episode.number;
+                        return `${season}.${number}`
                     })
                     resolve(episodeData);
                 }).catch(err => reject(err))

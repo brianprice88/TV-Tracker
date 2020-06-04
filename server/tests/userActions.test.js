@@ -10,16 +10,29 @@ let password = 'password';
 let time_zone = 'EST';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
-let session = 'fakeSession'
+let session = 'fakeSession';
+
+let name = 'Fake Show'
+let tvmaze_id = 0;
+let episodes = [1.1, 1.2, 1.3];
+
+var userId;
+var showId;
 
 describe('user actions', () => {
     beforeAll(async () => {
         await users.createUser(email_address, password, time_zone, security_question, security_answer);
         await users.createSession(email_address, session)
+        await shows.addNewShow(tvmaze_id, name, episodes)
+        userId = await users.getUser(email_address)
+        userId = userId.rows[0].id;
+        showId = await shows.searchForShow(tvmaze_id);
+        showId = showId.rows[0].id;
     })
 
     afterAll(async () => {
         await users.deleteUser(email_address);
+        await shows.deleteShow(tvmaze_id)
     })
 
     it('should not perform the user request without a valid session token', async (done) => {
@@ -28,7 +41,7 @@ describe('user actions', () => {
         done()
     })
 
-    it('should let a user search for shows based on a complete name', async (done) => {
+    it('should let a user search for shows based on an exact match', async (done) => {
         let searchQuery = await request.post('/userAction/showSearch').send({ email_address, session, search: "Game of Thrones" })
         let matches = searchQuery.body.results;
         expect(matches.length).toBeGreaterThanOrEqual(1);
@@ -37,7 +50,7 @@ describe('user actions', () => {
         done()
     })
 
-    it('should let a user search for shows with only a partial result', async (done) => {
+    it('should let a user search for shows without inputting an exact match', async (done) => {
         let searchQuery = await request.post('/userAction/showSearch').send({ email_address, session, search: "break" })
         let matches = searchQuery.body.results;
         expect(matches.length).toBeGreaterThanOrEqual(1);
@@ -45,5 +58,20 @@ describe('user actions', () => {
         expect(showNames).toContain("Prison Break")
         done()
     })
+
+    it('should upon receiving a user request to add a show to their list, if that show is already in the database, add it to their list and send them the episodes available', async (done) => {
+        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name, tvmaze_id })
+        let showEpisodes = await shows.searchForShow(tvmaze_id);
+        let userShowList = await usersShows.findShowsForUser(userId);
+        expect(userShowList.rows[0].show_id).toBe(showId)
+        expect(userRequest.body.episodes).toStrictEqual(showEpisodes.rows[0].episodes);
+        done();
+    })
+
+    it('should upon receiving a user request to add a show to their list, if that show is not in the database, get it from tvmaze api then add to the database and the user list, then send them the episodes available', async (done) => {
+        done();
+    })
+
+
 
 })

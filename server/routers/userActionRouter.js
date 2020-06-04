@@ -5,12 +5,12 @@ const userActionControllers = require('../controllers/userActionControllers')
 userActionRouter.use(verifySession); // need to verify session token for all these routes
 
 userActionRouter
-  .route('/showSearch')
-  .post(userActionControllers.searchForShow)
+    .route('/showSearch')
+    .post(userActionControllers.searchForShow)
 
-// userActionRouter
-//   .route('/getShowEpisodes')
-
+userActionRouter
+    .route('/getShowEpisodes')
+    .post(userActionControllers.getShowEpisodes)
 
 
 

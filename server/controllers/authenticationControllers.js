@@ -1,7 +1,7 @@
 const userQueries = require('../../database/queries/users');
 const userShowQueries = require('../../database/queries/users_shows')
-const { hashPassword, comparePasswords } = require('../utils/hashFunctions')
-const { createToken } = require('../utils/sessionCreator')
+const { hashPassword, comparePasswords } = require('../utils/hashFunctions');
+const { createToken } = require('../utils/sessionCreator');
 
 const authenticationControllers = {
 
