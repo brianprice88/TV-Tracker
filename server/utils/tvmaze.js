@@ -59,6 +59,22 @@ const apiRequests = {
                     resolve(episodeData);
                 }).catch(err => reject(err))
         )
+    },
+
+    queryForEpisodeInfo: (tvmazeId, season, number) => {
+        let endpoint = `${url}/shows/${tvmazeId}/episodebynumber?season=${season}&number=${number}`;
+        return new Promise((resolve, reject) =>
+            axios.get(endpoint)
+                .then(function (response) {
+                    let episode = response.data;
+                    let episodeInfo = {};
+                    episodeInfo.name = episode.name;
+                    episodeInfo.summary = episode.summary;
+                    episodeInfo.airdate = episode.airdate;
+                    resolve(episodeInfo);
+                })
+                .catch(err => reject(err))
+        )
     }
 
 }

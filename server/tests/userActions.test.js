@@ -83,6 +83,10 @@ describe('user actions', () => {
         done();
     })
 
-
+    it('should let a user get more information about a specific episode of a show on their list', async (done) => {
+        let userRequest = await request.post('/userAction/getEpisodeInfo').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+        expect(userRequest.body.episodeInfo.name).toBe("The Wolf and the Lion")
+        done();
+    })
 
 })

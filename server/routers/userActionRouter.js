@@ -12,7 +12,9 @@ userActionRouter
     .route('/getShowEpisodes')
     .post(userActionControllers.getShowEpisodes)
 
-
+userActionRouter
+    .route('/getEpisodeInfo')
+    .post(userActionControllers.getEpisodeInfo)
 
 
 module.exports = userActionRouter

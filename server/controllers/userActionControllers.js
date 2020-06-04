@@ -1,4 +1,4 @@
-const { searchbyShowName, queryForShowEpisodes } = require('../utils/tvmaze')
+const { searchbyShowName, queryForShowEpisodes, queryForEpisodeInfo } = require('../utils/tvmaze')
 const showQueries = require('../../database/queries/shows');
 const userShowQueries = require('../../database/queries/users_shows');
 const userQueries = require('../../database/queries/users');
@@ -31,12 +31,22 @@ const userActionControllers = {
             episodes = showId.rows[0].episodes;
             showId = showId.rows[0].id;
             let userLikeShow = await userShowQueries.addShowToUserList(userId, showId, false)
-            res.status(200).send({episodes})
+            res.status(200).send({ episodes })
         }
         catch (err) {
             res.status(400).send(err)
         }
+    },
 
+    getEpisodeInfo: async function (req, res) {
+        let { tvmaze_id, season, number } = req.body;
+        try {
+            let episodeInfo = await queryForEpisodeInfo(tvmaze_id, season, number)
+            res.status(200).send({ episodeInfo })
+        }
+        catch (err) {
+            res.status(400).send(err)
+        }
     }
 
 }
