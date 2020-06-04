@@ -48,6 +48,6 @@ pool.connect()
     user_id (foreign key for USERS.id)
     show_id (foreign key for SHOWS.id)
     notification (true or false) -> email to alert about new episodes
-    episodes_watched: formatted as array of 'season.episodeNumber' (e.g. 1.1, 1.2 --> then these can be parsed to represent season and episode)
+    episodes_watched: formatted as array of 'season.episodeNumber' (e.g. 1.1, 1.2 --> then these can be parsed to represent season and episode (then compared against the show master list to determine unwatched episodes))
 
     */
