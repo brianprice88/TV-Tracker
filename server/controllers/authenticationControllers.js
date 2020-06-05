@@ -6,11 +6,11 @@ const { createToken } = require('../utils/sessionCreator');
 const authenticationControllers = {
 
     signUp: async function (req, res) {
-        let { email_address, password, time_zone, security_question, security_answer } = req.body;
+        let { email_address, password, security_question, security_answer } = req.body;
         try {
             let hashedPassword = await hashPassword(password);
             password = hashedPassword;
-            let createUser = await userQueries.createUser(email_address, password, time_zone, security_question, security_answer)
+            let createUser = await userQueries.createUser(email_address, password, security_question, security_answer)
             res.status(200).send({ message: `Account created successfully.  You can now sign in!` })
         }
         catch (err) {

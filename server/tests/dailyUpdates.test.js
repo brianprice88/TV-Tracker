@@ -11,13 +11,11 @@ const usersShows = require('../../database/queries/users_shows')
 
 let email_address = 'testUser@gmail.com';
 let password = 'password';
-let time_zone = 'Eastern';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 
 let email_address2 = 'anotherUser@gmail.com';
 let password2 = 'password';
-let time_zone2 = 'Pacific';
 let security_question2 = 'What_is_your_favorite_color?';
 let security_answer2 = 'blue';
 
@@ -37,8 +35,8 @@ let show2Id;
 
 describe('daily updates', () => {
     beforeAll(async () => {
-        await users.createUser(email_address, password, time_zone, security_question, security_answer);
-        await users.createUser(email_address2, password2, time_zone2, security_question2, security_answer2);
+        await users.createUser(email_address, password, security_question, security_answer);
+        await users.createUser(email_address2, password2, security_question2, security_answer2);
         await shows.addNewShow(tvmaze_id, name, episodes)
         await shows.addNewShow(tvmaze_id2, name2, episodes2)
         userId = await users.getUser(email_address)
@@ -100,13 +98,11 @@ describe('daily updates', () => {
         done();
     })
 
-    it('should then get the corresponding email address and time zone preference for the given user(s)', async (done) => {
+    it('should then get the corresponding email address preference for the given user(s)', async (done) => {
         let user1Contact = await dailyUpdates.getUserEmail(userId);
         let user2Contact = await dailyUpdates.getUserEmail(user2Id);
         expect(user1Contact[0].email_address).toBe(email_address)
-        expect(user1Contact[0].time_zone).toBe(time_zone)
         expect(user2Contact[0].email_address).toBe(email_address2)
-        expect(user2Contact[0].time_zone).toBe(time_zone2)
         done()
     })
 

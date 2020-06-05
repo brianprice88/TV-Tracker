@@ -6,13 +6,11 @@ describe('users_shows table queries', () => {
 
     let user1email = 'testUser@gmail.com';
     let user1pass = 'password';
-    let user1time = 'EST';
     let user1question = 'What_is_your_favorite_color?';
     let user1answer = 'blue';
 
     let user2email = 'testUser2@gmail.com';
     let user2pass = 'password';
-    let user2time = 'EST';
     let user2question = 'What_is_your_favorite_color?';
     let user2answer = 'blue';
 
@@ -25,8 +23,8 @@ describe('users_shows table queries', () => {
     let show2episodes = ['1.1', '1.2'];
 
     beforeAll(async () => {
-        await users.createUser(user1email, user1pass, user1time, user1question, user1answer);
-        await users.createUser(user2email, user2pass, user2time, user2question, user2answer);
+        await users.createUser(user1email, user1pass, user1question, user1answer);
+        await users.createUser(user2email, user2pass, user2question, user2answer);
         await shows.addNewShow(show1TVMazeid, show1Name, show1episodes)
         await shows.addNewShow(show2TVMazeid, show2Name, show2episodes)
     })
@@ -41,8 +39,8 @@ describe('users_shows table queries', () => {
     })
 
     afterAll(async () => {
-        await users.deleteUser(user1email, user1pass, user1time, user1question, user1answer);
-        await users.deleteUser(user2email, user2pass, user2time, user2question, user2answer);
+        await users.deleteUser(user1email, user1pass, user1question, user1answer);
+        await users.deleteUser(user2email, user2pass, user2question, user2answer);
         await shows.deleteShow(show1TVMazeid)
         await shows.deleteShow(show2TVMazeid)
     })
@@ -165,7 +163,7 @@ describe('users_shows table queries', () => {
         let show2Users = await users_shows.findUsersToNotifyForShow(show2id);
         expect(showUsers.rows.length).toBe(0);
         expect(show2Users.rows.length).toBe(0);
-        await users.createUser(user1email, user1pass, user1time, user1question, user1answer);
+        await users.createUser(user1email, user1pass, user1question, user1answer);
         done();
     })
 

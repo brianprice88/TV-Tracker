@@ -7,7 +7,6 @@ const usersShows = require('../../database/queries/users_shows')
  
 let email_address = 'testUser@gmail.com';
 let password = 'password';
-let time_zone = 'Eastern';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 let session = 'fakeSession';
@@ -21,7 +20,7 @@ let showId;
 
 describe('user actions', () => {
     beforeAll(async () => {
-        await users.createUser(email_address, password, time_zone, security_question, security_answer);
+        await users.createUser(email_address, password, security_question, security_answer);
         await users.createSession(email_address, session)
         await shows.addNewShow(tvmaze_id, name, episodes)
         userId = await users.getUser(email_address)

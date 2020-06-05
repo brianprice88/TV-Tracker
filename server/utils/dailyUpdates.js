@@ -46,7 +46,7 @@ const dailyUpdates = {
         let showMinutes = parseInt(showTime.slice(2));
       
 
-        return showTime // TODO: adjust this for US time
+        return showTime // TODO: adjust this for AM/PM
     },
 
 
@@ -78,11 +78,10 @@ const dailyUpdates = {
                 let userInfo = await this.getUserEmail(id);
 
                 let userEmail = userInfo[0].email_address;
-                let userTimeZone = userInfo[0].time_zone;
 
                 if (users[userEmail] === undefined) {
                     users[userEmail] = {};
-                    users[userEmail].time = this.formatTime(userTimeZone, show.time)
+                    users[userEmail].time = this.formatTime(show.time)
                 }
 
             }
