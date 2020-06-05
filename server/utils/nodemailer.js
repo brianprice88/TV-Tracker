@@ -3,8 +3,14 @@ const nodemailer = require('nodemailer');
 
 const nodemailerFunctions = {
 
-    notifyUsers: async function (userToNotify) {
+    notifyUsers: function (userToNotify) {
+        const email = userToNotify;
 
+        const message =
+            `Hi ${email},
+        Here are the shows airing today that you wanted to be notified about:    
+        `
+        // GO THROUGH EACH EPISODE IN USER'S LIST AND ADD RELEVANT INFO TO MESSAGE ABOVE
         let user = gmail.user;
         let pass = gmail.password;
 
@@ -24,8 +30,8 @@ const nodemailerFunctions = {
 
         const mailOptions = {
             from: user,
-            // to: gmail.user,
-            subject: `Your daily show update`,
+            to: email,
+            subject: `Your daily show update from TV Tracker`,
             text: message
         };
 

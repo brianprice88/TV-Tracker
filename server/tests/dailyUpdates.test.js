@@ -106,4 +106,16 @@ describe('daily updates', () => {
         done()
     })
 
+    it('should format the show time correctly', async(done) => {
+        let showTime = dailyUpdates.formatTime('22:30');
+        let show2Time = dailyUpdates.formatTime('00:35');
+        let show3Time = dailyUpdates.formatTime('12:00');
+        let show4Time = dailyUpdates.formatTime('8:30');
+        expect(showTime).toBe('10:30 PM')
+        expect(show2Time).toBe('12:35 AM')
+        expect(show3Time).toBe('12:00 PM')
+        expect(show4Time).toBe('8:30 AM')
+        done();
+    })
+
 })
