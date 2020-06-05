@@ -18,7 +18,11 @@ const apiRequests = {
                         showInfo.number = show.number;
                         showInfo.time = show.airtime;
                         showInfo.summary = show.summary;
-                        showInfo.network = show.show.network.name;
+                        if (show.show.network !== null) {
+                            showInfo.network = show.show.network.name;
+                        } else {
+                            showInfo.network = show.show.webChannel.name;
+                        }
                         return showInfo
                     })
                     resolve(shows);

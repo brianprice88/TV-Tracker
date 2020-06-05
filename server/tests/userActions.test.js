@@ -4,7 +4,8 @@ const request = supertest(app);
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
-
+const nodemailer = require('../utils/nodemailer')
+ 
 let email_address = 'testUser@gmail.com';
 let password = 'password';
 let time_zone = 'EST';
@@ -88,5 +89,13 @@ describe('user actions', () => {
         expect(userRequest.body.episodeInfo.name).toBe("The Wolf and the Lion")
         done();
     })
+
+    /* other user operation tests here */
+
+    it('should be able to fetch the daily schedule from tvmazeapi', async (done) => {
+        let schedule = await nodemailer.notifyUsers();
+        done()
+    })
+
 
 })
