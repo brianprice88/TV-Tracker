@@ -4,7 +4,6 @@ const request = supertest(app);
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
-const nodemailer = require('../utils/nodemailer')
  
 let email_address = 'testUser@gmail.com';
 let password = 'password';
@@ -91,11 +90,6 @@ describe('user actions', () => {
     })
 
     /* other user operation tests here */
-
-    // it('should be able to fetch the daily schedule from tvmazeapi', async (done) => {
-    //     let schedule = await nodemailer.notifyUsers();
-    //     done()
-    // })
 
     it('should let a user send feedback about the site', async (done) => {
         let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
