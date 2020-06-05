@@ -14,6 +14,11 @@ const users = {
             `SELECT * FROM users where email_address='${email}'`
         ),
 
+    findUserById: (id) =>
+        pool.query(
+            `SELECT (email_address, time_zone) from users where id='${id}'`
+        ),
+
     createUser: (email, pass, time, question, answer) =>
         pool.query(
             `INSERT INTO users (email_address, password, time_zone, security_question, security_answer) values ('${email}', '${pass}', '${time}', '${question}', '${answer}')`

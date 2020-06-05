@@ -49,6 +49,10 @@ describe('daily updates', () => {
         user2Id = user2Id.rows[0].id;
         show2Id = await shows.searchForShow(tvmaze_id2);
         show2Id = show2Id.rows[0].id;
+        await usersShows.addShowToUserList(userId, showId, true)
+        await usersShows.addShowToUserList(userId, show2Id, true)
+        await usersShows.addShowToUserList(user2Id, showId, false)
+        await usersShows.addShowToUserList(user2Id, show2Id, true)
     })
 
     afterAll(async () => {
@@ -56,6 +60,9 @@ describe('daily updates', () => {
         await users.deleteUser(email_address2);
         await shows.deleteShow(tvmaze_id);
         await shows.deleteShow(tvmaze_id2);
+        await usersShows.removeUser(userId);
+        await usersShows.removeUser(user2Id)
+
     })
 
 
@@ -65,6 +72,32 @@ describe('daily updates', () => {
         done()
     })
 
+    it('should next determine if a show is in the shows database', async (done) => {
+        let nonexistingShow = await dailyUpdates.checkDatabaseForShow(123)
+        let existingShow = await dailyUpdates.checkDatabaseForShow(0)
+        expect(nonexistingShow.length).toBe(0)
+        expect(existingShow.length).toBe(1)
+        done()
+    })
 
+    it('should add the latest episode number for existing shows', async (done) => {
+        let existingShow = await dailyUpdates.checkDatabaseForShow(39956)
+        expect(existingShow[0].episodes.length).toBe(9)
+        let addEpisode = await dailyUpdates.addNewEpisodeToDatabase(39956, '1.10')
+        let updatedShow = await dailyUpdates.checkDatabaseForShow(39956)
+        expect(updatedShow[0].episodes.length).toBe(10)
+        done()
+    })
+
+    it('should find which users to notify about shows that exist in the database', async (done) => {
+        let show1Notifications = await dailyUpdates.getUsersToNofify(showId);
+        let show2Notifications = await dailyUpdates.getUsersToNofify(show2Id);
+        expect(show1Notifications.length).toBe(1)
+        expect(show1Notifications[0].user_id).toBe(userId)
+        expect(show2Notifications.length).toBe(2)
+        expect(show2Notifications[0].user_id).toBe(userId)
+        expect(show2Notifications[1].user_id).toBe(user2Id)
+        done();
+    })
 
 })

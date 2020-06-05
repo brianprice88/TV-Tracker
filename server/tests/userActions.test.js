@@ -91,11 +91,11 @@ describe('user actions', () => {
 
     /* other user operation tests here */
 
-    it('should let a user send feedback about the site', async (done) => {
-        let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
-        expect(userFeedback.body.message).toBe('Message sent successfully!')
-        done();
-    })
+    // it('should let a user send feedback about the site', async (done) => {
+    //     let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
+    //     expect(userFeedback.body.message).toBe('Message sent successfully!')
+    //     done();
+    // })
 
 
 })

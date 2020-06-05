@@ -28,6 +28,9 @@ describe('user table queries', () => {
         let create = await users.createUser(email, pass, time, question, answer);
         let user = await users.getUser(email)
         expect(user.rows[0].email_address).toBe(email)
+        let id = user.rows[0].id;
+        let getUserById = await users.findUserById(id)
+        expect(user.rows[0].email_address).toBe(email);
         done();
     })
 

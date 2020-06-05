@@ -2,14 +2,14 @@ const { getDailySchedule } = require('./tvmaze.js');
 
 const { searchForShow, addNewEpisode } = require('../../database/queries/shows');
 const { findUsersToNotifyForShow } = require('../../database/queries/users_shows');
+const { getUser } = require('../../database/queries/users')
 
 const {notifyUsers} = require('../utils/nodemailer')
 
 
 const dailyUpdates = {
 
-    checkDatabaseForShow: (show) => {
-        let tvmaze_id = show.showtvmazeId;
+    checkDatabaseForShow: (tvmaze_id) => {
         return new Promise((resolve, reject) =>
             searchForShow(tvmaze_id)
                 .then(data => resolve(data.rows))
@@ -17,11 +17,7 @@ const dailyUpdates = {
         )
     },
 
-    addNewEpisodeToDatabase: (show) => {
-        let tvmaze_id = show.showtvmazeId;
-        let season = show.season;
-        let number = show.number;
-        let episode = `${season}.${number}`;
+    addNewEpisodeToDatabase: (tvmaze_id, episode) => {
         return new Promise((resolve, reject) =>
             addNewEpisode(tvmaze_id, episode)
                 .then(response => resolve(response))
@@ -37,6 +33,10 @@ const dailyUpdates = {
         )
     },
 
+    getUserEmail: (userId) => {
+
+    },
+
 
     updateAll: async function () { // THIS AGGREGATE FUNCTION SHOULD BE RUN EACH DAY
         let users = {}; // store email address and relevant info for each user to notify
@@ -45,16 +45,19 @@ const dailyUpdates = {
 
         for (var i = 0; i < showsAiringToday.length; i++) {
             let show = showsAiringToday[i];
-            let isShowInDatabase = await this.checkDatabaseForShow(show)
+            let tvmaze_id = show.showtvmazeId;
+            let isShowInDatabase = await this.checkDatabaseForShow(tvmaze_id)
             if (isShowInDatabase.length === 0) {continue;} // if show isn't in database then there can't be any users who want to be notified
             
-            let addEpisode = await this.addNewEpisodeToDatabase(show);
+
+            let season = show.season;
+            let number = show.number;
+            let episode = `${season}.${number}`;
+            let addEpisode = await this.addNewEpisodeToDatabase(tvmaze_id, episode);
             
             let showId = isShowInDatabase.id;
             let usersToNotify = await this.getUsersToNofify(showId);
             if (usersToNotify.length === 0) {continue;} // move onto next show if there aren't any users to notify
-
-            
 
 
         }
