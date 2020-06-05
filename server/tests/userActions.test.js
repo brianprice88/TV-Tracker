@@ -92,9 +92,15 @@ describe('user actions', () => {
 
     /* other user operation tests here */
 
-    it('should be able to fetch the daily schedule from tvmazeapi', async (done) => {
-        let schedule = await nodemailer.notifyUsers();
-        done()
+    // it('should be able to fetch the daily schedule from tvmazeapi', async (done) => {
+    //     let schedule = await nodemailer.notifyUsers();
+    //     done()
+    // })
+
+    it('should let a user send feedback about the site', async (done) => {
+        let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
+        expect(userFeedback.body.message).toBe('Message sent successfully!')
+        done();
     })
 
 
