@@ -6,7 +6,7 @@ const usersShows = require('../../database/queries/users_shows')
 
 let email_address = 'testUser@gmail.com';
 let password = 'password';
-let time_zone = 'EST';
+let time_zone = 'Eastern';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 let session = 'fakeSession'

@@ -16,7 +16,7 @@ const users = {
 
     findUserById: (id) =>
         pool.query(
-            `SELECT (email_address, time_zone) from users where id='${id}'`
+            `SELECT email_address, time_zone from users where id='${id}'`
         ),
 
     createUser: (email, pass, time, question, answer) =>

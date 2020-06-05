@@ -4,7 +4,7 @@ describe('user table queries', () => {
 
     let email = 'testUser@gmail.com';
     let pass = 'password';
-    let time = 'EST';
+    let time = 'Eastern';
     let question = 'What_is_your_favorite_color?';
     let answer = 'blue';
 
@@ -48,11 +48,11 @@ describe('user table queries', () => {
         let create = await users.createUser(email, pass, time, question, answer);
         let updateEmail = await users.editUserEmail(email, 'newEmail@gmail.com');
         let updatePassword = await users.editUserPassword('newEmail@gmail.com', 'newPassword');
-        let updateTimezone = await users.editUserTimezone('newEmail@gmail.com', 'PST');
+        let updateTimezone = await users.editUserTimezone('newEmail@gmail.com', 'Pacific');
         let user = await users.getUser('newEmail@gmail.com');
         expect(user.rows[0].email_address).toBe('newEmail@gmail.com');
         expect(user.rows[0].password).toBe('newPassword');
-        expect(user.rows[0].time_zone).toBe('PST');
+        expect(user.rows[0].time_zone).toBe('Pacfici');
         let oldUser = await users.getUser(email);
         expect(oldUser.rows.length).toBe(0)
         done()

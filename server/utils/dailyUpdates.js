@@ -2,7 +2,7 @@ const { getDailySchedule } = require('./tvmaze.js');
 
 const { searchForShow, addNewEpisode } = require('../../database/queries/shows');
 const { findUsersToNotifyForShow } = require('../../database/queries/users_shows');
-const { getUser } = require('../../database/queries/users')
+const { findUserById } = require('../../database/queries/users')
 
 const {notifyUsers} = require('../utils/nodemailer')
 
@@ -33,8 +33,20 @@ const dailyUpdates = {
         )
     },
 
-    getUserEmail: (userId) => {
+    getUserEmail: (id) => {
+        return new Promise((resolve, reject) => 
+            findUserById(id)
+            .then(users => resolve(users.rows))
+            .catch(err => reject(err))   
+        )
+    },
 
+    formatTime: (showTime) => {
+        let showHour = parseInt(showTime.slice(0, 2));
+        let showMinutes = parseInt(showTime.slice(2));
+      
+
+        return showTime // TODO: adjust this for US time
     },
 
 
@@ -59,6 +71,21 @@ const dailyUpdates = {
             let usersToNotify = await this.getUsersToNofify(showId);
             if (usersToNotify.length === 0) {continue;} // move onto next show if there aren't any users to notify
 
+            for (var i = 0; i < usersToNotify.length; i++) {
+                let userToNotify = usersToNotify[i];
+                let id = userToNotify.user_id;
+                
+                let userInfo = await this.getUserEmail(id);
+
+                let userEmail = userInfo[0].email_address;
+                let userTimeZone = userInfo[0].time_zone;
+
+                if (users[userEmail] === undefined) {
+                    users[userEmail] = {};
+                    users[userEmail].time = this.formatTime(userTimeZone, show.time)
+                }
+
+            }
 
         }
 
