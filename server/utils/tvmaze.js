@@ -3,7 +3,12 @@ const url = 'http://api.tvmaze.com';
 
 const apiRequests = {
 
-    getDailySchedule: (year, month, day) => {
+    getDailySchedule: () => {
+        let year = (new Date().getFullYear()).toString();
+        let month = ((new Date()).getMonth() + 1).toString();
+        let day = ((new Date()).getDate()).toString();
+        month = month.length === 1 ? '0' + month : month; // month/day need leading zeroes for api format
+        day = day.length === 1 ? '0' + day : day;
         let endpoint = `${url}/schedule?country=US&date=${year}-${month}-${day}` // only for US schedule (for now, at least)
         return new Promise((resolve, reject) =>
             axios.get(endpoint)
