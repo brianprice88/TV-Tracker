@@ -6,22 +6,22 @@ const nodemailerFunctions = {
     notifyUsers: function (userToNotify, episodeInfo) {
         let email = userToNotify;
 
-        let message =
-            `Hi ${email},
-        Here are the shows airing today that you wanted to be notified about:    
+        let htmlEmail =
+            `<div style="text-align: left, font-size: 24px"><p>Hi ${email},</p>
+        <ul>Here are the shows airing today that you wanted to be notified about:</ul>    
         `
 
         for (var i = 0; i < episodeInfo.length; i++) {
             let { showName, episodeName, season, number, time, summary, network } = episodeInfo[i];
-            message += `${showName.toUpperCase()} season ${season} episode ${number} '${episodeName.toUpperCase()}' airs on ${network} at ${time}.`;
             if (summary !== null) {
                 summary = summary.slice(3, -4) // get rid of the <p> tags
-                message += `'${summary}'`
+                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.  '<span style="font-style: italic">${summary}</span>'</li>`;
+            } else {
+                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.</li>`
             }
-            message += '\n'
         }
 
-        message += '* Please note that all show times are EST and may vary by location. *'
+        htmlEmail += '<p style="text-decoration: underline">Please note that all show times are EST and may vary by location.</p></div>'
 
         let user = gmail.user;
         let pass = gmail.password;
@@ -44,7 +44,7 @@ const nodemailerFunctions = {
             from: user,
             to: email,
             subject: `New episode notification from TV Tracker`,
-            text: message
+            html: htmlEmail
         };
 
         transporter.sendMail(mailOptions)
