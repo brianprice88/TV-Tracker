@@ -95,13 +95,13 @@ const dailyUpdates = {
         for (var i = 0; i < showsAiringToday.length; i++) { // for each show, if it is in shows database then add the new episode and also check which users want to be notified
             let show = showsAiringToday[i];
             let tvmaze_id = show.showtvmazeId;
+
             let isShowInDatabase = await this.checkDatabaseForShow(tvmaze_id)
             if (isShowInDatabase.length === 0) { continue; } // if show isn't in database then there can't be any users who want to be notified
             let season = show.season;
             let number = show.number;
             let episode = `${season}.${number}`;
             let addEpisode = await this.addNewEpisodeToDatabase(tvmaze_id, episode);
-
             let showId = isShowInDatabase[0].id;
             let usersToNotify = await this.getUsersToNofify(showId);
             if (usersToNotify.length > 0) {
@@ -134,7 +134,7 @@ const dailyUpdates = {
                 users[userEmail].push(episodeInfo)
             }
         }
-        
+
         for (var user in users) {
             notifyUsers(user, users[user]);
         }

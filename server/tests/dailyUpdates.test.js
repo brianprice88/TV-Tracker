@@ -3,7 +3,6 @@ const app = require('../index.js');
 const request = supertest(app);
 const dailyUpdates = require('../utils/dailyUpdates')
 const { getDailySchedule } = require('../utils/tvmaze')
-const {notifyUsers} = require('../utils/nodemailer')
 
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
