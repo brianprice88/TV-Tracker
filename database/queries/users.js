@@ -14,9 +14,14 @@ const users = {
             `SELECT * FROM users where email_address='${email}'`
         ),
 
-    createUser: (email, pass, time, question, answer) =>
+    findUserById: (id) =>
         pool.query(
-            `INSERT INTO users (email_address, password, time_zone, security_question, security_answer) values ('${email}', '${pass}', '${time}', '${question}', '${answer}')`
+            `SELECT email_address from users where id='${id}'`
+        ),
+
+    createUser: (email, pass, question, answer) =>
+        pool.query(
+            `INSERT INTO users (email_address, password, security_question, security_answer) values ('${email}', '${pass}', '${question}', '${answer}')`
         ),
 
     editUserEmail: (email, newEmail) =>
@@ -27,11 +32,6 @@ const users = {
     editUserPassword: (email, newPassword) =>
         pool.query(
             `UPDATE users set password='${newPassword}' where email_address='${email}'`
-        ),
-
-    editUserTimezone: (email, newTimezone) =>
-        pool.query(
-            `UPDATE users set time_zone='${newTimezone}' where email_address='${email}'`
         ),
 
     deleteUser: (email) =>

@@ -2,6 +2,11 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 };
 
+const cron = require("node-cron");
+const dailyUpdates = require('../server/utils/dailyUpdates');
+
+cron.schedule('5 12 * * *', () => dailyUpdates.updateAll()) // run updates at 12:05am
+
 const express = require('express');
 
 const app = express();

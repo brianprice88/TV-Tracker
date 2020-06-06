@@ -6,7 +6,6 @@ const usersShows = require('../../database/queries/users_shows')
 
 let email_address = 'testUser@gmail.com';
 let password = 'password';
-let time_zone = 'EST';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 let session = 'fakeSession'
@@ -21,7 +20,7 @@ describe('signing up a new user', () => {
     })
 
     it('should be able to sign up a new user', async (done) => {
-        let signup = await request.post('/authentication/signUp').send({ email_address, password, time_zone, security_question, security_answer })
+        let signup = await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
         let findUser = await users.getUser(email_address);
         expect(findUser.rows[0].email_address).toBe(email_address)
         expect(signup.body.message).toBe('Account created successfully.  You can now sign in!')
@@ -30,16 +29,16 @@ describe('signing up a new user', () => {
 
     it('should hash and salt the user-supplied password', async (done) => {
         let originalPassword = password;
-        let signup = await request.post('/authentication/signUp').send({ email_address, password, time_zone, security_question, security_answer })
+        let signup = await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
         let findUser = await users.getUser(email_address);
         expect(findUser.rows[0].password).not.toBe(originalPassword)
         done()
     })
 
     it('should not re-sign up a user who has already signed up', async (done) => {
-        let signup = await request.post('/authentication/signUp').send({ email_address, password, time_zone, security_question, security_answer })
+        let signup = await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
         expect(signup.error).toBeFalsy()
-        let signupAgain = await request.post('/authentication/signUp').send({ email_address, password, time_zone, security_question, security_answer })
+        let signupAgain = await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
         expect(signupAgain.error.text.length).toBeGreaterThan(0)
         let findUser = await users.getUser(email_address);
         expect(findUser.rows.length).toBe(1)
@@ -51,7 +50,7 @@ describe('signing up a new user', () => {
 
 describe('signing in a user', () => {
     beforeAll(async () => {
-        await request.post('/authentication/signUp').send({ email_address, password, time_zone, security_question, security_answer })
+        await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
     })
 
     afterAll(async () => {
@@ -85,7 +84,7 @@ describe('signing in a user', () => {
 
 describe('handing a forgotten password', () => {
     beforeAll(async () => {
-        await users.createUser(email_address, password, time_zone, security_question, security_answer);
+        await users.createUser(email_address, password, security_question, security_answer);
     })
 
     afterAll(async () => {
@@ -119,7 +118,7 @@ describe('handing a forgotten password', () => {
 
 describe('signing out a user', () => {
     beforeAll(async () => {
-        await users.createUser(email_address, password, time_zone, security_question, security_answer);
+        await users.createUser(email_address, password, security_question, security_answer);
         await users.createSession(email_address, session)
     })
 

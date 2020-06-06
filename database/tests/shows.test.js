@@ -4,7 +4,7 @@ describe('shows table queries', () => {
 
     let id = 1;
     let showName = 'not a real show';
-    let episodes = [1.1, 1.2];
+    let episodes = ['1.1', '1.2'];
 
     beforeEach(async () => {
         await shows.deleteShow(id)
@@ -43,9 +43,9 @@ describe('shows table queries', () => {
 
     it('should add a new episode to an existing show', async (done) => {
         let newShow = await shows.addNewShow(id, showName, episodes);
-        let newEpisode = await shows.addNewEpisode(id, 1.3);
+        let newEpisode = await shows.addNewEpisode(id, '1.3');
         let existentShow = await shows.searchForShow(id)
-        expect(existentShow.rows[0].episodes[2]).toBe(1.3);
+        expect(existentShow.rows[0].episodes[2]).toBe('1.3');
         done()
     })
 

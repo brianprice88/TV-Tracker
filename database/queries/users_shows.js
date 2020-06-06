@@ -16,7 +16,7 @@ const users_shows = {
 
     findUsersToNotifyForShow: (showId) =>
         pool.query(
-            `SELECT * FROM users_shows where show_id=${showId} AND notification=true`
+            `SELECT (user_id) FROM users_shows where show_id=${showId} AND notification=true`
         ),
 
     addShowToUserList: (userId, showId, notification, episodes = []) =>
