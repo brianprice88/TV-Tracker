@@ -72,7 +72,7 @@ const userActionControllers = {
                 let hashedPassword = await hashPassword(update)
                 let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
-            res.status(200).send(`${type} changed successfully`)
+            res.status(200).send({message: `${type} changed successfully`})
         }
         catch (err) {
             res.status(400).send(err)
@@ -80,10 +80,15 @@ const userActionControllers = {
     },
 
     deleteAccount: async function (req, res) {
-
+        let email = req.body.email_address;
+        try {
+            let deleteUser = await userQueries.deleteUser(email)
+            res.status(200).send({message: 'Account deleted'})
+        }
+        catch (err) {
+            res.status(400).send(err)
+        }
     }
-
-
 
 }
 

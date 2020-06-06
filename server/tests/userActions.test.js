@@ -109,7 +109,7 @@ describe('user actions', () => {
 
     it('should let a user update their email address', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'email', update: 'mynewemail@gmail.com' });
-        expect(userRequest.text).toBe('email changed successfully')
+        expect(userRequest.body.message).toBe('email changed successfully')
         let newEmail = await users.getUser('mynewemail@gmail.com');
         expect(newEmail.rows[0].session).toBe(session)
         let oldEmail = await users.getUser(email_address)
@@ -124,7 +124,7 @@ describe('user actions', () => {
 
     it('should let a user update their password', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'password', update: 'newPassword' })
-        expect(userRequest.text).toBe('password changed successfully');
+        expect(userRequest.body.message).toBe('password changed successfully');
         let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password'})
         expect(oldPassword.body.message).toBe('Invalid password')
         let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword'})
@@ -144,7 +144,12 @@ describe('user actions', () => {
     it('should let a user delete their account', async (done) => {
         let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
         newSession = newSession.rows[0].session;
-        // let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession, tvmaze_id: 82, season: 1, number: 5 })
+        let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession})
+        expect(userRequest.body.message).toBe('Account deleted')
+        let userTableSearch = await users.getUser(email_address)
+        let usersShowsTableSearch = await usersShows.findShowsForUser(userId)
+        expect(userTableSearch.rows.length).toBe(0)
+        expect(usersShowsTableSearch.rows.length).toBe(0)
         done();
     })
 

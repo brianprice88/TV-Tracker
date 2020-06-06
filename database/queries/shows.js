@@ -27,7 +27,8 @@ const shows = {
     deleteShow: (tvmaze_id) =>
         pool.query(
             `DELETE from shows where tvmaze_id='${tvmaze_id}'`
-        )
+        ) // This is just for testing purposes
+        // since there's no reason not to keep an added show here, for if additional users add it to their list
 
 }
 
