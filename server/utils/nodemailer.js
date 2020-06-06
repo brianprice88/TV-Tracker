@@ -47,7 +47,7 @@ const nodemailerFunctions = {
             text: message
         };
 
-        // transporter.sendMail(mailOptions)
+        transporter.sendMail(mailOptions)
 
     },
 
