@@ -17,7 +17,7 @@ const userActionControllers = {
         }
     },
 
-    getShowEpisodes: async function (req, res) {
+    addShowToList: async function (req, res) {
         let { tvmaze_id, name, email_address } = req.body;
         try {
             let databaseSearch = await showQueries.searchForShow(tvmaze_id);
@@ -47,7 +47,41 @@ const userActionControllers = {
         catch (err) {
             res.status(400).send(err)
         }
+    },
+
+    updateEpisodeList: async function (req, res) {
+
+
+    },
+
+    removeShow: async function (req, res) {
+
+    },
+
+    toggleNotification: async function (req, res) {
+
+    },
+
+    updateInfo: async function (req, res) {
+        let { email_address, type, update } = req.body;
+        try {
+            if (type === 'email') {
+                let emailUpdate = await userQueries.editUserEmail(email_address, update)
+            } else if (type === 'password') {
+                let passwordUpdate = await userQueries.editUserPassword(email_address, update)
+            }
+            res.status(200).send(`${type} changed successfully`)
+        }
+        catch (err) {
+            res.status(400).send(err)
+        }
+    },
+
+    deleteAccount: async function (req, res) {
+
     }
+
+
 
 }
 

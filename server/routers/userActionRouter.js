@@ -10,19 +10,36 @@ userActionRouter
     .post(userActionControllers.searchForShow)
 
 userActionRouter
-    .route('/getShowEpisodes')
-    .post(userActionControllers.getShowEpisodes)
+    .route('/addShowToList')
+    .post(userActionControllers.addShowToList)
 
 userActionRouter
     .route('/getEpisodeInfo')
     .post(userActionControllers.getEpisodeInfo)
 
+userActionRouter
+    .route('/updateEpisodeList')
+    .post(userActionControllers.updateEpisodeList)
 
+userActionRouter
+    .route('/removeShowFromList')
+    .post(userActionControllers.removeShow)
 
+userActionRouter
+    .route('/toggleNotification')
+    .post(userActionControllers.toggleNotification)
+
+userActionRouter
+    .route('/updateInfo')
+    .post(userActionControllers.updateInfo)
 
 userActionRouter
     .route('/sendUserFeedback')
     .post(nodeMailer.sendUserFeedback)
+
+userActionRouter
+    .route('/deleteAccount')
+    .post(userActionControllers.deleteAccount)
 
 
 module.exports = userActionRouter

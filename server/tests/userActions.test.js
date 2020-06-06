@@ -60,7 +60,7 @@ describe('user actions', () => {
     })
 
     it('should upon receiving a user request to add a show to their list, if that show is already in the database, add it to their list and send them the episodes available', async (done) => {
-        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name, tvmaze_id })
+        let userRequest = await request.post('/userAction/addShowToList').send({ email_address, session, name, tvmaze_id })
         let showEpisodes = await shows.searchForShow(tvmaze_id);
         let userShowList = await usersShows.findShowsForUser(userId);
         expect(userShowList.rows[0].show_id).toBe(showId)
@@ -69,7 +69,7 @@ describe('user actions', () => {
     })
 
     it('should upon receiving a user request to add a show to their list, if that show is not in the database, get it from tvmaze api then add to the database and the user list, then send them the episodes available', async (done) => {
-        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name: "Game of Thrones", tvmaze_id: 82 })
+        let userRequest = await request.post('/userAction/addShowToList').send({ email_address, session, name: "Game of Thrones", tvmaze_id: 82 })
         let showEpisodes = await shows.searchForShow(82);
         expect(showEpisodes.rows[0].name).toBe('Game of Thrones')
         expect(showEpisodes.rows[0].tvmaze_id).toBe(82)
@@ -84,11 +84,47 @@ describe('user actions', () => {
 
     it('should let a user get more information about a specific episode of a show on their list', async (done) => {
         let userRequest = await request.post('/userAction/getEpisodeInfo').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
-        expect(userRequest.body.episodeInfo.name).toBe("The Wolf and the Lion")
         done();
     })
 
-    /* other user operation tests here */
+    // it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
+    //     let userRequest = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+
+    //     done();
+    // })
+
+    // it('should let a user toggle whether they want to be notified about a new episode of a show on their list', async (done) => {
+    //     let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+
+    //     done();
+    // })
+
+    // it('should let a user remove a show from their list', async (done) => {
+    //     let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+
+    //     done();
+    // })
+
+    it('should let a user update their email address', async (done) => {
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'email', update: 'mynewemail@gmail.com' });
+        expect(userRequest.text).toBe('email changed successfully')
+        let newEmail = await users.getUser('mynewemail@gmail.com');
+        expect(newEmail.rows[0].session).toBe(session)
+        let oldEmail = await users.getUser(email_address)
+        expect(oldEmail.rows.length).toBe(0)
+        let reset = await request.post('/userAction/updateInfo').send({ email_address: 'mynewemail@gmail.com', session, type: 'email', update: 'testUser@gmail.com' });
+        let originalEmail = await users.getUser('testUser@gmail.com');
+        let updatedEmail = await users.getUser('mynewemail@gmail.com');
+        expect(updatedEmail.rows.length).toBe(0)
+        expect(originalEmail.rows[0].session).toBe(session)
+        done();
+    })
+
+    // it('should let a user update their email address', async (done) => {
+    //     let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+
+    //     done();
+    // })
 
     // it('should let a user send feedback about the site', async (done) => {
     //     let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
@@ -96,5 +132,9 @@ describe('user actions', () => {
     //     done();
     // })
 
+    // it('should let a user delete their account', async (done) => {
+    //     let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+    //     done();
+    // })
 
 })
