@@ -3,14 +3,26 @@ const nodemailer = require('nodemailer');
 
 const nodemailerFunctions = {
 
-    notifyUsers: function (userToNotify) {
-        const email = userToNotify;
+    notifyUsers: function (userToNotify, episodeInfo) {
+        let email = userToNotify;
 
-        const message =
+        let message =
             `Hi ${email},
         Here are the shows airing today that you wanted to be notified about:    
         `
-        // GO THROUGH EACH EPISODE IN USER'S LIST AND ADD RELEVANT INFO TO MESSAGE ABOVE
+
+        for (var i = 0; i < episodeInfo.length; i++) {
+            let { showName, episodeName, season, number, time, summary, network } = episodeInfo[i];
+            message += `${showName.toUpperCase()} season ${season} episode ${number} '${episodeName.toUpperCase()}' airs on ${network} at ${time}.`;
+            if (summary !== null) {
+                summary = summary.slice(3, -4) // get rid of the <p> tags
+                message += `'${summary}'`
+            }
+            message += '\n'
+        }
+
+        message += '* Please note that all show times are EST and may vary by location. *'
+
         let user = gmail.user;
         let pass = gmail.password;
 
@@ -31,11 +43,11 @@ const nodemailerFunctions = {
         const mailOptions = {
             from: user,
             to: email,
-            subject: `Your daily show update from TV Tracker`,
+            subject: `New episode notification from TV Tracker`,
             text: message
         };
 
-        transporter.sendMail(mailOptions)
+        // transporter.sendMail(mailOptions)
 
     },
 

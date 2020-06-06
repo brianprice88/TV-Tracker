@@ -63,7 +63,6 @@ const dailyUpdates = {
     updateAll: async function () { // THIS AGGREGATE FUNCTION SHOULD BE RUN EACH DAY
         let showsAiringToday = await getDailySchedule();
 
-
         // for testing purposes --> add an additional episode for a show that is definitely in the database:
         let outsiderEpisode = {
             showtvmazeId: 39956,
@@ -75,18 +74,29 @@ const dailyUpdates = {
             summary: "<p>The group finds itself in a climactic showdown in their last-ditch effort to root out El Coco.</p>",
             network: 'HBO'
         };
+
+        let fakeShowEp = {
+            showtvmazeId: 0,
+            showName: 'Fake Show',
+            episodeName: 'New Episode',
+            season: 1,
+            number: 4,
+            time: '11:00',
+            summary: "<p>Stuff happens</p>",
+            network: 'Nowhere'
+        }
         showsAiringToday.push(outsiderEpisode)
+        showsAiringToday.push(fakeShowEp)
 
 
 
         let user_show_relations = []; // store an array of tuples whose first value is array of userIds and second value is the episode info
 
-        for (var i = 0; i < showsAiringToday.length; i++) {
+        for (var i = 0; i < showsAiringToday.length; i++) { // for each show, if it is in shows database then add the new episode and also check which users want to be notified
             let show = showsAiringToday[i];
             let tvmaze_id = show.showtvmazeId;
             let isShowInDatabase = await this.checkDatabaseForShow(tvmaze_id)
             if (isShowInDatabase.length === 0) { continue; } // if show isn't in database then there can't be any users who want to be notified
-
             let season = show.season;
             let number = show.number;
             let episode = `${season}.${number}`;
@@ -99,15 +109,14 @@ const dailyUpdates = {
                 user_show_relations.push([users, show])
             }
         }
-
         let users = {}; // store email address and relevant info for each user to notify
 
-        for (var i = 0; i < user_show_relations.length; i++) {
+        for (var i = 0; i < user_show_relations.length; i++) { // get the email address for each user to notify about a show, and add each show's relevant info
             let relation = user_show_relations[i];
             let notifiedUsers = relation[0];
             let show = relation[1];
-            for (var i = 0; i < notifiedUsers.length; i++) {
-                let notifiedUser = notifiedUsers[i]
+            for (var j = 0; j < notifiedUsers.length; j++) {
+                let notifiedUser = notifiedUsers[j]
                 let userInfo = await this.getUserEmail(notifiedUser);
                 let userEmail = userInfo[0].email_address;
 
@@ -124,12 +133,10 @@ const dailyUpdates = {
                 episodeInfo.network = show.network;
                 users[userEmail].push(episodeInfo)
             }
-
         }
-    
-        for (var i = 0; i < users.length; i++) {
-            let user = users[i]
-            notifyUsers(user);
+        
+        for (var user in users) {
+            notifyUsers(user, users[user]);
         }
 
     }

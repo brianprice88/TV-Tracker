@@ -3,18 +3,19 @@ const app = require('../index.js');
 const request = supertest(app);
 const dailyUpdates = require('../utils/dailyUpdates')
 const { getDailySchedule } = require('../utils/tvmaze')
+const {notifyUsers} = require('../utils/nodemailer')
 
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
 
 
-let email_address = 'testUser@gmail.com';
+let email_address = 'brianprice88@gmail.com';
 let password = 'password';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 
-let email_address2 = 'anotherUser@gmail.com';
+let email_address2 = 'generalnumerouno@gmail.com';
 let password2 = 'password';
 let security_question2 = 'What_is_your_favorite_color?';
 let security_answer2 = 'blue';
@@ -60,7 +61,6 @@ describe('daily updates', () => {
         await shows.deleteShow(tvmaze_id2);
         await usersShows.removeUser(userId);
         await usersShows.removeUser(user2Id)
-
     })
 
 
@@ -120,8 +120,8 @@ describe('daily updates', () => {
         done();
     })
 
-    it('should be able to accomplish all of the above functions, and create a list of shows to notify each user about', async (done) => {
-        let update = await dailyUpdates.updateAll();
+    it('should be able to accomplish all of the above functions, and email each user with info on that day\'s episode', async (done) => {
+        let update = await dailyUpdates.updateAll(); // check email address to see if the message comes in correctly
         done();
     })
 
