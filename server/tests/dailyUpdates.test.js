@@ -66,7 +66,7 @@ describe('daily updates', () => {
 
     it('should be able to fetch the daily schedule from tvmazeapi', async (done) => {
         let schedule = await getDailySchedule();
-        expect(schedule.length).toBeGreaterThan(20)
+        expect(schedule.length).toBeGreaterThan(1)
         done()
     })
 
@@ -111,10 +111,17 @@ describe('daily updates', () => {
         let show2Time = dailyUpdates.formatTime('00:35');
         let show3Time = dailyUpdates.formatTime('12:00');
         let show4Time = dailyUpdates.formatTime('8:30');
+        let show5Time = dailyUpdates.formatTime('21:00');
         expect(showTime).toBe('10:30 PM')
         expect(show2Time).toBe('12:35 AM')
         expect(show3Time).toBe('12:00 PM')
         expect(show4Time).toBe('8:30 AM')
+        expect(show5Time).toBe('9:00 PM')
+        done();
+    })
+
+    it('should be able to accomplish all of the above functions, and create a list of shows to notify each user about', async (done) => {
+        let update = await dailyUpdates.updateAll();
         done();
     })
 

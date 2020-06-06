@@ -43,10 +43,10 @@ const dailyUpdates = {
 
     formatTime: (showTime) => {
         let showHour = parseInt(showTime.slice(0, 2));
-        let showMinutes = parseInt(showTime.slice(3, 5));
+        let showMinutes = showTime.slice(3, 5);
         if (showHour > 12) {
             showHour -= 12;
-            return `${showHour.toString()}:${showMinutes.toString()} PM`
+            return `${showHour.toString()}:${showMinutes} PM`
         }
         else if (showHour === 0) {
             return `12:${showMinutes} AM`
@@ -65,22 +65,33 @@ const dailyUpdates = {
 
         let showsAiringToday = await getDailySchedule();
 
+        let outsiderEpisode = {
+            showtvmazeId: 39956,
+            showName: 'The Outsider',
+            episodeName: 'Must/Can\'t',
+            season: 1,
+            number: 10,
+            time: '21:00',
+            summary: "<p>The group finds itself in a climactic showdown in their last-ditch effort to root out El Coco.</p>",
+            network: 'HBO'
+    };
+
+    showsAiringToday.push(outsiderEpisode)
+
+
         for (var i = 0; i < showsAiringToday.length; i++) {
             let show = showsAiringToday[i];
             let tvmaze_id = show.showtvmazeId;
             let isShowInDatabase = await this.checkDatabaseForShow(tvmaze_id)
             if (isShowInDatabase.length === 0) { continue; } // if show isn't in database then there can't be any users who want to be notified
 
-
             let season = show.season;
             let number = show.number;
             let episode = `${season}.${number}`;
             let addEpisode = await this.addNewEpisodeToDatabase(tvmaze_id, episode);
-
-            let showId = isShowInDatabase.id;
+            let showId = isShowInDatabase[0].id;
             let usersToNotify = await this.getUsersToNofify(showId);
             if (usersToNotify.length === 0) { continue; } // move onto next show if there aren't any users to notify
-
             for (var i = 0; i < usersToNotify.length; i++) {
                 let userToNotify = usersToNotify[i];
                 let id = userToNotify.user_id;
@@ -93,21 +104,22 @@ const dailyUpdates = {
                     users[userEmail] = [];
                 }
                 let episodeInfo = {};
-                episodeInfo.showName = show.name
+                episodeInfo.showName = show.showName
+                episodeInfo.episodeName = show.episodeName
                 episodeInfo.season = show.season
                 episodeInfo.number = show.number;
                 episodeInfo.time = this.formatTime(show.time)
                 episodeInfo.summary = show.summary;
                 episodeInfo.network = show.network;
                 users[userEmail].push(episodeInfo)
+                console.log(users)
             }
 
         }
-
-        for (var i = 0; i < users.length; i++) {
-            let user = users[i]
-            notifyUsers(user);
-        }
+        // for (var i = 0; i < users.length; i++) {
+        //     let user = users[i]
+        //     notifyUsers(user);
+        // }
 
     }
 }
