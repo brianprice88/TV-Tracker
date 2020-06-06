@@ -1,4 +1,5 @@
-const { searchbyShowName, queryForShowEpisodes, queryForEpisodeInfo } = require('../utils/tvmaze')
+const { searchbyShowName, queryForShowEpisodes, queryForEpisodeInfo } = require('../utils/tvmaze');
+const { hashPassword } = require('../utils/hashFunctions')
 const showQueries = require('../../database/queries/shows');
 const userShowQueries = require('../../database/queries/users_shows');
 const userQueries = require('../../database/queries/users');
@@ -68,7 +69,8 @@ const userActionControllers = {
             if (type === 'email') {
                 let emailUpdate = await userQueries.editUserEmail(email_address, update)
             } else if (type === 'password') {
-                let passwordUpdate = await userQueries.editUserPassword(email_address, update)
+                let hashedPassword = await hashPassword(update)
+                let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
             res.status(200).send(`${type} changed successfully`)
         }

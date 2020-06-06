@@ -4,9 +4,10 @@ const request = supertest(app);
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
+const {hashPassword} = require('../utils/hashFunctions')
  
 let email_address = 'testUser@gmail.com';
-let password = 'password';
+let password = hashPassword('password');
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 let session = 'fakeSession';
@@ -84,6 +85,7 @@ describe('user actions', () => {
 
     it('should let a user get more information about a specific episode of a show on their list', async (done) => {
         let userRequest = await request.post('/userAction/getEpisodeInfo').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+        expect(userRequest.body.episodeInfo.name).toBe("The Wolf and the Lion")
         done();
     })
 
@@ -120,21 +122,30 @@ describe('user actions', () => {
         done();
     })
 
-    // it('should let a user update their email address', async (done) => {
-    //     let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
+    it('should let a user update their password', async (done) => {
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'password', update: 'newPassword' })
+        expect(userRequest.text).toBe('password changed successfully');
+        let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password'})
+        expect(oldPassword.body.message).toBe('Invalid password')
+        let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword'})
+        expect(newPassword.body.session).toBeTruthy()
+        expect(newPassword.body.shows).toBeTruthy();
+        done();
+    })
 
-    //     done();
-    // })
+    it('should let a user send feedback about the site', async (done) => {
+        let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
+        newSession = newSession.rows[0].session;
+        let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session: newSession, message: "This site is awesome!"})
+        expect(userFeedback.body.message).toBe('Message sent successfully!')
+        done();
+    })
 
-    // it('should let a user send feedback about the site', async (done) => {
-    //     let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
-    //     expect(userFeedback.body.message).toBe('Message sent successfully!')
-    //     done();
-    // })
-
-    // it('should let a user delete their account', async (done) => {
-    //     let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
-    //     done();
-    // })
+    it('should let a user delete their account', async (done) => {
+        let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
+        newSession = newSession.rows[0].session;
+        // let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession, tvmaze_id: 82, season: 1, number: 5 })
+        done();
+    })
 
 })
