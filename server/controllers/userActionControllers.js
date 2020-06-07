@@ -71,7 +71,19 @@ const userActionControllers = {
     },
 
     toggleNotification: async function (req, res) {
-
+        let { tvmaze_id, email_address} = req.body
+        try {
+            let userId = await userQueries.getUser(email_address);
+            userId = userId.rows[0].id;
+            let showId = await showQueries.searchForShow(tvmaze_id);
+            showName = showId.rows[0].name;
+            showId = showId.rows[0].id;
+            let removeShow = await userShowQueries.toggleShowNotification(userId, showId)
+            res.status(200).send({message: `${showName} notification toggled`})
+        }
+        catch (err) {
+            res.status(400).send(err)
+        }
     },
 
     updateInfo: async function (req, res) {

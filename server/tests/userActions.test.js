@@ -95,11 +95,16 @@ describe('user actions', () => {
     //     done();
     // })
 
-    // it('should let a user toggle whether they want to be notified about a new episode of a show on their list', async (done) => {
-    //     let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
-
-    //     done();
-    // })
+    it('should let a user toggle whether they want to be notified about a new episode of a show on their list', async (done) => {
+        let showId = await shows.searchForShow(82)
+        showId = showId.rows[0].id
+        let showUsersListBefore = await usersShows.findUsersToNotifyForShow(showId);
+        let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82 })
+        expect(userRequest.body.message).toBe('Game of Thrones notification toggled')
+        let showUsersListAfter = await usersShows.findUsersToNotifyForShow(showId);
+        expect(Math.abs(showUsersListBefore.rows.length - showUsersListAfter.rows.length)).toBe(1)
+        done();
+    })
 
     it('should let a user remove a show from their list', async (done) => {
         let userShowListBefore = await usersShows.findShowsForUser(userId);
