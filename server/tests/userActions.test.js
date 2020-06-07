@@ -4,8 +4,8 @@ const request = supertest(app);
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
-const {hashPassword} = require('../utils/hashFunctions')
- 
+const { hashPassword } = require('../utils/hashFunctions')
+
 let email_address = 'testUser@gmail.com';
 let password = hashPassword('password');
 let security_question = 'What_is_your_favorite_color?';
@@ -101,11 +101,14 @@ describe('user actions', () => {
     //     done();
     // })
 
-    // it('should let a user remove a show from their list', async (done) => {
-    //     let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
-
-    //     done();
-    // })
+    it('should let a user remove a show from their list', async (done) => {
+        let userShowListBefore = await usersShows.findShowsForUser(userId);
+        let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82 })
+        expect(userRequest.body.message).toBe('Game of Thrones has been removed from your list')
+        let userShowListAfter = await usersShows.findShowsForUser(userId);
+        expect(userShowListBefore.rows.length - userShowListAfter.rows.length).toBe(1)
+        done();
+    })
 
     it('should let a user update their email address', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'email', update: 'mynewemail@gmail.com' });
@@ -125,9 +128,9 @@ describe('user actions', () => {
     it('should let a user update their password', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'password', update: 'newPassword' })
         expect(userRequest.body.message).toBe('password changed successfully');
-        let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password'})
+        let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         expect(oldPassword.body.message).toBe('Invalid password')
-        let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword'})
+        let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword' })
         expect(newPassword.body.session).toBeTruthy()
         expect(newPassword.body.shows).toBeTruthy();
         done();
@@ -136,7 +139,7 @@ describe('user actions', () => {
     it('should let a user send feedback about the site', async (done) => {
         let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
         newSession = newSession.rows[0].session;
-        let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session: newSession, message: "This site is awesome!"})
+        let userFeedback = await request.post('/userAction/sendUserFeedback').send({ email_address, session: newSession, message: "This site is awesome!" })
         expect(userFeedback.body.message).toBe('Message sent successfully!')
         done();
     })
@@ -144,7 +147,7 @@ describe('user actions', () => {
     it('should let a user delete their account', async (done) => {
         let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
         newSession = newSession.rows[0].session;
-        let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession})
+        let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession })
         expect(userRequest.body.message).toBe('Account deleted')
         let userTableSearch = await users.getUser(email_address)
         let usersShowsTableSearch = await usersShows.findShowsForUser(userId)
