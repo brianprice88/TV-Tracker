@@ -145,13 +145,13 @@ describe('user actions', () => {
         done();
     })
 
-    it('should let a user send feedback about the site', async (done) => {
-        let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
-        newSession = newSession.rows[0].session;
-        let userFeedback = await request.post('/userAction/sendUserFeedback').send({ email_address, session: newSession, message: "This site is awesome!" })
-        expect(userFeedback.body.message).toBe('Message sent successfully!')
-        done();
-    })
+    // it('should let a user send feedback about the site', async (done) => {
+    //     let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
+    //     newSession = newSession.rows[0].session;
+    //     let userFeedback = await request.post('/userAction/sendUserFeedback').send({ email_address, session: newSession, message: "This site is awesome!" })
+    //     expect(userFeedback.body.message).toBe('Message sent successfully!')
+    //     done();
+    // })
 
     it('should let a user delete their account', async (done) => {
         let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
