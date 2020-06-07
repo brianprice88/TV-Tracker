@@ -47,7 +47,9 @@ const users_shows = {
     removeUser: (userId) =>
         pool.query(
             `DELETE from users_shows where user_id='${userId}'`
-        )
+        ) // This is not used except for testing
+        // it deletes user record from this table but not the Users table
+        
 }
 
 module.exports = users_shows;

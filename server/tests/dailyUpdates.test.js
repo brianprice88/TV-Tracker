@@ -119,9 +119,9 @@ describe('daily updates', () => {
         done();
     })
 
-    it('should be able to accomplish all of the above functions, and email each user with info on that day\'s episode', async (done) => {
-        let update = await dailyUpdates.updateAll(); // check email address to see if the message comes in correctly
-        done();
-    })
+    // it('should be able to accomplish all of the above functions, and email each user with info on that day\'s episode', async (done) => {
+    //     let update = await dailyUpdates.updateAll(); // check email address to see if the message comes in correctly
+    //     done();
+    // })
 
 })

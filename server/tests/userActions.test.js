@@ -4,9 +4,10 @@ const request = supertest(app);
 const users = require('../../database/queries/users');
 const shows = require('../../database/queries/shows')
 const usersShows = require('../../database/queries/users_shows')
- 
+const { hashPassword } = require('../utils/hashFunctions')
+
 let email_address = 'testUser@gmail.com';
-let password = 'password';
+let password = hashPassword('password');
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
 let session = 'fakeSession';
@@ -60,7 +61,7 @@ describe('user actions', () => {
     })
 
     it('should upon receiving a user request to add a show to their list, if that show is already in the database, add it to their list and send them the episodes available', async (done) => {
-        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name, tvmaze_id })
+        let userRequest = await request.post('/userAction/addShowToList').send({ email_address, session, name, tvmaze_id })
         let showEpisodes = await shows.searchForShow(tvmaze_id);
         let userShowList = await usersShows.findShowsForUser(userId);
         expect(userShowList.rows[0].show_id).toBe(showId)
@@ -69,7 +70,7 @@ describe('user actions', () => {
     })
 
     it('should upon receiving a user request to add a show to their list, if that show is not in the database, get it from tvmaze api then add to the database and the user list, then send them the episodes available', async (done) => {
-        let userRequest = await request.post('/userAction/getShowEpisodes').send({ email_address, session, name: "Game of Thrones", tvmaze_id: 82 })
+        let userRequest = await request.post('/userAction/addShowToList').send({ email_address, session, name: "Game of Thrones", tvmaze_id: 82 })
         let showEpisodes = await shows.searchForShow(82);
         expect(showEpisodes.rows[0].name).toBe('Game of Thrones')
         expect(showEpisodes.rows[0].tvmaze_id).toBe(82)
@@ -88,13 +89,80 @@ describe('user actions', () => {
         done();
     })
 
-    /* other user operation tests here */
+    it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
+        let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'add', episode: '1.1' })
+        expect(addEpisode.body.message).toBe('Successfully add show Game of Thrones episode 1.1')
+        let showList = await usersShows.findShowsForUser(userId);
+        let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'remove', episode: '1.1' })
+        let updatedShowList = await usersShows.findShowsForUser(userId)
+        expect(showList.rows[1].episodes_watched.length - updatedShowList.rows[1].episodes_watched.length).toBe(1)
+        done();
+    })
 
-    // it('should let a user send feedback about the site', async (done) => {
-    //     let userFeedback = await request.post('/userAction/sendUserFeedback').send({email_address, session, message: "This site is awesome!"})
-    //     expect(userFeedback.body.message).toBe('Message sent successfully!')
-    //     done();
-    // })
+    it('should let a user toggle whether they want to be notified about a new episode of a show on their list', async (done) => {
+        let showId = await shows.searchForShow(82)
+        showId = showId.rows[0].id
+        let showUsersListBefore = await usersShows.findUsersToNotifyForShow(showId);
+        let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82 })
+        expect(userRequest.body.message).toBe('Game of Thrones notification toggled')
+        let showUsersListAfter = await usersShows.findUsersToNotifyForShow(showId);
+        expect(Math.abs(showUsersListBefore.rows.length - showUsersListAfter.rows.length)).toBe(1)
+        done();
+    })
 
+    it('should let a user remove a show from their list', async (done) => {
+        let userShowListBefore = await usersShows.findShowsForUser(userId);
+        let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82 })
+        expect(userRequest.body.message).toBe('Game of Thrones has been removed from your list')
+        let userShowListAfter = await usersShows.findShowsForUser(userId);
+        expect(userShowListBefore.rows.length - userShowListAfter.rows.length).toBe(1)
+        done();
+    })
+
+    it('should let a user update their email address', async (done) => {
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'email', update: 'mynewemail@gmail.com' });
+        expect(userRequest.body.message).toBe('email changed successfully')
+        let newEmail = await users.getUser('mynewemail@gmail.com');
+        expect(newEmail.rows[0].session).toBe(session)
+        let oldEmail = await users.getUser(email_address)
+        expect(oldEmail.rows.length).toBe(0)
+        let reset = await request.post('/userAction/updateInfo').send({ email_address: 'mynewemail@gmail.com', session, type: 'email', update: 'testUser@gmail.com' });
+        let originalEmail = await users.getUser('testUser@gmail.com');
+        let updatedEmail = await users.getUser('mynewemail@gmail.com');
+        expect(updatedEmail.rows.length).toBe(0)
+        expect(originalEmail.rows[0].session).toBe(session)
+        done();
+    })
+
+    it('should let a user update their password', async (done) => {
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'password', update: 'newPassword' })
+        expect(userRequest.body.message).toBe('password changed successfully');
+        let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
+        expect(oldPassword.body.message).toBe('Invalid password')
+        let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword' })
+        expect(newPassword.body.session).toBeTruthy()
+        expect(newPassword.body.shows).toBeTruthy();
+        done();
+    })
+
+    it('should let a user send feedback about the site', async (done) => {
+        let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
+        newSession = newSession.rows[0].session;
+        let userFeedback = await request.post('/userAction/sendUserFeedback').send({ email_address, session: newSession, message: "This site is awesome!" })
+        expect(userFeedback.body.message).toBe('Message sent successfully!')
+        done();
+    })
+
+    it('should let a user delete their account', async (done) => {
+        let newSession = await users.getUser(email_address); // because the previous test signed in and created a new session
+        newSession = newSession.rows[0].session;
+        let userRequest = await request.post('/userAction/deleteAccount').send({ email_address, session: newSession })
+        expect(userRequest.body.message).toBe('Account deleted')
+        let userTableSearch = await users.getUser(email_address)
+        let usersShowsTableSearch = await usersShows.findShowsForUser(userId)
+        expect(userTableSearch.rows.length).toBe(0)
+        expect(usersShowsTableSearch.rows.length).toBe(0)
+        done();
+    })
 
 })
