@@ -89,11 +89,15 @@ describe('user actions', () => {
         done();
     })
 
-    // it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
-    //     let userRequest = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, season: 1, number: 5 })
-
-    //     done();
-    // })
+    it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
+        let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'add', episode: '1.1' })
+        expect(addEpisode.body.message).toBe('Successfully add show Game of Thrones episode 1.1')
+        let showList = await usersShows.findShowsForUser(userId);
+        let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'remove', episode: '1.1' })
+        let updatedShowList = await usersShows.findShowsForUser(userId)
+        expect(showList.rows[1].episodes_watched.length - updatedShowList.rows[1].episodes_watched.length).toBe(1)
+        done();
+    })
 
     it('should let a user toggle whether they want to be notified about a new episode of a show on their list', async (done) => {
         let showId = await shows.searchForShow(82)

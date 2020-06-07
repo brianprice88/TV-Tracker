@@ -51,11 +51,27 @@ const userActionControllers = {
     },
 
     updateEpisodeList: async function (req, res) {
-
+        let { email_address, tvmaze_id, episode, type } = req.body;
+        let userId = await userQueries.getUser(email_address);
+        userId = userId.rows[0].id;
+        let showId = await showQueries.searchForShow(tvmaze_id);
+        showName = showId.rows[0].name;
+        showId = showId.rows[0].id;
+        try {
+            if (type === 'add') {
+                let addEpisode = await userShowQueries.addEpisodeWatched(userId, showId, episode)
+            } else if (type === 'remove') {
+                let removeEpisode = await userShowQueries.removeEpisodeWatched(userId, showId, episode)
+            }
+            res.status(200).send({ message: `Successfully ${type} show ${showName} episode ${episode}` })
+        }
+        catch (err) {
+            res.status(400).send(err)
+        }
     },
 
     removeShow: async function (req, res) {
-        let { tvmaze_id, email_address} = req.body
+        let { tvmaze_id, email_address } = req.body
         try {
             let userId = await userQueries.getUser(email_address);
             userId = userId.rows[0].id;
@@ -63,7 +79,7 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.removeShowFromUserList(userId, showId)
-            res.status(200).send({message: `${showName} has been removed from your list`})
+            res.status(200).send({ message: `${showName} has been removed from your list` })
         }
         catch (err) {
             res.status(400).send(err)
@@ -71,7 +87,7 @@ const userActionControllers = {
     },
 
     toggleNotification: async function (req, res) {
-        let { tvmaze_id, email_address} = req.body
+        let { tvmaze_id, email_address } = req.body
         try {
             let userId = await userQueries.getUser(email_address);
             userId = userId.rows[0].id;
@@ -79,7 +95,7 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.toggleShowNotification(userId, showId)
-            res.status(200).send({message: `${showName} notification toggled`})
+            res.status(200).send({ message: `${showName} notification toggled` })
         }
         catch (err) {
             res.status(400).send(err)
@@ -95,7 +111,7 @@ const userActionControllers = {
                 let hashedPassword = await hashPassword(update)
                 let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
-            res.status(200).send({message: `${type} changed successfully`})
+            res.status(200).send({ message: `${type} changed successfully` })
         }
         catch (err) {
             res.status(400).send(err)
@@ -106,7 +122,7 @@ const userActionControllers = {
         let email = req.body.email_address;
         try {
             let deleteUser = await userQueries.deleteUser(email)
-            res.status(200).send({message: 'Account deleted'})
+            res.status(200).send({ message: 'Account deleted' })
         }
         catch (err) {
             res.status(400).send(err)
