@@ -32,7 +32,7 @@ const userActionControllers = {
             episodes = showId.rows[0].episodes;
             showId = showId.rows[0].id;
             let userLikeShow = await userShowQueries.addShowToUserList(userId, showId, false)
-            res.status(200).send({ episodes })
+            res.status(200).send({ name, tvmaze_id, episodes })
         }
         catch (err) {
             res.status(400).send(err)
@@ -64,7 +64,7 @@ const userActionControllers = {
                 let removeEpisode = await userShowQueries.removeEpisodeWatched(userId, showId, episode)
             }
             let update = addEpisode ? 'add' : 'remove'
-            res.status(200).send({ message: `Successfully ${update} show ${showName} episode ${episode}` })
+            res.status(200).send({ tvmaze_id, episode })
         }
         catch (err) {
             res.status(400).send(err)
@@ -80,7 +80,7 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.removeShowFromUserList(userId, showId)
-            res.status(200).send({ message: `${showName} has been removed from your list` })
+            res.status(200).send({ tvmaze_id })
         }
         catch (err) {
             res.status(400).send(err)
@@ -96,7 +96,7 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.toggleShowNotification(userId, showId)
-            res.status(200).send({ message: `${showName} notification toggled` })
+            res.status(200).send({ tvmaze_id })
         }
         catch (err) {
             res.status(400).send(err)
@@ -112,7 +112,7 @@ const userActionControllers = {
                 let hashedPassword = await hashPassword(update)
                 let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
-            res.status(200).send({ message: `${field} changed successfully` })
+            res.status(200).send({ field, update })
         }
         catch (err) {
             res.status(400).send(err)

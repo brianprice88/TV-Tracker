@@ -6,6 +6,7 @@ const initialState = {
 alert: null,
 isLoading: false,
 prompt: null,
+showSearchResults: null,
 user: null,
 shows: null
 }

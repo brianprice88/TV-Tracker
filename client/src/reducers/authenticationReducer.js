@@ -1,4 +1,4 @@
-import { authenticationConstants } from '../actions/authentication/constants'
+import { authenticationConstants } from '../actions/authentication/constants';
 
 function copyState(state) {
     return JSON.parse(JSON.stringify(state))
@@ -24,6 +24,7 @@ export default function authentication(state, action) {
 
         case authenticationConstants.SIGNIN_SUCCESS:
             let signinSuccess = copyState(state);
+            signinSuccess.isLoading = false;
             let { user, shows } = action.payoad;
             signinSuccess.user = user;
             signinSuccess.shows = shows;
@@ -85,6 +86,7 @@ export default function authentication(state, action) {
 
         case authenticationConstants.SIGNOUT_FAILURE:
             let signoutFailure = copyState(state);
+            signoutFailure.isLoading = false;
             signoutFailure.alert = action.payload;
             return signoutFailure;
 

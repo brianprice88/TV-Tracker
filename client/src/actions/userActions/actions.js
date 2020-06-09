@@ -19,42 +19,225 @@ function searchForShow(search) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/showSearch`, { email_address, session, search })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.SEARCH_FOR_SHOW_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.SEARCH_FOR_SHOW_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.SEARCH_FOR_SHOW_FAILURE, payload: message }
+    }
 };
 
 function addShowToList(tvmaze_id, name) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/addShowToList`, { email_address, session, tvmaze_id, name })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.ADD_SHOW_TO_LIST_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.ADD_SHOW_TO_LIST_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.ADD_SHOW_TO_LIST_FAILURE, payload: message }
+    }
+    
 };
 
 function getEpisodeInfo(tvmaze_id, season, number) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/getEpisodeInfo`, { email_address, session, tvmaze_id, season, number })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.GET_EPISODE_INFO_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.GET_EPISODE_INFO_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.GET_EPISODE_INFO_FAILURE, payload: message }
+    }
 };
 
 function updateEpisodeWatchlist(tvmaze_id, episode, addEpisode) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/updateEpisodeList`, { email_address, session, tvmaze_id, episode, addEpisode })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.UPDATE_EPISODE_LIST_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.UPDATE_EPISODE_LIST_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.UPDATE_EPISODE_LIST_FAILURE, payload: message }
+    }
 };
 
 function removeShowFromList(tvmaze_id) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/removeShowFromList`, { email_address, session, tvmaze_id })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.REMOVE_SHOW_FROM_LIST_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.REMOVE_SHOW_FROM_LIST_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.REMOVE_SHOW_FROM_LIST_FAILURE, payload: message }
+    }
 };
 
 function toggleNewEpisodeNotification(tvmaze_id) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/toggleNotification`, { email_address, session, tvmaze_id })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.TOGGLE_NEW_EPISODE_NOTIFICATION_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.TOGGLE_NEW_EPISODE_NOTIFICATION_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.TOGGLE_NEW_EPISODE_NOTIFICATION_FAILURE, payload: message }
+    }
 };
 
 function updateInfo(field, update) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/updateInfo`, { email_address, session, field, update })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.UPDATE_INFO_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.UPDATE_INFO_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.UPDATE_INFO_FAILURE, payload: message }
+    }
 };
 
 function sendFeedback(message) {
@@ -110,47 +293,15 @@ function deleteAccount() {
     }
 
     function request() {
-        return { type: authenticationConstants.DELETE_ACCOUNT_REQUEST }
+        return { type: userActionsConstants.DELETE_ACCOUNT_REQUEST }
     }
 
     function success(message) {
-        return { type: authenticationConstants.DELETE_ACCOUNT_SUCCESS, payload: message }
+        return { type: userActionsConstants.DELETE_ACCOUNT_SUCCESS, payload: message }
     }
 
     function failure(message) {
-        return { type: authenticationConstants.DELETE_ACCOUNT_FAILURE, payload: message }
+        return { type: userActionsConstants.DELETE_ACCOUNT_FAILURE, payload: message }
     }
 
 }
-
-// SEARCH_FOR_SHOW_REQUEST: "SEARCH_FOR_SHOW_REQUEST",
-//     SEARCH_FOR_SHOW_SUCCESS: "SEARCH_FOR_SHOW_SUCCESS",
-//     SEARCH_FOR_SHOW_FAILURE: "SEARCH_FOR_SHOW_FAILURE",
-
-//     ADD_SHOW_TO_LIST_REQUEST: "ADD_SHOW_TO_LIST_REQUEST",
-//     ADD_SHOW_TO_LIST_SUCCESS: "ADD_SHOW_TO_LIST_SUCCESS",
-//     ADD_SHOW_TO_LIST_FAILURE: "ADD_SHOW_TO_LIST_FAILURE",
-
-//     GET_EPISODE_INFO_REQUEST: "GET_EPISODE_INFO_REQUEST",
-//     GET_EPISODE_INFO_SUCCESS: "GET_EPISODE_INFO_SUCCESS",
-//     GET_EPISODE_INFO_FAILURE: "GET_EPISODE_INFO_FAILURE",
-
-//     UPDATE_EPISODE_LIST_REQUEST: "ADD_EPISODE_TO_WATCHLIST_REQUEST",
-//     UPDATE_EPISODE_LIST_SUCCESS: "ADD_EPISODE_TO_WATCHLIST_SUCCESSS",
-//     UPDATE_EPISODE_LIST_FAILURE: "ADD_EPISODE_TO_WATCHLIST_FAILURE",
-
-//     REMOVE_SHOW_FROM_LIST_REQUEST: "REMOVE_SHOW_FROM_LIST_REQUEST",
-//     REMOVE_SHOW_FROM_LIST_SUCCESS: "REMOVE_SHOW_FROM_LIST_SUCCESS",
-//     REMOVE_SHOW_FROM_LIST_FAILURE: "REMOVE_SHOW_FROM_LIST_FAILURE",
-
-//     TOGGLE_NEW_EPISODE_NOTIFICATION_REQUEST: "TOGGLE_NEW_EPISODE_NOTIFICATION_REQUEST",
-//     TOGGLE_NEW_EPISODE_NOTIFICATION_SUCCESS: "TOGGLE_NEW_EPISODE_NOTIFICATION_SUCCESS",
-//     TOGGLE_NEW_EPISODE_NOTIFICATION_FAILURE: "TOGGLE_NEW_EPISODE_NOTIFICATION_FAILURE",
-
-//     UPDATE_INFO_REQUEST: "UPDATE_EMAIL_ADDRESS_REQUEST",
-//     UPDATE_INFO_SUCCESS: "UPDATE_EMAIL_ADDRESS_SUCESS",
-//     UPDATE_INFO_FAILURE: "UPDATE_EMAIL_ADDRESS_FAILURE",
-
-      //     DELETE_ACCOUNT_REQUEST: "DELETE_ACCOUNT_REQUEST",
-//     DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
-//     DELETE_ACCOUNT_FAILURE: "DELETE_ACCOUNT_FAILURE"
