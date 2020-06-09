@@ -51,19 +51,20 @@ const userActionControllers = {
     },
 
     updateEpisodeList: async function (req, res) {
-        let { email_address, tvmaze_id, episode, type } = req.body;
+        let { email_address, tvmaze_id, episode, addEpisode } = req.body;
         let userId = await userQueries.getUser(email_address);
         userId = userId.rows[0].id;
         let showId = await showQueries.searchForShow(tvmaze_id);
         showName = showId.rows[0].name;
         showId = showId.rows[0].id;
         try {
-            if (type === 'add') {
+            if (addEpisode) {
                 let addEpisode = await userShowQueries.addEpisodeWatched(userId, showId, episode)
-            } else if (type === 'remove') {
+            } else if (!addEpisode) {
                 let removeEpisode = await userShowQueries.removeEpisodeWatched(userId, showId, episode)
             }
-            res.status(200).send({ message: `Successfully ${type} show ${showName} episode ${episode}` })
+            let update = addEpisode ? 'add' : 'remove'
+            res.status(200).send({ message: `Successfully ${update} show ${showName} episode ${episode}` })
         }
         catch (err) {
             res.status(400).send(err)
@@ -103,15 +104,15 @@ const userActionControllers = {
     },
 
     updateInfo: async function (req, res) {
-        let { email_address, type, update } = req.body;
+        let { email_address, field, update } = req.body;
         try {
-            if (type === 'email') {
+            if (field === 'email') {
                 let emailUpdate = await userQueries.editUserEmail(email_address, update)
-            } else if (type === 'password') {
+            } else if (field === 'password') {
                 let hashedPassword = await hashPassword(update)
                 let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
-            res.status(200).send({ message: `${type} changed successfully` })
+            res.status(200).send({ message: `${field} changed successfully` })
         }
         catch (err) {
             res.status(400).send(err)
@@ -119,9 +120,9 @@ const userActionControllers = {
     },
 
     deleteAccount: async function (req, res) {
-        let email = req.body.email_address;
+        let email_address = req.body.email_address;
         try {
-            let deleteUser = await userQueries.deleteUser(email)
+            let deleteUser = await userQueries.deleteUser(email_address)
             res.status(200).send({ message: 'Account deleted' })
         }
         catch (err) {

@@ -90,10 +90,10 @@ describe('user actions', () => {
     })
 
     it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
-        let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'add', episode: '1.1' })
+        let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: true, episode: '1.1' })
         expect(addEpisode.body.message).toBe('Successfully add show Game of Thrones episode 1.1')
         let showList = await usersShows.findShowsForUser(userId);
-        let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, type: 'remove', episode: '1.1' })
+        let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: false, episode: '1.1' })
         let updatedShowList = await usersShows.findShowsForUser(userId)
         expect(showList.rows[1].episodes_watched.length - updatedShowList.rows[1].episodes_watched.length).toBe(1)
         done();
@@ -120,13 +120,13 @@ describe('user actions', () => {
     })
 
     it('should let a user update their email address', async (done) => {
-        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'email', update: 'mynewemail@gmail.com' });
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, field: 'email', update: 'mynewemail@gmail.com' });
         expect(userRequest.body.message).toBe('email changed successfully')
         let newEmail = await users.getUser('mynewemail@gmail.com');
         expect(newEmail.rows[0].session).toBe(session)
         let oldEmail = await users.getUser(email_address)
         expect(oldEmail.rows.length).toBe(0)
-        let reset = await request.post('/userAction/updateInfo').send({ email_address: 'mynewemail@gmail.com', session, type: 'email', update: 'testUser@gmail.com' });
+        let reset = await request.post('/userAction/updateInfo').send({ email_address: 'mynewemail@gmail.com', session, field: 'email', update: 'testUser@gmail.com' });
         let originalEmail = await users.getUser('testUser@gmail.com');
         let updatedEmail = await users.getUser('mynewemail@gmail.com');
         expect(updatedEmail.rows.length).toBe(0)
@@ -135,7 +135,7 @@ describe('user actions', () => {
     })
 
     it('should let a user update their password', async (done) => {
-        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, type: 'password', update: 'newPassword' })
+        let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, field: 'password', update: 'newPassword' })
         expect(userRequest.body.message).toBe('password changed successfully');
         let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         expect(oldPassword.body.message).toBe('Invalid password')

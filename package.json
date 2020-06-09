@@ -2,7 +2,7 @@
   "name": "tv-tracker",
   "version": "1.0.0",
   "description": "Keep track of your favorite shows, which episodes you've watched and be notified when new episodes are available",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "server-dev": "nodemon server/server.js",
     "database-reset": "node database/index.js",
@@ -32,7 +32,6 @@
     "postgres": "^1.0.2"
   },
   "devDependencies": {
-    "jest": "^26.0.1",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   }
