@@ -59,9 +59,10 @@ export default function authentication(state, action) {
 
         case authenticationConstants.CHECK_SECURITY_ANSWER_SUCCESS:
             let checkAnswerSuccess = copyState(state);
-            let { User, Shows } = action.payoad;
+            let { User, Shows, Message } = action.payoad;
             checkAnswerSuccess.user = User;
             checkAnswerSuccess.shows = Shows;
+            checkAnswerSuccess.alert = Message;
             return checkAnswerSuccess;
 
         case authenticationConstants.CHECK_SECURITY_ANSWER_FAILURE:
