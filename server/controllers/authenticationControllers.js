@@ -1,5 +1,6 @@
 const userQueries = require('../../database/queries/users');
 const userShowQueries = require('../../database/queries/users_shows')
+const showQueries = require('../../database/queries/shows');
 const { hashPassword, comparePasswords } = require('../utils/hashFunctions');
 const { createToken } = require('../utils/sessionCreator');
 
@@ -33,9 +34,33 @@ const authenticationControllers = {
                 } else {
                     let session = await createToken();
                     let createSession = await userQueries.createSession(email_address, session);
-                    let userShows = await userShowQueries.findShowsForUser(userId)
-                    let shows = userShows.rows;
-                    res.status(200).send({ session, shows })
+                    let user = { email_address, session }
+                    let userShows = await userShowQueries.findShowsForUser(userId);
+                    let shows = {};
+                    for (var i = 0; i < userShows.rows.length; i++) { // for each show on the user's list, get the relevant show name/id/all episodes
+                        let userShow = userShows.rows[i];
+                        let watchedEpisodes = userShow.episodes_watched;
+                        let showInfo = await showQueries.getShowfromId(userShow.show_id);
+                        showInfo = showInfo.rows[0]
+                        let name = showInfo.name;
+                        shows[name] = {};
+                        let id = showInfo.tvmaze_id;
+                        shows[name].tvmaze_id = id;
+                        let notification = userShow.notification;
+                        shows[name].notification = notification
+                        shows[name].episodes = {};
+                        let episodes = showInfo.episodes;
+                        for (var j = 0; j < episodes.length; j++) { // list all the show's total episodes with a boolean to indicate if watched
+                            let episode = episodes[j]
+                            shows[name].episodes[episode] = false;
+                        }
+                        for (var k = 0; k < watchedEpisodes.length; k++) { // set the ones the user already watched ones to true
+                            let watchedEpisode = watchedEpisodes[k];
+                            shows[name].episodes[watchedEpisode] = true;
+                        }
+
+                    }
+                    res.status(200).send({ user, shows })
                 }
             }
         }

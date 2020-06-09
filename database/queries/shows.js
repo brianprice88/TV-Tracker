@@ -14,6 +14,11 @@ const shows = {
             `SELECT * FROM shows where tvmaze_id='${tvmaze_id}'`
         ),
 
+    getShowfromId: (id) =>
+        pool.query(
+            `SELECT * FROM shows where id='${id}'`
+        ),
+
     addNewShow: (tvmaze_id, name, episodes) =>
         pool.query(
             `INSERT INTO shows (tvmaze_id, name, episodes) values ('${tvmaze_id}', '${name}', '{${episodes}}')`

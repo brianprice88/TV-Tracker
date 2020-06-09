@@ -2,13 +2,22 @@ const supertest = require('supertest');
 const app = require('../index.js');
 const request = supertest(app);
 const users = require('../../database/queries/users');
-const usersShows = require('../../database/queries/users_shows')
+const usersShows = require('../../database/queries/users_shows');
+const shows = require('../../database/queries/shows')
 
 let email_address = 'testUser@gmail.com';
 let password = 'password';
 let security_question = 'What_is_your_favorite_color?';
 let security_answer = 'blue';
-let session = 'fakeSession'
+let session = 'fakeSession';
+
+let tvmaze_id = 1;
+let showName = 'not a real show';
+let episodes = ['1.1', '1.2'];
+
+let tvmaze_id2 = 2;
+let showName2 = 'also a fake show';
+let episodes2 = ['1.1', '1.2', '1.3']
 
 describe('signing up a new user', () => {
     beforeEach(async () => {
@@ -49,12 +58,26 @@ describe('signing up a new user', () => {
 })
 
 describe('signing in a user', () => {
+    
     beforeAll(async () => {
-        await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer })
+        await request.post('/authentication/signUp').send({ email_address, password, security_question, security_answer });
+        await shows.addNewShow(tvmaze_id, showName, episodes);
+        await shows.addNewShow(tvmaze_id2, showName2, episodes2);
+        let userId = await users.getUser(email_address);
+        userId = userId.rows[0].id;
+        let show1Id = await shows.searchForShow(tvmaze_id)
+        show1Id = show1Id.rows[0].id
+        let show2Id = await shows.searchForShow(tvmaze_id2)
+        show2Id = show2Id.rows[0].id
+        await usersShows.addShowToUserList(userId, show1Id, true)
+        await usersShows.addShowToUserList(userId, show2Id, false)
+        await usersShows.addEpisodeWatched(userId, show1Id, '1.1')
     })
 
     afterAll(async () => {
         await users.deleteUser(email_address);
+        await shows.deleteShow(tvmaze_id)
+        await shows.deleteShow(tvmaze_id2)
     })
 
     it('should not sign in a user whose email address does not exist', async (done) => {
@@ -75,8 +98,8 @@ describe('signing in a user', () => {
         let signin = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         let userInfo = await users.getUser(email_address);
         let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
-        expect(signin.body.session).toBe(userInfo.rows[0].session)
-        expect(signin.body.shows).toStrictEqual(userShows.rows)
+        expect(signin.body.user.session).toBe(userInfo.rows[0].session);
+        expect(Object.keys(signin.body.shows).length).toBe(userShows.rows.length)
         done();
     })
 

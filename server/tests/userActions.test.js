@@ -140,7 +140,7 @@ describe('user actions', () => {
         let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         expect(oldPassword.body.message).toBe('Invalid password')
         let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword' })
-        expect(newPassword.body.session).toBeTruthy()
+        expect(newPassword.body.user.session).toBeTruthy()
         expect(newPassword.body.shows).toBeTruthy();
         done();
     })
