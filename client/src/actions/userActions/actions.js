@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import userAction from '../../utils/baseURLs';
-import { userActionConstants } from './constants';
+import { userActionsConstants } from './constants';
 import { getUserInfo } from '../../utils/getUserInfo';
 
 export const userActions = {
@@ -42,8 +42,6 @@ function updateEpisodeWatchlist(tvmaze_id, episode, addEpisode) {
 function removeShowFromList(tvmaze_id) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
-    let session = userInfo[1]; let userInfo = getUserInfo();
-    let email_address = userInfo[0];
     let session = userInfo[1];
 };
 
@@ -63,12 +61,66 @@ function sendFeedback(message) {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/sendUserFeedback`, { email_address, session, message })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: userActionsConstants.SEND_FEEDBACK_REQUEST }
+    }
+
+    function success(message) {
+        return { type: userActionsConstants.SEND_FEEDBACK_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: userActionsConstants.SEND_FEEDBACK_FAILURE, payload: message }
+    }
+
 };
 
 function deleteAccount() {
     let userInfo = getUserInfo();
     let email_address = userInfo[0];
     let session = userInfo[1];
+
+    return dispatch => {
+        dispatch(request());
+
+        return Axios.post(`${userAction}/deleteAccount`, { email_address, session })
+
+            .then(function (response) {
+                dispatch(success(response.data))
+            })
+
+            .catch(function (error) {
+                dispatch(failure(error.data))
+            })
+    }
+
+    function request() {
+        return { type: authenticationConstants.DELETE_ACCOUNT_REQUEST }
+    }
+
+    function success(message) {
+        return { type: authenticationConstants.DELETE_ACCOUNT_SUCCESS, payload: message }
+    }
+
+    function failure(message) {
+        return { type: authenticationConstants.DELETE_ACCOUNT_FAILURE, payload: message }
+    }
+
 }
 
 // SEARCH_FOR_SHOW_REQUEST: "SEARCH_FOR_SHOW_REQUEST",
@@ -99,10 +151,6 @@ function deleteAccount() {
 //     UPDATE_INFO_SUCCESS: "UPDATE_EMAIL_ADDRESS_SUCESS",
 //     UPDATE_INFO_FAILURE: "UPDATE_EMAIL_ADDRESS_FAILURE",
 
-//     SEND_FEEDBACK_REQUEST: "SEND_FEEDBACK_REQUEST",
-//     SEND_FEEDBACK_SUCCESS: "SEND_FEEDBACK_SUCCESS",
-//     SEND_FEEDBACK_FAILURE: "SEND_FEEDBACK_FAILURE",
-
-//     DELETE_ACCOUNT_REQUEST: "DELETE_ACCOUNT_REQUEST",
+      //     DELETE_ACCOUNT_REQUEST: "DELETE_ACCOUNT_REQUEST",
 //     DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
 //     DELETE_ACCOUNT_FAILURE: "DELETE_ACCOUNT_FAILURE"
