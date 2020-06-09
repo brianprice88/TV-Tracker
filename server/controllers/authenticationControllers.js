@@ -36,7 +36,6 @@ const authenticationControllers = {
                     let createSession = await userQueries.createSession(email_address, session);
                     let user = { email_address, session }
                     let userShows = await userShowQueries.findShowsForUser(userId);
-                    //
                     let shows = {};
                     for (var i = 0; i < userShows.rows.length; i++) { // for each show on the user's list, get the relevant show name/id/all episodes
                         let userShow = userShows.rows[i];
@@ -97,6 +96,7 @@ const authenticationControllers = {
             } else {
                 let session = await createToken();
                 let createSession = await userQueries.createSession(email_address, session);
+                let user = { email_address, session }
                 let userShows = await userShowQueries.findShowsForUser(userId)
                 let shows = {};
                 for (var i = 0; i < userShows.rows.length; i++) { // for each show on the user's list, get the relevant show name/id/all episodes

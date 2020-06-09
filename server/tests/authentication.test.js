@@ -108,10 +108,23 @@ describe('signing in a user', () => {
 describe('handing a forgotten password', () => {
     beforeAll(async () => {
         await users.createUser(email_address, password, security_question, security_answer);
+        await shows.addNewShow(tvmaze_id, showName, episodes);
+        await shows.addNewShow(tvmaze_id2, showName2, episodes2);
+        let userId = await users.getUser(email_address);
+        userId = userId.rows[0].id;
+        let show1Id = await shows.searchForShow(tvmaze_id)
+        show1Id = show1Id.rows[0].id
+        let show2Id = await shows.searchForShow(tvmaze_id2)
+        show2Id = show2Id.rows[0].id
+        await usersShows.addShowToUserList(userId, show1Id, true)
+        await usersShows.addShowToUserList(userId, show2Id, false)
+        await usersShows.addEpisodeWatched(userId, show1Id, '1.1')
     })
 
     afterAll(async () => {
         await users.deleteUser(email_address);
+        await shows.deleteShow(tvmaze_id)
+        await shows.deleteShow(tvmaze_id2)
     })
 
     it('should provide a user with their security question based on their email, if they forgot their password', async (done) => {
@@ -132,11 +145,10 @@ describe('handing a forgotten password', () => {
         let userInfo = await users.getUser(email_address);
         let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
         expect(correctAnswer.body.message).toBe('Signing you in now.  Please make sure to update your password.')
-        expect(correctAnswer.body.session).toBe(userInfo.rows[0].session)
-        expect(correctAnswer.body.shows).toStrictEqual(userShows.rows)
+        expect(correctAnswer.body.user.session).toBe(userInfo.rows[0].session)
+        expect(Object.keys(correctAnswer.body.shows).length).toStrictEqual(userShows.rows.length)
         done();
     })
-
 })
 
 describe('signing out a user', () => {
