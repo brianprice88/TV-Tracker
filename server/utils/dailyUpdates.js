@@ -64,29 +64,29 @@ const dailyUpdates = {
         let showsAiringToday = await getDailySchedule();
 
         // for testing purposes --> add an additional episode for a show that is definitely in the database:
-        let outsiderEpisode = {
-            showtvmazeId: 39956,
-            showName: 'The Outsider',
-            episodeName: 'Must/Can\'t',
-            season: 1,
-            number: 10,
-            time: '21:00',
-            summary: "<p>The group finds itself in a climactic showdown in their last-ditch effort to root out El Coco.</p>",
-            network: 'HBO'
-        };
+        // let outsiderEpisode = {
+        //     showtvmazeId: 39956,
+        //     showName: 'The Outsider',
+        //     episodeName: 'Must/Can\'t',
+        //     season: 1,
+        //     number: 10,
+        //     time: '21:00',
+        //     summary: "<p>The group finds itself in a climactic showdown in their last-ditch effort to root out El Coco.</p>",
+        //     network: 'HBO'
+        // };
 
-        let fakeShowEp = {
-            showtvmazeId: 0,
-            showName: 'Fake Show',
-            episodeName: 'New Episode',
-            season: 1,
-            number: 4,
-            time: '11:00',
-            summary: "<p>Stuff happens</p>",
-            network: 'Nowhere'
-        }
-        showsAiringToday.push(outsiderEpisode)
-        showsAiringToday.push(fakeShowEp)
+        // let fakeShowEp = {
+        //     showtvmazeId: 0,
+        //     showName: 'Fake Show',
+        //     episodeName: 'New Episode',
+        //     season: 1,
+        //     number: 4,
+        //     time: '11:00',
+        //     summary: "<p>Stuff happens</p>",
+        //     network: 'Nowhere'
+        // }
+        // showsAiringToday.push(outsiderEpisode)
+        // showsAiringToday.push(fakeShowEp)
 
 
 

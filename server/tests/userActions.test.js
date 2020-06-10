@@ -91,7 +91,8 @@ describe('user actions', () => {
 
     it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
         let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: true, episode: '1.1' })
-        expect(addEpisode.body.message).toBe('Successfully add show Game of Thrones episode 1.1')
+        expect(addEpisode.body.tvmaze_id).toBe(82)
+        expect(addEpisode.body.episode).toBe('1.1');
         let showList = await usersShows.findShowsForUser(userId);
         let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: false, episode: '1.1' })
         let updatedShowList = await usersShows.findShowsForUser(userId)
@@ -104,7 +105,7 @@ describe('user actions', () => {
         showId = showId.rows[0].id
         let showUsersListBefore = await usersShows.findUsersToNotifyForShow(showId);
         let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82 })
-        expect(userRequest.body.message).toBe('Game of Thrones notification toggled')
+        expect(userRequest.body.tvmaze_id).toBe(82);        
         let showUsersListAfter = await usersShows.findUsersToNotifyForShow(showId);
         expect(Math.abs(showUsersListBefore.rows.length - showUsersListAfter.rows.length)).toBe(1)
         done();
@@ -113,7 +114,7 @@ describe('user actions', () => {
     it('should let a user remove a show from their list', async (done) => {
         let userShowListBefore = await usersShows.findShowsForUser(userId);
         let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82 })
-        expect(userRequest.body.message).toBe('Game of Thrones has been removed from your list')
+        expect(userRequest.body.tvmaze_id).toBe(82);
         let userShowListAfter = await usersShows.findShowsForUser(userId);
         expect(userShowListBefore.rows.length - userShowListAfter.rows.length).toBe(1)
         done();
@@ -121,7 +122,7 @@ describe('user actions', () => {
 
     it('should let a user update their email address', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, field: 'email', update: 'mynewemail@gmail.com' });
-        expect(userRequest.body.message).toBe('email changed successfully')
+        expect(userRequest.body.field).toBe('email');
         let newEmail = await users.getUser('mynewemail@gmail.com');
         expect(newEmail.rows[0].session).toBe(session)
         let oldEmail = await users.getUser(email_address)
@@ -136,11 +137,11 @@ describe('user actions', () => {
 
     it('should let a user update their password', async (done) => {
         let userRequest = await request.post('/userAction/updateInfo').send({ email_address, session, field: 'password', update: 'newPassword' })
-        expect(userRequest.body.message).toBe('password changed successfully');
+        expect(userRequest.body.field).toBe('password');
         let oldPassword = await request.post('/authentication/signIn').send({ email_address, password: 'password' })
         expect(oldPassword.body.message).toBe('Invalid password')
         let newPassword = await request.post('/authentication/signIn').send({ email_address, password: 'newPassword' })
-        expect(newPassword.body.session).toBeTruthy()
+        expect(newPassword.body.user.session).toBeTruthy()
         expect(newPassword.body.shows).toBeTruthy();
         done();
     })
