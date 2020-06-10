@@ -4,7 +4,13 @@ function copyState(state) {
     return JSON.parse(JSON.stringify(state))
 }
 
-export default function authentication(state, action) {
+const initialState = {
+    alert: null,
+    isLoading: false,
+    prompt: null,
+    }
+
+export default function authentication(state = initialState, action) {
     switch (action.type) {
         case authenticationConstants.SIGNUP_REQUEST:
             let signupReq = copyState(state);

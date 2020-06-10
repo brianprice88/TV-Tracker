@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import authentication from '../../utils/baseURLs';
-import authenticationConstants from './constants';
+import { authentication } from '../../utils/baseURLs';
+import { authenticationConstants } from './constants';
 import { getUserInfo } from '../../utils/getUserInfo';
 
 export const authenticationActions = {
@@ -12,12 +12,13 @@ export const authenticationActions = {
 }
 
 function signUp(email_address, password, security_question, security_answer) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(request());
 
     return Axios.post(`${authentication}/signUp`, { email_address, password, security_question, security_answer })
 
       .then(function (response) {
+        console.log(response)
         dispatch(result(response.data))
       })
 

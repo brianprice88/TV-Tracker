@@ -4,7 +4,15 @@ function copyState(state) {
     return JSON.parse(JSON.stringify(state))
 }
 
-export default function userActions(state, action) {
+const initialState = {
+    alert: null,
+    isLoading: false,
+    showSearchResults: null,
+    user: null,
+    shows: null
+    }
+
+export default function userActions(state = initialState, action) {
     switch (action.type) {
         case userActionsConstants.SEARCH_FOR_SHOW_REQUEST:
             let showSearchReq = copyState(state);
@@ -99,9 +107,9 @@ export default function userActions(state, action) {
             let removeShowSuccess = copyState(state);
             removeShowSuccess.isLoading = false;
             let removeId = action.payload.tv_maze_id;
-            for (var show in removeShowSuccess.shows) {
+            for (var tvShow in removeShowSuccess.shows) {
                 if (show.tv_maze_id === removeId) {
-                    delete removeShowSuccess.shows[show];
+                    delete removeShowSuccess.shows[tvShow];
                 }
             }
             return removeShowSuccess
@@ -121,9 +129,9 @@ export default function userActions(state, action) {
             let toggleSuccess = copyState(state);
             toggleSuccess.isLoading = false;
             let toggleId = action.payload.tv_maze_id;
-            for (var show in toggleSuccess.shows) {
+            for (var userShow in toggleSuccess.shows) {
                 if (show.tv_maze_id === toggleId) {
-                    show.notification = !show.notification
+                    userShow.notification = !userShow.notification
                 }
             }
             return toggleSuccess;

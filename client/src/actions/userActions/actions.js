@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import userAction from '../../utils/baseURLs';
+import { userAction } from '../../utils/baseURLs';
 import { userActionsConstants } from './constants';
 import { getUserInfo } from '../../utils/getUserInfo';
 

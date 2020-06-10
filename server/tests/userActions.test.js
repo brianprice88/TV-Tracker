@@ -91,8 +91,8 @@ describe('user actions', () => {
 
     it('should let a user add or remove an episode to their list of episodes watched', async (done) => {
         let addEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: true, episode: '1.1' })
-        expect(addEpisode.body.tvmaze_id).toBe(tvmaze_id)
-        expect(addEpisode.body.episode).toBe(episode)
+        expect(addEpisode.body.tvmaze_id).toBe(82)
+        expect(addEpisode.body.episode).toBe('1.1')
         let showList = await usersShows.findShowsForUser(userId);
         let removeEpisode = await request.post('/userAction/updateEpisodeList').send({ email_address, session, tvmaze_id: 82, addEpisode: false, episode: '1.1' })
         let updatedShowList = await usersShows.findShowsForUser(userId)
@@ -105,7 +105,7 @@ describe('user actions', () => {
         showId = showId.rows[0].id
         let showUsersListBefore = await usersShows.findUsersToNotifyForShow(showId);
         let userRequest = await request.post('/userAction/toggleNotification').send({ email_address, session, tvmaze_id: 82 })
-        expect(userRequest.body.tvmaze_id).toBe(tvmaze_id)
+        expect(userRequest.body.tvmaze_id).toBe(82)
         let showUsersListAfter = await usersShows.findUsersToNotifyForShow(showId);
         expect(Math.abs(showUsersListBefore.rows.length - showUsersListAfter.rows.length)).toBe(1)
         done();
@@ -114,7 +114,7 @@ describe('user actions', () => {
     it('should let a user remove a show from their list', async (done) => {
         let userShowListBefore = await usersShows.findShowsForUser(userId);
         let userRequest = await request.post('/userAction/removeShowFromList').send({ email_address, session, tvmaze_id: 82 })
-        expect(userRequest.body.tvmaze_id).toBe(tvmaze_id)
+        expect(userRequest.body.tvmaze_id).toBe(82)
         let userShowListAfter = await usersShows.findShowsForUser(userId);
         expect(userShowListBefore.rows.length - userShowListAfter.rows.length).toBe(1)
         done();
