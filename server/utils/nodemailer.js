@@ -77,7 +77,7 @@ const nodemailerFunctions = {
         };
 
         transporter.sendMail(mailOptions, function (err, info) {
-            if (err) { res.send(err) }
+            if (err) { res.status(404).send(err) }
             else { res.send({ message: `Message sent successfully!` }) }
         })
     }

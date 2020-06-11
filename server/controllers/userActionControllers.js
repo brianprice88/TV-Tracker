@@ -14,7 +14,7 @@ const userActionControllers = {
             res.send({ results })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -35,7 +35,7 @@ const userActionControllers = {
             res.send({ name, tvmaze_id, episodes })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -46,7 +46,7 @@ const userActionControllers = {
             res.send({ episodeInfo })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -67,7 +67,7 @@ const userActionControllers = {
             res.send({ tvmaze_id, episode })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -83,7 +83,7 @@ const userActionControllers = {
             res.send({ tvmaze_id })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -99,7 +99,7 @@ const userActionControllers = {
             res.send({ tvmaze_id })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -115,7 +115,7 @@ const userActionControllers = {
             res.send({ field, update })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -126,7 +126,7 @@ const userActionControllers = {
             res.send({ message: 'Account deleted' })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     }
 

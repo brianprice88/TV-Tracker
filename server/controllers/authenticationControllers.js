@@ -15,7 +15,7 @@ const authenticationControllers = {
             res.send({ message: `Account created successfully.  You can now sign in!` })
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -64,7 +64,7 @@ const authenticationControllers = {
             }
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -80,7 +80,7 @@ const authenticationControllers = {
             }
         }
         catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -123,7 +123,7 @@ const authenticationControllers = {
                 res.send({ message: 'Signing you in now.  Please make sure to update your password.', user, shows })
             }
         } catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     },
 
@@ -133,7 +133,7 @@ const authenticationControllers = {
             let deleteSession = await userQueries.deleteSession(email_address);
             res.send({ message: 'You are now signed out' })
         } catch (err) {
-            res.send(err)
+            res.status(404).send(err)
         }
     }
 

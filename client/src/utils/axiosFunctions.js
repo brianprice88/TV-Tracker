@@ -5,7 +5,8 @@ const base = 'http://localhost:3001' // for development
 const authentication = `${base}/authentication`;
 const userAction = `${base}/userAction`;
 
-export const signUp = function (email_address, password, security_question, security_answer) {
+export const signUp = function (parameters) {
+    let [email_address, password, security_question, security_answer] = parameters
     return new Promise((resolve, reject) =>
         Axios.post(`${authentication}/signUp`, { email_address, password, security_question, security_answer })
             .then((res) => resolve(res.data))
@@ -13,7 +14,8 @@ export const signUp = function (email_address, password, security_question, secu
     )
 };
 
-export const signIn = function (email_address, password) {
+export const signIn = function (parameters) {
+    let [email_address, password] = parameters
     return new Promise((resolve, reject) =>
         Axios.post(`${authentication}/signIn`, { email_address, password })
             .then((res) => resolve(res.data))
@@ -21,7 +23,8 @@ export const signIn = function (email_address, password) {
     )
 };
 
-export const getSecurityQuestion = function (email_address) {
+export const getSecurityQuestion = function (parameters) {
+    let [email_address] = parameters
     return new Promise((resolve, reject) =>
         Axios.get(`${authentication}/forgotPassword${email_address}`)
             .then((res) => resolve(res.data))
@@ -29,7 +32,8 @@ export const getSecurityQuestion = function (email_address) {
     )
 };
 
-export const checkSecurityAnswer = function (email_address, security_answer) {
+export const checkSecurityAnswer = function (parameters) {
+    let [email_address, security_answer] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${authentication}/checkSecurityAnswer`, { email_address, security_answer })
             .then((res) => resolve(res.data))
@@ -37,7 +41,8 @@ export const checkSecurityAnswer = function (email_address, security_answer) {
     )
 };
 
-export const signOut = function (email_address, session) {
+export const signOut = function (parameters) {
+    let [email_address, session] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${authentication}/signOut`, { email_address, session })
             .then((res) => resolve(res.data))
@@ -45,7 +50,8 @@ export const signOut = function (email_address, session) {
     )
 };
 
-export const searchForShow = function (email_address, session, search) {
+export const searchForShow = function (parameters) {
+    let [email_address, session, search] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/showSearch`, { email_address, session, search })
             .then((res) => resolve(res.data))
@@ -53,7 +59,8 @@ export const searchForShow = function (email_address, session, search) {
     )
 };
 
-export const addShowToList = function (email_address, session, tvmaze_id, name) {
+export const addShowToList = function (parameters) {
+    let [email_address, session, tvmaze_id, name] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/addShowToList`, { email_address, session, tvmaze_id, name })
             .then((res) => resolve(res.data))
@@ -61,7 +68,8 @@ export const addShowToList = function (email_address, session, tvmaze_id, name) 
     )
 };
 
-export const getEpisodeInfo = function (email_address, session, tvmaze_id, season, number) {
+export const getEpisodeInfo = function (parameters) {
+    let [email_address, session, tvmaze_id, season, number] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/getEpisodeInfo`, { email_address, session, tvmaze_id, season, number })
             .then((res) => resolve(res.data))
@@ -69,7 +77,8 @@ export const getEpisodeInfo = function (email_address, session, tvmaze_id, seaso
     )
 };
 
-export const updateEpisodeList = function (email_address, session, tvmaze_id, episode, addEpisode) {
+export const updateEpisodeList = function (parameters) {
+    let [email_address, session, tvmaze_id, episode, addEpisode] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/updateEpisodeList`, { email_address, session, tvmaze_id, episode, addEpisode })
             .then((res) => resolve(res.data))
@@ -77,7 +86,8 @@ export const updateEpisodeList = function (email_address, session, tvmaze_id, ep
     )
 };
 
-export const removeShow = function (email_address, session, tvmaze_id) {
+export const removeShow = function (parameters) {
+    let [email_address, session, tvmaze_id] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/removeShowFromList`, { email_address, session, tvmaze_id })
             .then((res) => resolve(res.data))
@@ -85,7 +95,8 @@ export const removeShow = function (email_address, session, tvmaze_id) {
     )
 };
 
-export const toggleNotification = function (email_address, session, tvmaze_id) {
+export const toggleNotification = function (parameters) {
+    let [email_address, session, tvmaze_id] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/toggleNotification`, { email_address, session, tvmaze_id })
             .then((res) => resolve(res.data))
@@ -93,7 +104,8 @@ export const toggleNotification = function (email_address, session, tvmaze_id) {
     )
 };
 
-export const updateInfo = function (email_address, session, field, update) {
+export const updateInfo = function (parameters) {
+    let [email_address, session, field, update] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/updateInfo`, { email_address, session, field, update })
             .then((res) => resolve(res.data))
@@ -101,7 +113,8 @@ export const updateInfo = function (email_address, session, field, update) {
     )
 };
 
-export const sendFeedback = function (email_address, session, message) {
+export const sendFeedback = function (parameters) {
+    let [email_address, session, message] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/sendUserFeedback`, { email_address, session, message })
             .then((res) => resolve(res.data))
@@ -109,7 +122,8 @@ export const sendFeedback = function (email_address, session, message) {
     )
 };
 
-export const deleteAccount = function (email_address, session) {
+export const deleteAccount = function (parameters) {
+    let [email_address, session] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/deleteAccount`, { email_address, session })
             .then((res) => resolve(res.data))
