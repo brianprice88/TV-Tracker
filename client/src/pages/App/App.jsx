@@ -33,6 +33,12 @@ class App extends React.Component {
     })
   }
 
+  clearNotification() {
+    this.setState({
+      notification: null
+    })
+  }
+
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
     switch (func) {
@@ -46,6 +52,11 @@ class App extends React.Component {
 
       case signIn:
         let signInReq = await signIn(args);
+        try {
+
+        } catch (err) {
+
+        }
 
       case getSecurityQuestion:
 
@@ -86,16 +97,26 @@ class App extends React.Component {
 
     return (
       <>
-        {this.state.error ?
+        {/* {this.state.error ?
           <div className="alert alert-warning fade show" role="alert">
             <strong>Error!</strong> {this.state.error}
             <button onClick={this.clearError.bind(this)} type="button" className="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          : null}
+          : null} */}
 
-        {!this.state.user ? <HomePage /> : <UserPage user={this.state.user} />}
+        {!this.state.user 
+        ? <HomePage 
+        axiosHandler = {this.axiosHandler.bind(this)}
+        error = {this.state.error}
+        notification = {this.state.notification}
+        /> : 
+        <UserPage 
+        axiosHandler = {this.axiosHandler.bind(this)}
+        user={this.state.user} 
+        shows = {this.state.shows}
+        />}
 
       </>
     );

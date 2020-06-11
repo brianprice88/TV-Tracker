@@ -1,14 +1,14 @@
-import React from 'react';
-import './HomePage.css'
+import React, { useState } from 'react';
+import './HomePage.css';
+import Register from './components/Register';
+import Login from './components/Login'
 
-export default class HomePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        formDisplay: null // options are new user or returning user and from there returning user will have a forgot password button
-        }
-    }
-    render() {
+export default function HomePage({ axiosHandler }) { // need to destructure props here - probably just authentication functions besides signout
+
+    const [formDisplay, changeFormDisplay] = useState('Home')
+    //pass down changeFormDisplay as a prop, and it can reset this back to 'home' for closing out of that form
+    // similarly for Login add a separate useState hook to display for if user clicks on forgot password
+
     return (
 
         <div id="homePageCarousel" className="carousel slide" data-ride="carousel">
@@ -45,35 +45,34 @@ export default class HomePage extends React.Component {
                 </div>
             </div>
 
-            <div class="vertical-center">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <form>
-                                <div class="form-group">
-                                    <label for="numeutilizator">Name</label>
-                                    <input type="text" name="unr" class="form-control" id="numeutilizator" placeholder="Nume de utilizator" />
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="emr" class="form-control" placeholder="Email@email.dom" id="email" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="parola">Password</label>
-                                    <input type="password" class="form-control" name="pwr" placeholder="********" id="parola" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" name="r" class="btn btn-default" value="Submit" />
-                                </div>
-                            </form>
-                        </div>
+            <div className="home-form">
+                {formDisplay === 'Home'
+                    ?
+                    <div className='home-buttons'>
+                        <h1>TV Tracker</h1>
+                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Register')}>New User</button>
+                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Login')}>Returning User</button>
                     </div>
-                </div>
+                    : null}
+
+                {formDisplay === 'Register'
+                    ? <Register
+                        changeFormDisplay={changeFormDisplay}
+                        axiosHandler={axiosHandler}
+                    />
+                    : null}
+
+                {formDisplay === 'Login'
+                    ? <Login
+                        changeFormDisplay={changeFormDisplay}
+                        axiosHandler={axiosHandler}
+                    />
+                    : null}
+
             </div>
 
 
         </div>
     )
-    }
+
 }

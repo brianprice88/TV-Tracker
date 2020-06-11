@@ -1,4 +1,4 @@
-.vertical-center {
+.home-form {
     min-height: 100%;
     min-height: 100vh;
     display: flex;
@@ -7,16 +7,17 @@
     width: 100%;
     top: 0;
   }
-  
-  form {
+
+  .home-buttons {
     border-radius: 15px 15px 15px 15px;
     padding: 25px;
     text-align: center;
     background-color: rgba(237, 237, 237, 0.5);
     background-color: hsla(0, 0%, 93%, 0.5);
     width: 500px;
+    margin: 0 auto;
   }
-
+  
 #carousel-img {
     height: 100vh;
     width: 100%;
