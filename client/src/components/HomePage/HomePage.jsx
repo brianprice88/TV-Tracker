@@ -13,34 +13,34 @@ export default class HomePage extends React.Component {
 
         <div id="homePageCarousel" className="carousel slide" data-ride="carousel">
             <div className="carousel-inner" role="listbox">
-                <div className="carousel item active">
+                <div className="carousel-item active">
                     <img src="assets/Better Call Saul.jpg" alt="Better Call Saul" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Brooklyn Nine Nine.jpg" alt="Brooklyn Nine Nine" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Good Girls.jpg" alt="Good Girls" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Grey's Anatomy.jpg" alt="Grey's Anatomy" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Killing Eve.jpg" alt="Killing Eve" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Rick and Morty.png" alt="Rick and Morty" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/Succession.jpg" alt="Succession" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/The Blacklist.jpg" alt="The Blacklist" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/The Mandalorian.jpg" alt="The Mandalorian" className="img-responsive" id="carousel-img" />
                 </div>
-                <div className="carousel item">
+                <div className="carousel-item">
                     <img src="assets/This Is Us.jpg" alt="This Is Us" className="img-responsive" id="carousel-img" />
                 </div>
             </div>
