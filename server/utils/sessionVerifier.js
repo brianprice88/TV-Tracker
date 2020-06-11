@@ -7,9 +7,9 @@ module.exports.verifySession = async function (req, res, next) {
         if (userSession.rows[0] && userSession.rows[0].session === session) {
             next();
         } else {
-            res.status(400).send({ message: 'Invalid session' })
+            res.send({ message: 'Invalid session' })
         }
     } catch (err) {
-        res.status(400).send(err)
+        res.send(err)
     }
 }

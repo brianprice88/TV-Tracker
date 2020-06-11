@@ -11,10 +11,10 @@ const userActionControllers = {
         try {
             let searchResults = await searchbyShowName(search);
             let results = searchResults
-            res.status(200).send({ results })
+            res.send({ results })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -32,10 +32,10 @@ const userActionControllers = {
             episodes = showId.rows[0].episodes;
             showId = showId.rows[0].id;
             let userLikeShow = await userShowQueries.addShowToUserList(userId, showId, false)
-            res.status(200).send({ name, tvmaze_id, episodes })
+            res.send({ name, tvmaze_id, episodes })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -43,10 +43,10 @@ const userActionControllers = {
         let { tvmaze_id, season, number } = req.body;
         try {
             let episodeInfo = await queryForEpisodeInfo(tvmaze_id, season, number)
-            res.status(200).send({ episodeInfo })
+            res.send({ episodeInfo })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -64,10 +64,10 @@ const userActionControllers = {
                 let removeEpisode = await userShowQueries.removeEpisodeWatched(userId, showId, episode)
             }
             let update = addEpisode ? 'add' : 'remove'
-            res.status(200).send({ tvmaze_id, episode })
+            res.send({ tvmaze_id, episode })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -80,10 +80,10 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.removeShowFromUserList(userId, showId)
-            res.status(200).send({ tvmaze_id })
+            res.send({ tvmaze_id })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -96,10 +96,10 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.toggleShowNotification(userId, showId)
-            res.status(200).send({ tvmaze_id })
+            res.send({ tvmaze_id })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -112,10 +112,10 @@ const userActionControllers = {
                 let hashedPassword = await hashPassword(update)
                 let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword)
             }
-            res.status(200).send({ field, update })
+            res.send({ field, update })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -123,10 +123,10 @@ const userActionControllers = {
         let email_address = req.body.email_address;
         try {
             let deleteUser = await userQueries.deleteUser(email_address)
-            res.status(200).send({ message: 'Account deleted' })
+            res.send({ message: 'Account deleted' })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     }
 

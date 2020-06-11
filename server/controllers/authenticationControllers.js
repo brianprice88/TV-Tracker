@@ -12,10 +12,10 @@ const authenticationControllers = {
             let hashedPassword = await hashPassword(password);
             password = hashedPassword;
             let createUser = await userQueries.createUser(email_address, password, security_question, security_answer)
-            res.status(200).send({ message: `Account created successfully.  You can now sign in!` })
+            res.send({ message: `Account created successfully.  You can now sign in!` })
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -24,13 +24,13 @@ const authenticationControllers = {
         try {
             let userInfo = await userQueries.getUser(email_address);
             if (userInfo.rows.length === 0) {
-                res.status(404).send({ message: 'Invalid email address' })
+                res.send({ message: 'Invalid email address' })
             } else {
                 let userId = userInfo.rows[0].id
                 let userPassword = userInfo.rows[0].password;
                 let passwordsMatch = await comparePasswords(password, userPassword);
                 if (!passwordsMatch) {
-                    res.status(404).send({ message: 'Invalid password' })
+                    res.send({ message: 'Invalid password' })
                 } else {
                     let session = await createToken();
                     let createSession = await userQueries.createSession(email_address, session);
@@ -59,12 +59,12 @@ const authenticationControllers = {
                             shows[name].episodes[watchedEpisode] = true;
                         }
                     }
-                    res.status(200).send({ user, shows })
+                    res.send({ user, shows })
                 }
             }
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -73,14 +73,14 @@ const authenticationControllers = {
         try {
             let userInfo = await userQueries.getUser(email_address);
             if (userInfo.rows.length === 0) {
-                res.status(404).send({ message: 'That email address does not exist' })
+                res.send({ message: 'That email address does not exist' })
             } else {
                 let question = userInfo.rows[0].security_question;
-                res.status(200).send(question)
+                res.send(question)
             }
         }
         catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -91,7 +91,7 @@ const authenticationControllers = {
             let userId = userInfo.rows[0].id;
             let actualAnswer = userInfo.rows[0].security_answer;
             if (security_answer.toLowerCase() !== actualAnswer.toLowerCase()) { // don't make answers case sensitive
-                res.status(404).send({ message: 'That answer is incorrect' })
+                res.send({ message: 'That answer is incorrect' })
             } else {
                 let session = await createToken();
                 let createSession = await userQueries.createSession(email_address, session);
@@ -120,10 +120,10 @@ const authenticationControllers = {
                         shows[name].episodes[watchedEpisode] = true;
                     }
                 }
-                res.status(200).send({ message: 'Signing you in now.  Please make sure to update your password.', user, shows })
+                res.send({ message: 'Signing you in now.  Please make sure to update your password.', user, shows })
             }
         } catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     },
 
@@ -131,9 +131,9 @@ const authenticationControllers = {
         let { email_address } = req.body
         try {
             let deleteSession = await userQueries.deleteSession(email_address);
-            res.status(200).send({ message: 'You are now signed out' })
+            res.send({ message: 'You are now signed out' })
         } catch (err) {
-            res.status(400).send(err)
+            res.send(err)
         }
     }
 

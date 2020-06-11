@@ -1,8 +1,14 @@
 import React from 'react';
 import './HomePage.css'
 
-export default function HomePage() {
-
+export default class HomePage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        formDisplay: null // options are new user or returning user and from there returning user will have a forgot password button
+        }
+    }
+    render() {
     return (
 
         <div id="homePageCarousel" className="carousel slide" data-ride="carousel">
@@ -58,7 +64,7 @@ export default function HomePage() {
                                     <input type="password" class="form-control" name="pwr" placeholder="********" id="parola" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" name="r" class="btn btn-default" value="Inregistreaza-te" />
+                                    <input type="submit" name="r" class="btn btn-default" value="Submit" />
                                 </div>
                             </form>
                         </div>
@@ -69,4 +75,5 @@ export default function HomePage() {
 
         </div>
     )
+    }
 }

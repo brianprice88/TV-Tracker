@@ -81,14 +81,12 @@ describe('signing in a user', () => {
 
     it('should not sign in a user whose email address does not exist', async (done) => {
         let signin = await request.post('/authentication/signIn').send({ email_address: 'fakeEmail@gmail.com', password: 'fakePassword' })
-        expect(signin.status).toBe(404)
         expect(signin.body.message).toBe('Invalid email address')
         done();
     })
 
     it('should not sign in a user who inputs an incorrect password', async (done) => {
         let signin = await request.post('/authentication/signIn').send({ email_address, password: 'fakePassword' })
-        expect(signin.status).toBe(404)
         expect(signin.body.message).toBe('Invalid password')
         done();
     })
@@ -134,7 +132,6 @@ describe('handing a forgotten password', () => {
 
     it('should not accept an incorrect response to the user security question', async (done) => {
         let failedAttempt = await request.post('/authentication/checkSecurityAnswer').send({ email_address, security_answer: 'red' })
-        expect(failedAttempt.status).toBe(404);
         expect(failedAttempt.body.message).toBe('That answer is incorrect')
         done();
     })
