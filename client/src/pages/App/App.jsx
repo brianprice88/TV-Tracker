@@ -49,9 +49,9 @@ class App extends React.Component {
       case 'signIn':
         try {
           let signInReq = await signIn(args);
-          signInReq.message 
-          ? this.setState({ alert: signInReq.message }) 
-          : this.setState({ user: signInReq.user, shows: signInReq.shows })
+          signInReq.message
+            ? this.setState({ alert: signInReq.message })
+            : this.setState({ user: signInReq.user, shows: signInReq.shows })
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -61,9 +61,9 @@ class App extends React.Component {
       case 'getSecurityQuestion':
         try {
           let securityQuestionReq = await getSecurityQuestion(args);
-          securityQuestionReq.message 
-          ? this.setState({ alert: securityQuestionReq.message }) 
-          : this.setState({ prompt: securityQuestionReq.question})  
+          securityQuestionReq.message
+            ? this.setState({ alert: securityQuestionReq.message })
+            : this.setState({ prompt: securityQuestionReq.question })
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -74,8 +74,8 @@ class App extends React.Component {
         try {
           let securityAnswerReq = await checkSecurityAnswer(args);
           securityAnswerReq.user
-          ? this.setState({alert: securityAnswerReq.message, user: securityAnswerReq.user, shows: securityAnswerReq.shows})
-          : this.setState({alert: securityAnswerReq.message})
+            ? this.setState({ alert: securityAnswerReq.message, user: securityAnswerReq.user, shows: securityAnswerReq.shows })
+            : this.setState({ alert: securityAnswerReq.message })
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -83,6 +83,14 @@ class App extends React.Component {
         }
 
       case 'signOut':
+        try {
+          let signOutReq = await signOut(args);
+          this.setState({ alert: signOutReq.message, user: null, shows: null });
+          break;
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'searchForShow':
 
