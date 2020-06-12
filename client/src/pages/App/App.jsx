@@ -23,34 +23,28 @@ class App extends React.Component {
   state = {
     user: null,
     shows: null,
-    error: null,
-    notification: null
+    alert: null
   };
 
-  clearError() {
+  clearAlert() {
     this.setState({
-      error: null
-    })
-  }
-
-  clearNotification() {
-    this.setState({
-      notification: null
+      alert: null
     })
   }
 
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
+
     switch (func) {
-      case signUp:
+      case 'signUp':
         try {
           let signUpReq = await signUp(args);
-          this.setState({ notification: signUpReq.message })
+          this.setState({ alert: signUpReq.message })
         } catch (err) {
-          this.setState({ error: 'An account with this email address already exists.' })
+          this.setState({ alert: 'An account with this email address already exists.' })
         }
 
-      case signIn:
+      case 'signIn':
         let signInReq = await signIn(args);
         try {
 
@@ -58,40 +52,35 @@ class App extends React.Component {
 
         }
 
-      case getSecurityQuestion:
+      case 'getSecurityQuestion':
 
-      case checkSecurityAnswer:
+      case 'checkSecurityAnswer':
 
-      case signOut:
+      case 'signOut':
 
-      case searchForShow:
+      case 'searchForShow':
 
-      case addShowToList:
+      case 'addShowToList':
 
-      case getEpisodeInfo:
+      case 'getEpisodeInfo':
 
-      case updateEpisodeList:
+      case 'updateEpisodeList':
 
-      case removeShow:
+      case 'removeShow':
 
-      case toggleNotification:
+      case 'toggleNotification':
 
-      case updateInfo:
+      case 'updateInfo':
 
-      case sendFeedback:
+      case 'sendFeedback':
 
-      case deleteAccount:
+      case 'deleteAccount':
 
 
       default:
         return;
     }
   }
-
-  async componentDidMount() {
-    let test = this.axiosHandler(signUp, 'brianprice', 'password')
-
-  };
 
   render() {
 
@@ -109,8 +98,7 @@ class App extends React.Component {
         {!this.state.user 
         ? <HomePage 
         axiosHandler = {this.axiosHandler.bind(this)}
-        error = {this.state.error}
-        notification = {this.state.notification}
+        alert = {this.state.alert}
         /> : 
         <UserPage 
         axiosHandler = {this.axiosHandler.bind(this)}

@@ -1,31 +1,71 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import './Register.css'
 
-export default function Register () {
-    return (
-        <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <form>
-                    <div class="form-group">
-                        <label for="numeutilizator">Name</label>
-                        <input type="text" class="form-control" id="numeutilizator" placeholder="Name" />
+export default function Register({ changeFormDisplay, axiosHandler, alert }) {
 
+
+
+    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: '', captcha: '' }
+
+    const addNewInfo = function (e) {
+        dispatch({ type: e.target.name, payload: e.target.value })
+    };
+
+    const updateFormInfoState = function (state, action) {
+        let updatedState = Object.assign(state);
+        updatedState[action.type] = action.payload;
+        return updatedState
+    }
+
+    const [formInfo, dispatch] = useReducer(updateFormInfoState, initialFormInfo)
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        // let captchaText = formInfo.captcha;
+        // if (captchaText !== code) {
+        //     confirm('incorrect captcha');
+        //     createCaptcha();
+        //     return;
+        // }
+        axiosHandler('signUp', formInfo.email_address, formInfo.password, formInfo.security_question, formInfo.security_answer)
+        // axios.post(URI, formInfo)
+        //     .then(res => confirm(res.data))
+        //     .catch(err => confirm(err.data))
+        // document.getElementById('contactme').reset()
+    }
+
+    return (
+        <div className="container-fluid">
+            <div className="row justify-content-center">
+    {alert ? <h1>{alert}</h1> : null}
+                <form onSubmit={handleSubmit}>
+                    <h1>Sign up</h1>
+                    <div className="form-group">
+                        <label>Email:</label>
+                        <input type="email" className="form-control" placeholder="yourEmail@domain.com" name="email_address" required onChange={addNewInfo} />
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" placeholder="Email@email.dom" id="email" />
+                    <div className="form-group">
+                        <label>Password:</label>
+                        <input type="password" className="form-control" placeholder="Enter password" name="password" required onChange={addNewInfo} />
                     </div>
-                    <div class="form-group">
-                        <label for="parola">Password</label>
-                        <input type="password" class="form-control" placeholder="********" id="parola" />
+                    <div className="form-group">
+                        <label>Select a security question:</label>
+                        <select name='security_question' onChange={addNewInfo} className="form-control">
+                            <option value='What was the name of your first pet?'>What was the name of your first pet?</option>
+                            <option value='What was the make of your first car?'>What was the make of your first car?</option>
+                            <option value='What is the maiden name of your mother?'>What is the maiden name of your mother?</option>
+                            <option value='In what city was your father born?'>In what city was your father born?</option>
+                            <option value='What was your high school mascot?'>What was your high school mascot?</option>
+                            <option value='What is your favorite color?'>What is your favorite color?</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-default" value="Submit" />
+                    <div className="form-group">
+                        <label>Answer for your security question:</label>
+                        <input type="password" className="form-control" placeholder="Make sure you remember this!" name="security_answer" required onChange={addNewInfo} />
                     </div>
+                    <button type="submit" class="btn btn-primary">Register!</button>
                 </form>
             </div>
         </div>
-    </div> 
     )
 }
