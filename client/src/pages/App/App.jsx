@@ -23,7 +23,8 @@ class App extends React.Component {
   state = {
     user: null,
     shows: null,
-    alert: null
+    alert: null,
+    prompt: null
   };
 
   clearAlert() {
@@ -53,10 +54,18 @@ class App extends React.Component {
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          return;
+          break;
         }
 
       case 'getSecurityQuestion':
+        try {
+          let securityQuestionReq = await getSecurityQuestion(args);
+          securityQuestionReq.message ? this.setState({ alert: securityQuestionReq.message }) : this.setState({ prompt: securityQuestionReq.question})  
+          break;
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'checkSecurityAnswer':
 
@@ -92,7 +101,7 @@ class App extends React.Component {
       <>
         {this.state.alert ?
           <div className="alert alert-warning fade show" role="alert">
-            <strong>Error!</strong> {this.state.alert}
+            <strong>{this.state.alert}</strong>
             <button onClick={this.clearAlert.bind(this)} type="button" className="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -103,6 +112,7 @@ class App extends React.Component {
           ? <HomePage
             axiosHandler={this.axiosHandler.bind(this)}
             alert={this.state.alert}
+            prompt={this.state.prompt}
           /> :
           <UserPage
             axiosHandler={this.axiosHandler.bind(this)}

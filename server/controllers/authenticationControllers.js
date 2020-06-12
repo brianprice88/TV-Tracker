@@ -76,7 +76,7 @@ const authenticationControllers = {
                 res.send({ message: 'That email address does not exist' })
             } else {
                 let question = userInfo.rows[0].security_question;
-                res.send(question)
+                res.send({question})
             }
         }
         catch (err) {

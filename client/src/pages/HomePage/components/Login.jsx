@@ -1,7 +1,10 @@
-import React, { useReducer } from 'react';
-import './Login.css'
+import React, { useReducer, useState } from 'react';
+import './Login.css';
+import SecurityQuestion from './SecurityQuestion.jsx'
 
-export default function Login({ changeFormDisplay, axiosHandler, alert }) {
+export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }) {
+
+    const [displaySecurityQuestion, showSecurityQuestion] = useState(false);
 
     const initialFormInfo = { email_address: '', password: '' }
 
@@ -19,14 +22,15 @@ export default function Login({ changeFormDisplay, axiosHandler, alert }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        document.getElementById('registerForm').reset()
+        document.getElementById('loginForm').reset()
         axiosHandler('signIn', formInfo.email_address, formInfo.password)
     }
 
     return (
         <div className="container-fluid">
             <div className="row justify-content-center">
-                <form id='registerForm' onSubmit={handleSubmit}>
+                    {!displaySecurityQuestion ?
+                    <form id='loginForm' onSubmit={handleSubmit}>
                     <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
                     <h1>Sign in</h1>
                     <div className="form-group">
@@ -38,7 +42,17 @@ export default function Login({ changeFormDisplay, axiosHandler, alert }) {
                         <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" required onChange={addNewInfo} />
                     </div>
                     <button type="submit" className="btn btn-primary">Sign in!</button>
-                </form>
+                    <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
+                    </form>
+                    : <SecurityQuestion 
+                        changeFormDisplay = {changeFormDisplay}
+                        prompt = {prompt}
+                        axiosHandler = {axiosHandler}
+                        showSecurityQuestion = {showSecurityQuestion}
+
+                    />
+                }
+
             </div>
         </div>
     )

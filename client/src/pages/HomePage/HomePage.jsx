@@ -3,11 +3,9 @@ import './HomePage.css';
 import Register from './components/Register';
 import Login from './components/Login'
 
-export default function HomePage({ axiosHandler, alert }) { // need to destructure props here - probably just authentication functions besides signout
+export default function HomePage({ axiosHandler, alert, prompt }) {
 
     const [formDisplay, changeFormDisplay] = useState('Home')
-    //pass down changeFormDisplay as a prop, and it can reset this back to 'home' for closing out of that form
-    // similarly for Login add a separate useState hook to display for if user clicks on forgot password
 
     return (
 
@@ -50,8 +48,8 @@ export default function HomePage({ axiosHandler, alert }) { // need to destructu
                     ?
                     <div className='home-buttons'>
                         <h1>TV Tracker</h1>
-                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Register')}>Register</button>
-                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Login')}>Sign In</button>
+                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Register')}>New User</button>
+                        <button type='button' className="btn btn-primary btn-lg" onClick={() => changeFormDisplay('Login')}>Returning User</button>
                     </div>
                     : null}
 
@@ -68,6 +66,7 @@ export default function HomePage({ axiosHandler, alert }) { // need to destructu
                         changeFormDisplay={changeFormDisplay}
                         axiosHandler={axiosHandler}
                         alert={alert}
+                        prompt={prompt}
                     />
                     : null}
 

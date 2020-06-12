@@ -26,7 +26,7 @@ export const signIn = function (parameters) {
 export const getSecurityQuestion = function (parameters) {
     let [email_address] = parameters
     return new Promise((resolve, reject) =>
-        Axios.get(`${authentication}/forgotPassword${email_address}`)
+        Axios.get(`${authentication}/forgotPassword/${email_address}`)
             .then((res) => resolve(res.data))
             .catch(err => reject(err))
     )
