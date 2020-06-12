@@ -14,28 +14,28 @@ export default function TopBar({ axiosHandler, user }) {
                 <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav">
+                    <li className="nav-item">
                         <div className='nav-link navBarButton' onClick={() => axiosHandler('signOut', user.email_address, user.session)}>Sign Out</div>
                     </li>
-                    <li class="nav-item dropdown">
-                        <div class="nav-link dropdown-toggle navBarButton" role="button" data-toggle="dropdown">
+                    <li className="nav-item dropdown">
+                        <div className="nav-link dropdown-toggle navBarButton" role="button" data-toggle="dropdown">
                             Options
                         </div>
-                        <div class="dropdown-menu">
+                        <div className="dropdown-menu">
 
                             <div className='nav-link navBarButton' onClick={() => showForm('UpdateEmail')}>Update Email</div>
 
-                            <div class="dropdown-divider"></div>
+                            <div className="dropdown-divider"></div>
 
                             <div className='nav-link navBarButton' onClick={() => showForm('UpdatePassword')}>Update Password</div>
 
-                            <div class="dropdown-divider"></div>
+                            <div className="dropdown-divider"></div>
 
                             <div className='nav-link navBarButton' onClick={() => showForm('SendFeedback')}>Send Feedback</div>
 
-                            <div class="dropdown-divider"></div>
+                            <div className="dropdown-divider"></div>
 
                             <div className='nav-link navBarButton' onClick={() => showForm('DeleteAccount')}>Delete Account</div>
 
@@ -77,22 +77,45 @@ export default function TopBar({ axiosHandler, user }) {
 
 
 function UpdateEmail({ user, axiosHandler, showForm }) {
+    function changeEmail(e) {
+        e.preventDefault();
+        let newEmail = document.getElementById('updatedEmail').value
+        document.getElementById('updatedEmail').value = '';
+        axiosHandler('updateInfo', user.email_address, user.session, 'email', newEmail)
+    }
     return (
-        <form>
-            <h2>Update your email</h2>
-            <button onClick={() => axiosHandler('deleteAccount', user.email_address, user.session)} type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
-            <button onClick={() => showForm(null)} type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+        <form onSubmit={changeEmail}>
+            <div className="form-group">
+                <label>New Email:</label>
+                <input id='updatedEmail' type="email" className="form-control" placeholder="YourEmail@domain.com" name="email_address" required />
+            </div>
+            <button type="submit" className="btn btn-primary mb-2">Update Email</button>
+
+            <button onClick={() => showForm(null)} type="button" className="btn btn-danger" data-dismiss="modal">Back</button>
         </form>
     )
 };
 
 function UpdatePassword({ user, axiosHandler, showForm }) {
+    function changePassword(e) {
+        e.preventDefault();
+        let newPassword = document.getElementById('updatedPassword').value;
+        document.getElementById('updatedPassword').value = '';
+        axiosHandler('updateInfo', user.email_address, user.session, 'password', newPassword);
+    }
     return (
-        <form>
-            <h2>Update your password</h2>
-            <button onClick={() => axiosHandler('deleteAccount', user.email_address, user.session)} type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
-            <button onClick={() => showForm(null)} type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
-        </form>
+        <div className='form-group'>
+            <form onSubmit={changePassword}>
+                <label>New Password:</label>
+                <input id='updatedPassword' type="password" className="form-control"
+                    placeholder="Must contain a number, uppercase and lowercase letter"
+                    name="password" required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+                    title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
+                <button type="submit" className="btn btn-primary mb-2">Update Password</button>
+                <button onClick={() => showForm(null)} type="button" className="btn btn-danger" data-dismiss="modal">Back</button>
+            </form>
+        </div>
     )
 };
 
@@ -108,9 +131,9 @@ function SendFeedback({ user, axiosHandler, showForm }) {
     return (
         <div className="form-group">
             <form onSubmit={sendUserFeedback}>
-            <textarea placeholder='Enter your questions or comments here' className="form-control" id="userMessage" rows="3"></textarea>
-            <button type="submit" class="btn btn-primary mb-2">Send message</button>
-            <button onClick={() => showForm(null)} type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+                <textarea placeholder='Enter your questions or comments here' className="form-control" id="userMessage" rows="3"></textarea>
+                <button type="submit" className="btn btn-primary mb-2">Send message</button>
+                <button onClick={() => showForm(null)} type="button" className="btn btn-danger" data-dismiss="modal">Back</button>
             </form>
         </div>
     )
@@ -121,8 +144,8 @@ function DeleteAccount({ user, axiosHandler, showForm }) {
     return (
         <div className='form-group'>
             <h2>Warning!  This will erase all your progress</h2>
-            <button onClick={() => axiosHandler('deleteAccount', user.email_address, user.session)} type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
-            <button onClick={() => showForm(null)} type="button" class="btn btn-danger" data-dismiss="modal">Exit</button>
+            <button onClick={() => axiosHandler('deleteAccount', user.email_address, user.session)} type="button" className="btn btn-danger" data-dismiss="modal">Confirm</button>
+            <button onClick={() => showForm(null)} type="button" className="btn btn-danger" data-dismiss="modal">Exit</button>
         </div>
     )
 }
