@@ -67,6 +67,7 @@ export default function HomePage({ axiosHandler, alert }) { // need to destructu
                     ? <Login
                         changeFormDisplay={changeFormDisplay}
                         axiosHandler={axiosHandler}
+                        alert={alert}
                     />
                     : null}
 

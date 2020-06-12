@@ -39,17 +39,21 @@ class App extends React.Component {
       case 'signUp':
         try {
           let signUpReq = await signUp(args);
-          this.setState({ alert: signUpReq.message })
+          this.setState({ alert: signUpReq.message });
+          break;
         } catch (err) {
           this.setState({ alert: 'An account with this email address already exists.' })
+          break;
         }
 
       case 'signIn':
-        let signInReq = await signIn(args);
         try {
-
+          let signInReq = await signIn(args);
+          signInReq.message ? this.setState({ alert: signInReq.message }) : this.setState({ user: signInReq.user, shows: signInReq.shows })
+          break;
         } catch (err) {
-
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          return;
         }
 
       case 'getSecurityQuestion':
@@ -86,25 +90,25 @@ class App extends React.Component {
 
     return (
       <>
-        {/* {this.state.error ?
+        {this.state.alert ?
           <div className="alert alert-warning fade show" role="alert">
-            <strong>Error!</strong> {this.state.error}
-            <button onClick={this.clearError.bind(this)} type="button" className="close" aria-label="Close">
+            <strong>Error!</strong> {this.state.alert}
+            <button onClick={this.clearAlert.bind(this)} type="button" className="close" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          : null} */}
+          : null}
 
-        {!this.state.user 
-        ? <HomePage 
-        axiosHandler = {this.axiosHandler.bind(this)}
-        alert = {this.state.alert}
-        /> : 
-        <UserPage 
-        axiosHandler = {this.axiosHandler.bind(this)}
-        user={this.state.user} 
-        shows = {this.state.shows}
-        />}
+        {!this.state.user
+          ? <HomePage
+            axiosHandler={this.axiosHandler.bind(this)}
+            alert={this.state.alert}
+          /> :
+          <UserPage
+            axiosHandler={this.axiosHandler.bind(this)}
+            user={this.state.user}
+            shows={this.state.shows}
+          />}
 
       </>
     );

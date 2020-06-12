@@ -5,7 +5,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
 
 
 
-    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: '', captcha: '' }
+    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: ''}
 
     const addNewInfo = function (e) {
         dispatch({ type: e.target.name, payload: e.target.value })
@@ -21,24 +21,15 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        // let captchaText = formInfo.captcha;
-        // if (captchaText !== code) {
-        //     confirm('incorrect captcha');
-        //     createCaptcha();
-        //     return;
-        // }
+        document.getElementById('registerForm').reset()
         axiosHandler('signUp', formInfo.email_address, formInfo.password, formInfo.security_question, formInfo.security_answer)
-        // axios.post(URI, formInfo)
-        //     .then(res => confirm(res.data))
-        //     .catch(err => confirm(err.data))
-        // document.getElementById('contactme').reset()
     }
 
     return (
         <div className="container-fluid">
             <div className="row justify-content-center">
-    {alert ? <h1>{alert}</h1> : null}
-                <form onSubmit={handleSubmit}>
+                <form id= 'registerForm' onSubmit={handleSubmit}>
+                <button onClick={() => {changeFormDisplay('Home')}} type="button" className="close" aria-label="Close">Go Back</button>
                     <h1>Sign up</h1>
                     <div className="form-group">
                         <label>Email:</label>
@@ -63,7 +54,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
                         <label>Answer for your security question:</label>
                         <input type="password" className="form-control" placeholder="Make sure you remember this!" name="security_answer" required onChange={addNewInfo} />
                     </div>
-                    <button type="submit" class="btn btn-primary">Register!</button>
+                    <button type="submit" className="btn btn-primary">Register!</button>
                 </form>
             </div>
         </div>
