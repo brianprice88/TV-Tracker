@@ -5,7 +5,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
 
 
 
-    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: '' }
+    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: ''}
 
     const addNewInfo = function (e) {
         dispatch({ type: e.target.name, payload: e.target.value })
@@ -29,18 +29,20 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
     return (
         <div className="container-fluid">
             <div className="row justify-content-center">
-                <form id='registerForm' onSubmit={handleSubmit}>
-                    <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
+                <form id= 'registerForm' onSubmit={handleSubmit}>
+                <button onClick={() => {changeFormDisplay('Home')}} type="button" className="close" aria-label="Close">Go Back</button>
                     <h1>Sign up</h1>
                     <div className="form-group">
                         <label>Email:</label>
-                        <input type="email" className="form-control" placeholder="yourEmail@domain.com" name="email_address" required onChange={addNewInfo} />
+                        <input type="email" className="form-control" placeholder="YourEmail@domain.com" name="email_address" required onChange={addNewInfo} />
                     </div>
                     <div className="form-group">
                         <label>Password:</label>
-                        <input type="password" className="form-control" placeholder="Enter password" name="Must contain between 8-20 characters" required onChange={addNewInfo}
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
-                            title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
+                        <input type="password" className="form-control" 
+                        placeholder="Must contain a number, uppercase and lowercase letter" 
+                        name="Must contain between 8-20 characters" required onChange={addNewInfo} 
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" 
+                        title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters"/>
                     </div>
                     <div className="form-group">
                         <label>Select a security question:</label>
