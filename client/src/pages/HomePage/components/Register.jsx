@@ -5,7 +5,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
 
 
 
-    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: ''}
+    const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: '' }
 
     const addNewInfo = function (e) {
         dispatch({ type: e.target.name, payload: e.target.value })
@@ -20,6 +20,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
     const [formInfo, dispatch] = useReducer(updateFormInfoState, initialFormInfo)
 
     function handleSubmit(e) {
+        if (!formInfo.security_answer.match(/^[a-zA-Z]+$/)) { return }
         e.preventDefault();
         document.getElementById('registerForm').reset()
         axiosHandler('signUp', formInfo.email_address, formInfo.password, formInfo.security_question, formInfo.security_answer)
@@ -28,8 +29,8 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
     return (
         <div className="container-fluid">
             <div className="row justify-content-center">
-                <form id= 'registerForm' onSubmit={handleSubmit}>
-                <button onClick={() => {changeFormDisplay('Home')}} type="button" className="close" aria-label="Close">Go Back</button>
+                <form id='registerForm' onSubmit={handleSubmit}>
+                    <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
                     <h1>Sign up</h1>
                     <div className="form-group">
                         <label>Email:</label>
@@ -37,7 +38,9 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
                     </div>
                     <div className="form-group">
                         <label>Password:</label>
-                        <input type="password" className="form-control" placeholder="Enter password" name="password" required onChange={addNewInfo} />
+                        <input type="password" className="form-control" placeholder="Enter password" name="Must contain between 8-20 characters" required onChange={addNewInfo}
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
                     </div>
                     <div className="form-group">
                         <label>Select a security question:</label>
@@ -52,7 +55,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
                     </div>
                     <div className="form-group">
                         <label>Answer for your security question:</label>
-                        <input type="password" className="form-control" placeholder="Make sure you remember this!" name="security_answer" required onChange={addNewInfo} />
+                        <input type="password" className="form-control" placeholder="Must only contain letters (not case sensitive)" name="security_answer" required onChange={addNewInfo} />
                     </div>
                     <button type="submit" className="btn btn-primary">Register!</button>
                 </form>
