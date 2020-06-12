@@ -40,7 +40,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
                         <label>Password:</label>
                         <input type="password" className="form-control"
                             placeholder="Must contain a number, uppercase and lowercase letter"
-                            name="Must contain between 8-20 characters" required onChange={addNewInfo}
+                            name="password" required onChange={addNewInfo}
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
                             title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
                     </div>
