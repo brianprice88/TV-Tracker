@@ -1,3 +1,7 @@
 .navBarButton {
 cursor: pointer
 }
+
+.header {
+    margin-bottom: 0;
+}

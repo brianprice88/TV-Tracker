@@ -1,19 +1,20 @@
 import React from 'react';
 import './UserPage.css';
+import TopBar from './components/TopBar.jsx'
+import Searchbar from './components/Searchbar';
 
-export default class UserPage extends React.Component {
-    state = {
-        searchResults: null
-    };
-
-    render() {
-        const { axiosHandler, user, shows } = this.props;
+export default function UserPage ({ axiosHandler, user, shows }) {
 
         return (
-            <div>
-                This is the user page
-                <button onClick={() => axiosHandler('signOut', user.email_address, user.session)}>Sign Out</button>
+            <div className='container-fluid'>
+                <TopBar
+                axiosHandler={axiosHandler}
+                user={user}
+                />
+                <Searchbar 
+                axiosHandler={axiosHandler}
+                user={user}
+                />
             </div>
         )
-    }
 }

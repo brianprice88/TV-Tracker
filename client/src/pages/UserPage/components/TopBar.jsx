@@ -6,10 +6,12 @@ export default function TopBar({ axiosHandler, user }) {
     const [formType, showForm] = useState(null);
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top ">
+        <>
+        <div className="jumbotron text-center header">
+            <h1>Welcome {user.email_address}</h1>
+        </div>
 
-            <h2>Welcome <strong>{user.email_address}</strong>
-            </h2>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top ">
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -69,8 +71,8 @@ export default function TopBar({ axiosHandler, user }) {
                     : null}
 
             </div>
-
         </nav>
+        </>
     )
 }
 

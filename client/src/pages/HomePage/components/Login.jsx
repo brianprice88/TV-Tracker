@@ -22,8 +22,9 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
 
     function handleSubmit(e) {
         e.preventDefault();
+        let rememberMe = document.getElementById('rememberMe').checked;
         document.getElementById('loginForm').reset()
-        axiosHandler('signIn', formInfo.email_address, formInfo.password)
+        axiosHandler('signIn', formInfo.email_address, formInfo.password, rememberMe)
     }
 
     return (
@@ -41,11 +42,14 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
                         <label>Password:</label>
                         <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" required onChange={addNewInfo} />
                     </div>
+                    <div className="checkbox">
+    <label><input type="checkbox" id='rememberMe'/> Remember me</label>
+  </div>
+                    
                     <button type="submit" className="btn btn-primary">Sign in!</button>
                     <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
                     </form>
                     : <SecurityQuestion 
-                        changeFormDisplay = {changeFormDisplay}
                         prompt = {prompt}
                         axiosHandler = {axiosHandler}
                         showSecurityQuestion = {showSecurityQuestion}

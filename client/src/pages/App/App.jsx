@@ -33,6 +33,17 @@ class App extends React.Component {
     })
   }
 
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    let shows = JSON.parse(localStorage.getItem('shows'));
+    if (user) {
+      this.setState({
+        user: user,
+        shows: shows
+      })
+    }
+  }
+
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
     switch (func) {
@@ -48,10 +59,21 @@ class App extends React.Component {
 
       case 'signIn':
         try {
+          let persistUser = args[2] // whether user checked 'rememberMe'
+          args = args.slice(0, 2)
           let signInReq = await signIn(args);
           signInReq.message
             ? this.setState({ alert: signInReq.message })
-            : this.setState({ user: signInReq.user, shows: signInReq.shows })
+            : this.setState({ user: signInReq.user, shows: signInReq.shows },
+              function () {
+                if (persistUser) {
+                  let user = JSON.stringify(this.state.user);
+                  let shows = JSON.stringify(this.state.shows);
+                  localStorage.setItem('user', user);
+                  localStorage.setItem('shows', shows);
+                }
+              }
+            )
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -85,7 +107,9 @@ class App extends React.Component {
       case 'signOut':
         try {
           let signOutReq = await signOut(args);
-          this.setState({ alert: signOutReq.message, user: null, shows: null });
+          this.setState({ alert: signOutReq.message, user: null, shows: null },
+            function () { localStorage.clear() }
+          );
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -93,23 +117,88 @@ class App extends React.Component {
         }
 
       case 'searchForShow':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'addShowToList':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'getEpisodeInfo':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'updateEpisodeList':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'removeShow':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'toggleNotification':
+        try {
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'updateInfo':
+        try {
+          let updateInfoReq = await updateInfo(args);
+          if (updateInfoReq.field === 'email') {
+            let newUser = { ...this.state.user, email_address: updateInfoReq.update }
+            this.setState({ alert: 'Email address successfully changed.', user: newUser })
+          } else if (updateInfoReq.field === 'password') {
+            this.setState({ alert: 'Email address successfully changed.' })
+          }
+          break;
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'sendFeedback':
+        try {
+          let sendFeedbackReq = await sendFeedback(args);
+          this.setState({ alert: sendFeedbackReq.message });
+          break;
+
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       case 'deleteAccount':
-
+        try {
+          let deleteAccountReq = await deleteAccount(args);
+          this.setState({ alert: deleteAccountReq.message, user: null, shows: null });
+          break;
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
 
       default:
         return;
