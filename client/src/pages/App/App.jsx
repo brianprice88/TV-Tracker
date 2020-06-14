@@ -9,7 +9,6 @@ import {
   checkSecurityAnswer,
   resetPassword,
   signOut,
-  searchForShow,
   addShowToList,
   getEpisodeInfo,
   updateEpisodeList,
@@ -127,16 +126,18 @@ class App extends React.Component {
           break;
         }
 
-      case 'searchForShow':
-        try {
-
-        } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          break;
-        }
-
       case 'addShowToList':
         try {
+          let addShowReq = await addShowToList(args);
+          let { name, tvmaze_id, episodes } = addShowReq;
+          let currentState = JSON.parse(JSON.stringify(this.state));
+          currentState.shows[name] = {
+            tvmaze_id: tvmaze_id,
+            notification: false,
+            episodes: episodes
+          };
+          this.setState(currentState, () => console.log(this.state))
+          break;
 
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -204,10 +205,13 @@ class App extends React.Component {
       case 'deleteAccount':
         try {
           let deleteAccountReq = await deleteAccount(args);
-          this.setState({ alert: deleteAccountReq.message, user: null, shows: null });
+          this.setState({ alert: deleteAccountReq.message, user: null, shows: null },
+            function () { localStorage.clear() }
+          );
           break;
         } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          this.setState({ alert: 'There was an error with your request.  Please try again.' },
+          );
           break;
         }
 

@@ -42,18 +42,17 @@ export default function SecurityQuestion({ showSecurityQuestion, axiosHandler, p
                 null
             }
             {
-            prompt === 'Please update your password.' ?
-            <div className="input-group mb-3 input-lg">
-            <input id='resetPassword' type="password" className="form-control" placeholder={prompt} autoComplete="on" required
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
-            title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
-            <div className="input-group-append">
-                <button className="btn btn-secondary" type="button" onClick={updatePassword}>Update password</button>
-            </div>
-        </div>
-        :
-        null
-
+                prompt === 'Please update your password.' ?
+                    <div className="input-group mb-3 input-lg">
+                        <input id='resetPassword' type="password" className="form-control" placeholder={prompt} autoComplete="on" required
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and 8-20 characters" />
+                        <div className="input-group-append">
+                            <button className="btn btn-secondary" type="button" onClick={updatePassword}>Update password</button>
+                        </div>
+                    </div>
+                    :
+                    null
             }
         </form>
     )

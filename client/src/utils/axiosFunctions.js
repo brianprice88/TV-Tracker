@@ -63,7 +63,7 @@ export const searchForShow = function (parameters) {
     let [email_address, session, search] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/showSearch`, { email_address, session, search })
-            .then((res) => resolve(res.data))
+            .then((res) => resolve(res.data.results))
             .catch(err => reject(err))
     )
 };
