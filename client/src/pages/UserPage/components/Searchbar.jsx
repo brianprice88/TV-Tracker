@@ -10,7 +10,7 @@ export default function Searchbar({ axiosHandler, user }) {
     async function search() {
         let query = document.getElementById('showSearchBar').value;
         document.getElementById('showSearchBar').value = '';
-        if (!query.match(/^[0-9a-zA-Z]+$/)) { return; }
+        if (query.includes('<')) { return; }
         let searchResults = await searchForShow([user.email_address, user.session, query]);
         updateShows(searchResults)
     }
