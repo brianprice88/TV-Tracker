@@ -5,6 +5,7 @@ import UserPage from '../UserPage/UserPage';
 import {
   signUp,
   signIn,
+  getShows,
   getSecurityQuestion,
   checkSecurityAnswer,
   resetPassword,
@@ -33,10 +34,10 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let user = JSON.parse(localStorage.getItem('user'));
-    let shows = JSON.parse(localStorage.getItem('shows'));
     if (user) {
+      let shows = await getShows([user.email_address, user.session]);
       this.setState({
         user: user,
         shows: shows
@@ -68,9 +69,7 @@ class App extends React.Component {
               function () {
                 if (persistUser) {
                   let user = JSON.stringify(this.state.user);
-                  let shows = JSON.stringify(this.state.shows);
                   localStorage.setItem('user', user);
-                  localStorage.setItem('shows', shows);
                 }
               }
             )

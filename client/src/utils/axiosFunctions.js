@@ -23,6 +23,15 @@ export const signIn = function (parameters) {
     )
 };
 
+export const getShows = function (parameters) {
+    let [email_address, session] = parameters;
+    return new Promise((resolve, reject) =>
+        Axios.post(`${authentication}/getShows`, { email_address, session })
+            .then((res) => resolve(res.data))
+            .catch(err => reject(err))
+    )
+}
+
 export const getSecurityQuestion = function (parameters) {
     let [email_address] = parameters
     return new Promise((resolve, reject) =>
