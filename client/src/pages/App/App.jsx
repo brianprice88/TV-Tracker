@@ -130,11 +130,15 @@ class App extends React.Component {
         try {
           let addShowReq = await addShowToList(args);
           let { name, tvmaze_id, episodes } = addShowReq;
+          let eps = {};
+          episodes.forEach(
+            function (episode) { eps[episode] = false }
+          )
           let currentState = JSON.parse(JSON.stringify(this.state));
           currentState.shows[name] = {
             tvmaze_id: tvmaze_id,
             notification: false,
-            episodes: episodes
+            episodes: eps
           };
           this.setState(currentState, () => console.log(this.state))
           break;
