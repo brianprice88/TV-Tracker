@@ -22,14 +22,30 @@ export default function Searchbar({ axiosHandler, user }) {
                 <input type="text" id='showSearchBar' placeholder="Enter show name" className="form-control form-control-underlined border-success" />
                 <button className="btn btn-primary" onClick={search}>Search</button>
                 {shows.length > 0 ?
-                    shows.map(show => <SearchResult
-                        axiosHandler={axiosHandler}
-                        user={user}
-                        name={show.name}
-                        key={show.tvmazeId}
-                        id={show.tvmazeId}
-                        summary={show.summary}
-                    />)
+                    (
+                        <table className='table table-striped table-bordered'>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Summary</th>
+                                    <th><button onClick={() => updateShows([])} className='close'>&times;</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {shows.map(show =>
+                                    <SearchResult
+                                        axiosHandler={axiosHandler}
+                                        user={user}
+                                        name={show.name}
+                                        key={show.tvmazeId}
+                                        id={show.tvmazeId}
+                                        summary={show.summary}
+                                        updateShows={updateShows}
+                                    />
+                                )}
+                            </tbody>
+                        </table>
+                    )
                     : null}
             </div>
         </div>

@@ -135,12 +135,13 @@ class App extends React.Component {
             function (episode) { eps[episode] = false }
           )
           let currentState = JSON.parse(JSON.stringify(this.state));
+          currentState.alert = 'Show added to list!'
           currentState.shows[name] = {
             tvmaze_id: tvmaze_id,
             notification: false,
             episodes: eps
           };
-          this.setState(currentState, () => console.log(this.state))
+          this.setState(currentState)
           break;
 
         } catch (err) {
