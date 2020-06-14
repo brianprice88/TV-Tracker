@@ -4,7 +4,6 @@ import TopBar from './components/TopBar.jsx'
 import Searchbar from './components/Searchbar';
 
 export default function UserPage ({ axiosHandler, user, shows }) {
-
         return (
             <div className='container-fluid'>
                 <TopBar

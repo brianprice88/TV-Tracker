@@ -7,6 +7,7 @@ import {
   signIn,
   getSecurityQuestion,
   checkSecurityAnswer,
+  resetPassword,
   signOut,
   searchForShow,
   addShowToList,
@@ -95,9 +96,19 @@ class App extends React.Component {
       case 'checkSecurityAnswer':
         try {
           let securityAnswerReq = await checkSecurityAnswer(args);
-          securityAnswerReq.user
-            ? this.setState({ alert: securityAnswerReq.message, user: securityAnswerReq.user, shows: securityAnswerReq.shows })
+          securityAnswerReq.prompt
+            ? this.setState({ prompt: securityAnswerReq.prompt })
             : this.setState({ alert: securityAnswerReq.message })
+          break;
+        } catch (err) {
+          this.setState({ alert: 'There was an error with your request.  Please try again.' });
+          break;
+        }
+
+      case 'resetPassword':
+        try {
+          let resetPasswordReq = await resetPassword(args);
+          this.setState({ alert: resetPasswordReq.message, prompt: null });
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -206,7 +217,6 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <>
         {this.state.alert ?

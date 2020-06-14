@@ -41,6 +41,15 @@ export const checkSecurityAnswer = function (parameters) {
     )
 };
 
+export const resetPassword = function (parameters) {
+    let [email_address, password] = parameters;
+    return new Promise((resolve, reject) =>
+        Axios.post(`${authentication}/resetPassword`, { email_address, password })
+            .then((res) => resolve(res.data))
+            .catch(err => reject(err))
+    )
+}
+
 export const signOut = function (parameters) {
     let [email_address, session] = parameters;
     return new Promise((resolve, reject) =>

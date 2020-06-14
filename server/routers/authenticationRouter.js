@@ -20,6 +20,10 @@ authenticationRouter
   .route('/checkSecurityAnswer')
   .post(authenticationControllers.checkSecurityAnswer)
 
+  authenticationRouter
+  .route('/resetPassword')
+  .post(authenticationControllers.resetPassword)
+
 authenticationRouter
   .route('/signOut')
   .post(authenticationControllers.signOut)

@@ -76,7 +76,7 @@ const authenticationControllers = {
                 res.send({ message: 'That email address does not exist' })
             } else {
                 let question = userInfo.rows[0].security_question;
-                res.send({question})
+                res.send({ question })
             }
         }
         catch (err) {
@@ -93,35 +93,19 @@ const authenticationControllers = {
             if (security_answer.toLowerCase() !== actualAnswer.toLowerCase()) { // don't make answers case sensitive
                 res.send({ message: 'That answer is incorrect' })
             } else {
-                let session = await createToken();
-                let createSession = await userQueries.createSession(email_address, session);
-                let user = { email_address, session };
-                let userShows = await userShowQueries.findShowsForUser(userId)
-                let shows = {};
-                for (var i = 0; i < userShows.rows.length; i++) { // for each show on the user's list, get the relevant show name/id/all episodes
-                    let userShow = userShows.rows[i];
-                    let watchedEpisodes = userShow.episodes_watched;
-                    let showInfo = await showQueries.getShowfromId(userShow.show_id);
-                    showInfo = showInfo.rows[0]
-                    let name = showInfo.name;
-                    shows[name] = {};
-                    let id = showInfo.tvmaze_id;
-                    shows[name].tvmaze_id = id;
-                    let notification = userShow.notification;
-                    shows[name].notification = notification
-                    shows[name].episodes = {};
-                    let episodes = showInfo.episodes;
-                    for (var j = 0; j < episodes.length; j++) { // list all the show's total episodes with a boolean to indicate if watched
-                        let episode = episodes[j]
-                        shows[name].episodes[episode] = false;
-                    }
-                    for (var k = 0; k < watchedEpisodes.length; k++) { // set the ones the user already watched ones to true
-                        let watchedEpisode = watchedEpisodes[k];
-                        shows[name].episodes[watchedEpisode] = true;
-                    }
-                }
-                res.send({ message: 'Signing you in now.  Please make sure to update your password.', user, shows })
+                res.send({ prompt: 'Please update your password.' })
             }
+        } catch (err) {
+            res.status(404).send(err)
+        }
+    },
+
+    resetPassword: async function (req, res) {
+        let { email_address, password } = req.body;
+        try {
+            let hashedPassword = await hashPassword(password)
+            let passwordUpdate = await userQueries.editUserPassword(email_address, hashedPassword);
+            res.send({ message: 'Password updated successfully' })
         } catch (err) {
             res.status(404).send(err)
         }

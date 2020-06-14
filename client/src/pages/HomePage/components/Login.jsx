@@ -30,29 +30,29 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
     return (
         <div className="container-fluid">
             <div className="row justify-content-center">
-                    {!displaySecurityQuestion ?
+                {!displaySecurityQuestion ?
                     <form id='loginForm' onSubmit={handleSubmit}>
-                    <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
-                    <h1>Sign in</h1>
-                    <div className="form-group">
-                        <label>Email:</label>
-                        <input type="email" className="form-control" placeholder="yourEmail@domain.com" name="email_address" autoComplete="on" required onChange={addNewInfo} />
-                    </div>
-                    <div className="form-group">
-                        <label>Password:</label>
-                        <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" required onChange={addNewInfo} />
-                    </div>
-                    <div className="checkbox">
-    <label><input type="checkbox" id='rememberMe'/> Remember me</label>
-  </div>
-                    
-                    <button type="submit" className="btn btn-primary">Sign in!</button>
-                    <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
+                        <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
+                        <h1>Sign in</h1>
+                        <div className="form-group">
+                            <label>Email:</label>
+                            <input type="email" className="form-control" placeholder="yourEmail@domain.com" name="email_address" autoComplete="on" required onChange={addNewInfo} />
+                        </div>
+                        <div className="form-group">
+                            <label>Password:</label>
+                            <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" required onChange={addNewInfo} />
+                        </div>
+                        <div className="checkbox">
+                            <label><input type="checkbox" id='rememberMe' /> Remember me</label>
+                        </div>
+
+                        <button type="submit" className="btn btn-primary">Sign in!</button>
+                        <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
                     </form>
-                    : <SecurityQuestion 
-                        prompt = {prompt}
-                        axiosHandler = {axiosHandler}
-                        showSecurityQuestion = {showSecurityQuestion}
+                    : <SecurityQuestion
+                        prompt={prompt}
+                        axiosHandler={axiosHandler}
+                        showSecurityQuestion={showSecurityQuestion}
 
                     />
                 }

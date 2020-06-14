@@ -136,13 +136,11 @@ describe('handing a forgotten password', () => {
         done();
     })
 
-    it('should sign in a user if they provide the correct response to their security question, and provide them with a token and their list of shows', async (done) => {
+    it('should accept the correct response to the security question', async (done) => {
         let correctAnswer = await request.post('/authentication/checkSecurityAnswer').send({ email_address, security_answer: 'Blue' })
         let userInfo = await users.getUser(email_address);
         let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
-        expect(correctAnswer.body.message).toBe('Signing you in now.  Please make sure to update your password.')
-        expect(correctAnswer.body.user.session).toBe(userInfo.rows[0].session)
-        expect(Object.keys(correctAnswer.body.shows).length).toBe(userShows.rows.length)
+        expect(correctAnswer.body.prompt).toBe('Please enter a new password.')
         done();
     })
 
