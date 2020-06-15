@@ -1,0 +1,17 @@
+.sortHeading {
+    display: flex;
+    align-items: center
+}
+
+.sortIcons {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.sortIcons i.fa{
+    font-size: 24px;
+    line-height: 0;
+    cursor: pointer;
+}
+
