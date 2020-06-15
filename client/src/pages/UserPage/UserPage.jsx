@@ -16,7 +16,7 @@ export default function UserPage({ axiosHandler, user, shows }) {
                 axiosHandler={axiosHandler}
                 user={user}
             />
-            <table className='table'>
+            <table className='table table-hover table-striped'>
 
                 <thead className="thead-dark">
                     <tr>

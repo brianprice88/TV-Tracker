@@ -158,7 +158,13 @@ class App extends React.Component {
 
       case 'updateEpisodeList':
         try {
-
+          let updateEpisode = await updateEpisodeList(args);
+          let updatedShow = updateEpisode.showName;
+          let updatedEpisode = updateEpisode.episode;
+          let currentState = JSON.parse(JSON.stringify(this.state));
+          currentState.shows[updatedShow][updatedEpisode] = !currentState.shows[updatedShow][updatedEpisode];
+          this.setState(currentState);
+          break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
           break;

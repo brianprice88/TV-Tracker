@@ -11,7 +11,7 @@ export default function ShowList({ show, axiosHandler, user }) {
         axiosHandler('removeShow', email_address, session, tvmaze_id)
     }
 
-    function toggleShowNotification(e) {
+    function toggleShowNotification() {
         axiosHandler('toggleNotification', email_address, session, tvmaze_id);
     }
 
@@ -24,7 +24,7 @@ export default function ShowList({ show, axiosHandler, user }) {
 
             <td>
                 <div className="flipswitch">
-                    <input onClick={(e) => toggleShowNotification(e)} type="checkbox" name="flipswitch" className="flipswitch-cb" id={`${tvmaze_id}-toggle`}  defaultChecked={notification ? 'checked' : ''}/>
+                    <input onClick={toggleShowNotification} type="checkbox" name="flipswitch" className="flipswitch-cb" id={`${tvmaze_id}-toggle`} defaultChecked={notification ? 'checked' : ''} />
                     <label className="flipswitch-label" htmlFor={`${tvmaze_id}-toggle`}>
                         <div className="flipswitch-inner"></div>
                         <div className="flipswitch-switch"></div>
@@ -33,14 +33,14 @@ export default function ShowList({ show, axiosHandler, user }) {
             </td>
 
             <td>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    View your progress
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#myModal${tvmaze_id}`}>
+                {Object.entries(episodes).some(ep => !ep[1]) ? <span>Unwatched episodes!</span> : <span>All caught up!</span>} 
                 </button>
-                <Episodes 
-                axiosHandler={axiosHandler}
-                show={show}
-                user={user}
-                />
+                <Episodes
+                    axiosHandler={axiosHandler}
+                    show={show}
+                    user={user}
+                />        
             </td>
 
         </tr>

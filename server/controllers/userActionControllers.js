@@ -63,8 +63,7 @@ const userActionControllers = {
             } else if (!addEpisode) {
                 let removeEpisode = await userShowQueries.removeEpisodeWatched(userId, showId, episode)
             }
-            let update = addEpisode ? 'add' : 'remove'
-            res.send({ tvmaze_id, episode })
+            res.send({ showName, tvmaze_id, episode })
         }
         catch (err) {
             res.status(404).send(err)
