@@ -80,7 +80,7 @@ const userActionControllers = {
             showName = showId.rows[0].name;
             showId = showId.rows[0].id;
             let removeShow = await userShowQueries.removeShowFromUserList(userId, showId)
-            res.send({ tvmaze_id })
+            res.send({ tvmaze_id, showName })
         }
         catch (err) {
             res.status(404).send(err)

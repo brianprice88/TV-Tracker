@@ -7,13 +7,20 @@ export default function ShowList({ show, axiosHandler, user }) {
     let { tvmaze_id, notification, episodes } = show[1];
     let {email_address, session} = user;
 
+    function removeShow() {
+        axiosHandler('removeShow', email_address, session, tvmaze_id) 
+    }
+
     function toggleShowNotification() {
     axiosHandler('toggleNotification', email_address, session, tvmaze_id)   
     }
 
     return (
         <tr>
-            <td>{name}</td>
+            <td>
+                {name}
+                <button onClick = {removeShow} type="button" className="btn btn-warning">Remove from list</button>
+            </td>
 
             <td>
 

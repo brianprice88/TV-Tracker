@@ -166,7 +166,12 @@ class App extends React.Component {
 
       case 'removeShow':
         try {
-
+          let removeShowReq = await removeShow(args);
+          let removedShow = removeShowReq.showName;
+          let currentState = JSON.parse(JSON.stringify(this.state));
+          delete currentState.shows[removedShow];
+          this.setState(currentState);
+          break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
           break;
