@@ -6,7 +6,7 @@ import ShowListing from './components/ShowListing'
 
 export default function UserPage({ axiosHandler, user, shows }) {
     let userShows = Object.entries(shows)
-    
+
     return (
         <div className='container-fluid'>
             <TopBar
@@ -17,39 +17,42 @@ export default function UserPage({ axiosHandler, user, shows }) {
                 axiosHandler={axiosHandler}
                 user={user}
             />
-            <table className='table table-hover table-striped'>
-
-                <thead>
-                    <tr>
-                        <th>
-                            Name
+            <h1>Your shows:</h1>
+            {
+                userShows.length > 0 ?
+                    <table className='table table-hover table-striped'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
                         </th>
-                        <th>
-                           Notification  
+                                <th>
+                                    Notification
                            <i className="fa fa-question-circle showsTableHeading" >
-                           <span className="showsTableMessage">Choose whether you want to be notified on the day a show airs</span> 
-                           </i>
-                        </th>
-                        <th>
-                            Episodes
+                                        <span className="showsTableMessage">Choose whether you want to be notified on the day a show airs</span>
+                                    </i>
+                                </th>
+                                <th>
+                                    Progress
                             <i className="fa fa-question-circle showsTableHeading" >
-                           <span className="showsTableMessage">Keep track of which of a show's episodes you've watched</span> 
-                           </i>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                 {userShows.map((show, index) => 
-                    <ShowListing 
-                    show={show} 
-                    key={index}
-                    axiosHandler={axiosHandler}
-                    user={user} />
-                    )}
-                </tbody>
-
-            </table>
-
+                                        <span className="showsTableMessage">Keep track of which of a show's episodes you've watched</span>
+                                    </i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {userShows.map((show, index) =>
+                                <ShowListing
+                                    show={show}
+                                    key={index}
+                                    axiosHandler={axiosHandler}
+                                    user={user} />
+                            )}
+                        </tbody>
+                    </table>
+                    :
+                    <h1>You haven't added any shows yet!</h1>
+            }
 
         </div>
     )
