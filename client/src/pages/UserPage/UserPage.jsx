@@ -6,6 +6,7 @@ import ShowListing from './components/ShowListing'
 
 export default function UserPage({ axiosHandler, user, shows }) {
     let userShows = Object.entries(shows)
+    
     return (
         <div className='container-fluid'>
             <TopBar
@@ -18,34 +19,22 @@ export default function UserPage({ axiosHandler, user, shows }) {
             />
             <table className='table table-hover table-striped'>
 
-                <thead className="thead-dark">
+                <thead>
                     <tr>
                         <th>
-                            <div className='sortHeading'>
-                                Name
-                        <div className='sortIcons'>
-                                    <i className="fa fa-sort-asc" ></i>
-                                    <i className="fa fa-sort-desc" ></i>
-                                </div>
-                            </div>
+                            Name
                         </th>
                         <th>
-                            <div className='sortHeading'>
-                                Notification
-                        <div className='sortIcons'>
-                                    <i className="fa fa-sort-asc" ></i>
-                                    <i className="fa fa-sort-desc" ></i>
-                                </div>
-                            </div>
+                           Notification  
+                           <i className="fa fa-question-circle showsTableHeading" >
+                           <span className="showsTableMessage">Choose whether you want to be notified on the day a show airs</span> 
+                           </i>
                         </th>
                         <th>
-                            <div className='sortHeading'>
-                                Episodes
-                        <div className='sortIcons'>
-                                    <i className="fa fa-sort-asc" ></i>
-                                    <i className="fa fa-sort-desc" ></i>
-                                </div>
-                            </div>
+                            Episodes
+                            <i className="fa fa-question-circle showsTableHeading" >
+                           <span className="showsTableMessage">Keep track of which of a show's episodes you've watched</span> 
+                           </i>
                         </th>
                     </tr>
                 </thead>

@@ -1,17 +1,21 @@
-.sortHeading {
-    display: flex;
-    align-items: center
-}
+.showsTableHeading{ 
+    position: relative; 
+} 
 
-.sortIcons {
-    display: flex;
-    flex-direction: column;
-    padding-left: 10px;
-}
-
-.sortIcons i.fa{
-    font-size: 24px;
-    line-height: 0;
-    cursor: pointer;
-}
+.showsTableMessage{ 
+    display: none; 
+    position: absolute;  
+    z-index: 100; 
+    border: 1px; 
+    background-color: white; 
+    border: 1px solid green; 
+    padding: 3px; 
+    color: green;  
+    top: -60px;  
+    left: 0px;
+    width: 200px
+} 
+.showsTableHeading:hover span.showsTableMessage{ 
+    display:block; 
+} 
 

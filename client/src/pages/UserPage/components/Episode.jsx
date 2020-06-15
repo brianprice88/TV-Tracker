@@ -33,7 +33,7 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
                     ep.name !== 'N/A' ?
                         <div>
                             <button onClick={() => addEpisodeDetails(defaultState)} type="button" className="btn btn-primary btn-sm">Close</button>
-                            <h1>{ep.name} ({ep.airdate})</h1>
+                            <h1>{ep.name} (originally aired {ep.airdate.slice(5, 10) + '-' + ep.airdate.slice(0, 4)})</h1>
                             <div dangerouslySetInnerHTML={{
                                 __html: ep.summary
                             }}></div></div>
