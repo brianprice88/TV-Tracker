@@ -12,6 +12,10 @@ authenticationRouter
   .route('/signIn')
   .post(authenticationControllers.signIn)
 
+  authenticationRouter
+  .route('/getShows')
+  .post(authenticationControllers.getShows)
+
 authenticationRouter
   .route('/forgotPassword/:email')
   .get(authenticationControllers.getSecurityQuestion)
@@ -19,6 +23,10 @@ authenticationRouter
 authenticationRouter
   .route('/checkSecurityAnswer')
   .post(authenticationControllers.checkSecurityAnswer)
+
+  authenticationRouter
+  .route('/resetPassword')
+  .post(authenticationControllers.resetPassword)
 
 authenticationRouter
   .route('/signOut')

@@ -101,7 +101,12 @@ const dailyUpdates = {
             let season = show.season;
             let number = show.number;
             let episode = `${season}.${number}`;
-            let addEpisode = await this.addNewEpisodeToDatabase(tvmaze_id, episode);
+        
+            let showEpisodes = isShowInDatabase[0].episodes;
+            if(!showEpisodes.includes(episode)) {
+            let addEpisode = await this.addNewEpisodeToDatabase(tvmaze_id, episode); // so we don't add an existing episode if this is a repeat (but still notify user it's on)
+            }            
+
             let showId = isShowInDatabase[0].id;
             let usersToNotify = await this.getUsersToNofify(showId);
             if (usersToNotify.length > 0) {
