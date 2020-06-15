@@ -1,16 +1,32 @@
-import React from 'react'
+import React from 'react';
+import './ShowListing.css'
+import { toggleNotification } from '../../../utils/axiosFunctions';
 
-export default function ShowList ({show, key}) {
+export default function ShowList({ show, axiosHandler, user }) {
     let name = show[0];
-    let {tvmaze_id, notification, episodes} = show[1]
-    console.log(notification)
+    let { tvmaze_id, notification, episodes } = show[1];
+    let {email_address, session} = user;
+
+    function toggleShowNotification() {
+    axiosHandler('toggleNotification', email_address, session, tvmaze_id)   
+    }
 
     return (
         <tr>
-        <td>{key}</td>
-    <td>{name}</td>
-    <td>{notification.toString()}</td>
-    <td>Episodes</td>
+            <td>{name}</td>
+
+            <td>
+
+                <div className="flipswitch">
+                    <input onClick={toggleShowNotification} type="checkbox" name="flipswitch" className="flipswitch-cb" id={`${tvmaze_id}`} value={notification ? 'on' : 'off'} />
+                    <label className="flipswitch-label" htmlFor={`${tvmaze_id}`}>
+                        <div className="flipswitch-inner"></div>
+                        <div className="flipswitch-switch"></div>
+                    </label>
+                </div>
+            </td>
+
+            <td>Episodes</td>
         </tr>
     )
 }

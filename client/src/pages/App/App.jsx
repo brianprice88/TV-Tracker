@@ -40,8 +40,8 @@ class App extends React.Component {
       let shows = await getShows([user.email_address, user.session]);
       this.setState({
         user: user,
-        shows: shows
-      })
+        shows: shows.shows
+      }, () => console.log(this.state))
     }
   }
 
@@ -174,7 +174,12 @@ class App extends React.Component {
 
       case 'toggleNotification':
         try {
-
+          let toggleNotificationReq = await toggleNotification(args);
+          let toggledShow = toggleNotificationReq.showName;
+          let currentState = JSON.parse(JSON.stringify(this.state));
+          currentState.shows[toggledShow].notification = !currentState.shows[toggledShow].notification;
+          this.setState(currentState)
+          break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
           break;

@@ -5,8 +5,7 @@ import Searchbar from './components/Searchbar';
 import ShowListing from './components/ShowListing'
 
 export default function UserPage({ axiosHandler, user, shows }) {
-    let userShows = Object.entries(shows.shows)
-    console.log(userShows)
+    let userShows = Object.entries(shows)
     return (
         <div className='container-fluid'>
             <TopBar
@@ -21,15 +20,6 @@ export default function UserPage({ axiosHandler, user, shows }) {
 
                 <thead className="thead-dark">
                     <tr>
-                        <th>
-                            <div className='sortHeading'>
-                                #
-                        <div className='sortIcons'>
-                                    <i className="fa fa-sort-asc" ></i>
-                                    <i className="fa fa-sort-desc" ></i>
-                                </div>
-                            </div>
-                        </th>
                         <th>
                             <div className='sortHeading'>
                                 Name
@@ -61,7 +51,11 @@ export default function UserPage({ axiosHandler, user, shows }) {
                 </thead>
                 <tbody>
                  {userShows.map((show, index) => 
-                    <ShowListing show={show} key={index}/>
+                    <ShowListing 
+                    show={show} 
+                    key={index}
+                    axiosHandler={axiosHandler}
+                    user={user} />
                     )}
                 </tbody>
 
