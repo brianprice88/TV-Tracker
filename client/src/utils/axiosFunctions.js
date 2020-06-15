@@ -90,7 +90,7 @@ export const getEpisodeInfo = function (parameters) {
     let [email_address, session, tvmaze_id, season, number] = parameters;
     return new Promise((resolve, reject) =>
         Axios.post(`${userAction}/getEpisodeInfo`, { email_address, session, tvmaze_id, season, number })
-            .then((res) => resolve(res.data))
+            .then((res) => resolve(res.data.episodeInfo))
             .catch(err => reject(err))
     )
 };

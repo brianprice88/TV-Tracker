@@ -11,7 +11,6 @@ import {
   resetPassword,
   signOut,
   addShowToList,
-  getEpisodeInfo,
   updateEpisodeList,
   removeShow,
   toggleNotification,
@@ -142,14 +141,6 @@ class App extends React.Component {
           };
           this.setState(currentState)
           break;
-
-        } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          break;
-        }
-
-      case 'getEpisodeInfo':
-        try {
 
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });

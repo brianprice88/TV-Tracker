@@ -25,7 +25,7 @@ export default function Episodes ({axiosHandler, show, user}) {
         <th>Season</th>
         <th>Number</th>
         <th>Watched?</th>
-        <th>More Info</th>
+        <th>Episode Details</th>
       </tr>
     </thead>
     <tbody>
