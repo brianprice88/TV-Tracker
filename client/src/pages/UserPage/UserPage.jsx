@@ -9,14 +9,21 @@ export default function UserPage({ axiosHandler, user, shows }) {
 
     return (
         <div className='container-fluid'>
+            <div className='row'>
             <TopBar
                 axiosHandler={axiosHandler}
                 user={user}
             />
+            </div>
+
+            <div className='row'>
             <Searchbar
                 axiosHandler={axiosHandler}
                 user={user}
             />
+            </div>
+
+            <div className='row'>
             <h1>Your shows:</h1>
             {
                 userShows.length > 0 ?
@@ -53,7 +60,7 @@ export default function UserPage({ axiosHandler, user, shows }) {
                     :
                     <h1>You haven't added any shows yet!</h1>
             }
-
+            </div>
         </div>
     )
 }

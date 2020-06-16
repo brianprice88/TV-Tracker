@@ -7,8 +7,8 @@ export default function TopBar({ axiosHandler, user }) {
 
     return (
         <>
-        <div className="jumbotron text-center header">
-            <h1>Welcome {user.email_address}</h1>
+        <div className="jumbotron text-center header userWelcome">
+            <h1>Welcome {user.email_address}!</h1>
         </div>
 
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top ">
