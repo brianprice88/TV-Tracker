@@ -31,10 +31,10 @@ class App extends React.Component {
       this.setState({
         user: user,
         shows: shows.shows
-      }, () => console.log(this.state))
+      })
     }
   }
-  
+
 
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
