@@ -1,0 +1,45 @@
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+
+.popup {  
+    z-index: 100;
+    position: fixed;  
+    width: fit-content;  
+    height: fit-content;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    bottom: 0;  
+    padding: 10px;
+    /* margin: auto;   */
+    font-family: 'Noto Sans', 'Helvetica';
+    background: #088A68;
+    border: 1px solid red;
+    animation: fadeIn .5s linear;
+    font-size: 24px;
+    color: #0307fc;
+  }  
+
+  @keyframes fadeIn{
+	from{
+  	opacity: 0;
+  } 
+  to{
+    opacity: 1;
+  }
+}
+
+.popup h4 {
+text-align: center;
+color: #fc0349;
+border-bottom: 1px solid black;
+}
+
+.popup\_inner {  
+  z-index: 100;
+  position: absolute;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  text-align: justify;
+}
