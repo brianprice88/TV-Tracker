@@ -9,24 +9,41 @@
     filter: contrast(7);
 }
 
-	.userWelcome::before {
-        position: absolute;
-        opacity: .5;
-		top: 0; right: 0; bottom: 0; left: 0;
-		background: radial-gradient(rgb(0, 0, 0), transparent) 0 0/ 1em 1em space;
-		content: ''
-    }
+.userWelcome::before {
+    position: absolute;
+    opacity: .5;
+	top: 0; right: 0; bottom: 0; left: 0;
+	background: radial-gradient(rgb(0, 0, 0), transparent) 0 0/ 1em 1em space;
+	content: ''
+}
     
-    .userWelcome h1 {
-        color: #ff052f;
-        font-size: 32px;
-        font-family: 'Sigmar One';
-        font-weight: bold;
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-        margin-top: 5%;
-    }
+.userWelcome h1 {
+    color: #ff052f;
+    font-size: 32px;
+    font-family: 'Sigmar One';
+    font-weight: bold;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-top: 5%;
+}
 
+.dropdownOptions {
+    width: fit-content;
+    text-align: center;
+}
 
-.navBarButton {
-cursor: pointer
+.navBarButton span {
+    cursor: pointer;
+    font-family: 'Sigmar One';
+}
+
+.navBarButton span:hover {
+    color: #ed1536;
+    transition: color 0.5s 0s ease;
+}
+
+.col-auto strong {
+    text-transform: uppercase;
+    color: #ed1536;
+    font-size: 24px;
+
 }
