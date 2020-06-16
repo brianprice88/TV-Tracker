@@ -9,7 +9,7 @@ export default function HomePage({ axiosHandler, alert }) {
 
     return (
 
-        <div id="homePageCarousel" className="carousel slide" data-ride="carousel">
+        <div id="homePageCarousel" className="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
             <div className="carousel-inner" role="listbox">
                 <div className="carousel-item active">
                     <img src="assets/Better Call Saul.jpg" alt="Better Call Saul" className="img-responsive" id="carousel-img" />

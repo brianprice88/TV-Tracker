@@ -34,6 +34,7 @@ class App extends React.Component {
       }, () => console.log(this.state))
     }
   }
+  
 
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
