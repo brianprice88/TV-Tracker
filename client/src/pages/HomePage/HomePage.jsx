@@ -3,7 +3,7 @@ import './HomePage.css';
 import Register from './components/Register';
 import Login from './components/Login'
 
-export default function HomePage({ axiosHandler, alert, prompt }) {
+export default function HomePage({ axiosHandler, alert }) {
 
     const [formDisplay, changeFormDisplay] = useState('Home')
 
@@ -66,7 +66,6 @@ export default function HomePage({ axiosHandler, alert, prompt }) {
                         changeFormDisplay={changeFormDisplay}
                         axiosHandler={axiosHandler}
                         alert={alert}
-                        prompt={prompt}
                     />
                     : null}
 

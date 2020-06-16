@@ -2,13 +2,11 @@ import React from 'react';
 import './App.css';
 import HomePage from '../HomePage/HomePage';
 import UserPage from '../UserPage/UserPage';
+import Alert from './components/Alert.jsx'
 import {
   signUp,
   signIn,
   getShows,
-  getSecurityQuestion,
-  checkSecurityAnswer,
-  resetPassword,
   signOut,
   addShowToList,
   updateEpisodeList,
@@ -24,14 +22,7 @@ class App extends React.Component {
     user: null,
     shows: null,
     alert: null,
-    prompt: null
   };
-
-  clearAlert() {
-    this.setState({
-      alert: null
-    })
-  }
 
   async componentDidMount() {
     let user = JSON.parse(localStorage.getItem('user'));
@@ -72,40 +63,6 @@ class App extends React.Component {
                 }
               }
             )
-          break;
-        } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          break;
-        }
-
-      case 'getSecurityQuestion':
-        try {
-          let securityQuestionReq = await getSecurityQuestion(args);
-          securityQuestionReq.message
-            ? this.setState({ alert: securityQuestionReq.message })
-            : this.setState({ prompt: securityQuestionReq.question })
-          break;
-        } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          break;
-        }
-
-      case 'checkSecurityAnswer':
-        try {
-          let securityAnswerReq = await checkSecurityAnswer(args);
-          securityAnswerReq.prompt
-            ? this.setState({ prompt: securityAnswerReq.prompt })
-            : this.setState({ alert: securityAnswerReq.message })
-          break;
-        } catch (err) {
-          this.setState({ alert: 'There was an error with your request.  Please try again.' });
-          break;
-        }
-
-      case 'resetPassword':
-        try {
-          let resetPasswordReq = await resetPassword(args);
-          this.setState({ alert: resetPasswordReq.message, prompt: null });
           break;
         } catch (err) {
           this.setState({ alert: 'There was an error with your request.  Please try again.' });
@@ -194,7 +151,7 @@ class App extends React.Component {
             let newUser = { ...this.state.user, email_address: updateInfoReq.update }
             this.setState({ alert: 'Email address successfully changed.', user: newUser })
           } else if (updateInfoReq.field === 'password') {
-            this.setState({ alert: 'Email address successfully changed.' })
+            this.setState({ alert: 'Password successfully changed.' })
           }
           break;
         } catch (err) {
@@ -235,19 +192,16 @@ class App extends React.Component {
     return (
       <>
         {this.state.alert ?
-          <div className="alert alert-warning fade show" role="alert">
-            <strong>{this.state.alert}</strong>
-            <button onClick={this.clearAlert.bind(this)} type="button" className="close" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+          <Alert
+            clearAlert={() => this.setState({ alert: null })}
+            alert={this.state.alert}
+          />
           : null}
 
         {!this.state.user
           ? <HomePage
             axiosHandler={this.axiosHandler.bind(this)}
             alert={this.state.alert}
-            prompt={this.state.prompt}
           /> :
           <UserPage
             axiosHandler={this.axiosHandler.bind(this)}

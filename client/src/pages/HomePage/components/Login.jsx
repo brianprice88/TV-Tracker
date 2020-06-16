@@ -1,8 +1,8 @@
 import React, { useReducer, useState } from 'react';
 import './Login.css';
-import SecurityQuestion from './SecurityQuestion.jsx'
+import SecurityQuestion from './SecurityQuestion.jsx';
 
-export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }) {
+export default function Login({ changeFormDisplay, axiosHandler, alert }) {
 
     const [displaySecurityQuestion, showSecurityQuestion] = useState(false);
 
@@ -50,8 +50,6 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
                         <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
                     </form>
                     : <SecurityQuestion
-                        prompt={prompt}
-                        axiosHandler={axiosHandler}
                         showSecurityQuestion={showSecurityQuestion}
 
                     />
