@@ -1,8 +1,8 @@
 import React, { useReducer, useState } from 'react';
 import './Login.css';
-import SecurityQuestion from './SecurityQuestion.jsx'
+import SecurityQuestion from './SecurityQuestion.jsx';
 
-export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }) {
+export default function Login({ changeFormDisplay, axiosHandler }) {
 
     const [displaySecurityQuestion, showSecurityQuestion] = useState(false);
 
@@ -32,7 +32,7 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
             <div className="row justify-content-center">
                 {!displaySecurityQuestion ?
                     <form id='loginForm' onSubmit={handleSubmit}>
-                        <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
+                        <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close">Go Back</button>
                         <h1>Sign in</h1>
                         <div className="form-group">
                             <label>Email:</label>
@@ -42,18 +42,17 @@ export default function Login({ changeFormDisplay, axiosHandler, alert, prompt }
                             <label>Password:</label>
                             <input type="password" className="form-control" placeholder="Enter password" name="password" autoComplete="on" required onChange={addNewInfo} />
                         </div>
-                        <div className="checkbox">
-                            <label><input type="checkbox" id='rememberMe' /> Remember me</label>
+                        <div className="form-check">
+                            <input className='form-check-input' type="checkbox" id='rememberMe' />  
+                            <label className='form-check-label' htmlFor='rememberMe'>Remember me</label>
                         </div>
-
+                        <div className='form-inline'>
                         <button type="submit" className="btn btn-primary">Sign in!</button>
-                        <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close" aria-label="Close">Forgot password?</button>
+                        <button onClick={() => { showSecurityQuestion(true) }} type="button" className="close">Forgot password?</button>
+                        </div>
                     </form>
                     : <SecurityQuestion
-                        prompt={prompt}
-                        axiosHandler={axiosHandler}
                         showSecurityQuestion={showSecurityQuestion}
-
                     />
                 }
 

@@ -1,41 +1,26 @@
 @import url(https://fonts.googleapis.com/css?family=Sigmar+One);
 
-
-#registerForm {
+#forgotPasswordForm {
     border-radius: 15px 15px 15px 15px;
     padding: 25px;
     align-content: center;
     background-color: rgba(237, 237, 237, 0.5);
     background-color: hsla(0, 0%, 93%, 0.5);
     width: 500px;
-  }
+}
 
-  #registerForm h1 {
+#forgotPasswordForm h1 {
     font-family: 'Sigmar One';
     text-decoration: underline;
     font-size: 48px;
-  }
+}
 
-  #registerForm label {
-    color: #2a631f;
-    font-weight: bold;
-    font-size: 24px;
-  }
-
-  #registerForm button:first-child:hover, #registerForm button:last-child:hover  {
+#forgotPasswordForm button:first-child:hover {
     color: #ed1536;
     transition: color 0.5s 0s ease;
   }
 
-  #registerForm button:last-child {
-    font-family: 'Sigmar One';
-  }
-
-  #registerForm input:hover {
+  #forgotPasswordForm input:hover {
     border: 1px solid blue
-  }
 
-  #registerForm select:hover {
-    border: 1px solid blue
   }
-

@@ -3,13 +3,13 @@ import './HomePage.css';
 import Register from './components/Register';
 import Login from './components/Login'
 
-export default function HomePage({ axiosHandler, alert, prompt }) {
+export default function HomePage({ axiosHandler }) {
 
-    const [formDisplay, changeFormDisplay] = useState('Home')
+    const [formDisplay, changeFormDisplay] = useState('Home');
 
     return (
 
-        <div id="homePageCarousel" className="carousel slide" data-ride="carousel">
+        <div id="homePageCarousel" className="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
             <div className="carousel-inner" role="listbox">
                 <div className="carousel-item active">
                     <img src="assets/Better Call Saul.jpg" alt="Better Call Saul" className="img-responsive" id="carousel-img" />
@@ -57,7 +57,6 @@ export default function HomePage({ axiosHandler, alert, prompt }) {
                     ? <Register
                         changeFormDisplay={changeFormDisplay}
                         axiosHandler={axiosHandler}
-                        alert={alert}
                     />
                     : null}
 
@@ -65,8 +64,6 @@ export default function HomePage({ axiosHandler, alert, prompt }) {
                     ? <Login
                         changeFormDisplay={changeFormDisplay}
                         axiosHandler={axiosHandler}
-                        alert={alert}
-                        prompt={prompt}
                     />
                     : null}
 

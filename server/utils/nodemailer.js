@@ -8,16 +8,16 @@ const nodemailerFunctions = {
 
         let htmlEmail =
             `<div style="text-align: left, font-size: 24px"><p>Hi ${email},</p>
-        <ul>Here are the shows airing today that you wanted to be notified about:</ul>    
+        <ul style="padding: 0">Here are the shows airing today that you wanted to be notified about:</ul>    
         `
 
         for (var i = 0; i < episodeInfo.length; i++) {
             let { showName, episodeName, season, number, time, summary, network } = episodeInfo[i];
             if (summary !== null) {
                 summary = summary.slice(3, -4) // get rid of the <p> tags
-                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.  '<span style="font-style: italic">${summary}</span>'</li>`;
+                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.  '<span style="font-style: italic">${summary}</span>'</li><br/>`;
             } else {
-                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.</li>`
+                htmlEmail += `<li><span style="font-weight: bold">${showName.toUpperCase()}</span> season ${season} episode ${number} '<span style="font-weight: bold">${episodeName.toUpperCase()}</span>' airs on ${network} at ${time}.</li><br/>`
             }
         }
 
@@ -43,7 +43,7 @@ const nodemailerFunctions = {
         const mailOptions = {
             from: user,
             to: email,
-            subject: `New episode notification from TV Tracker`,
+            subject: `Episode notification from TV Tracker`,
             html: htmlEmail
         };
 

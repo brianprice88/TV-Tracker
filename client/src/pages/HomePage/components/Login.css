@@ -1,4 +1,7 @@
-form {
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+
+
+#loginForm {
     border-radius: 15px 15px 15px 15px;
     padding: 25px;
     text-align: center;
@@ -6,3 +9,42 @@ form {
     background-color: hsla(0, 0%, 93%, 0.5);
     width: 500px;
   }
+
+  #loginForm h1 {
+    font-family: 'Sigmar One';
+    text-decoration: underline;
+    font-size: 48px;
+  }
+
+  #loginForm label {
+    color: #2a631f;
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  #loginForm input[type="checkbox"] {
+  height: 25px;
+  width: 50px;
+  cursor: pointer;
+  }
+
+  #loginForm input:hover {
+    border: 1px solid blue
+  }
+
+  #loginForm button:first-child:hover, #loginForm button:last-child:hover {
+    color: #ed1536;
+    transition: color 0.5s 0s ease;
+  }
+
+ #loginForm button:nth-last-child(2) {
+  font-family: 'Sigmar One';
+ }
+
+ .form-inline {
+   margin-top: 10px;
+ }
+
+ .form-inline button[type='button'] {
+  margin-left: 30%;
+ }
