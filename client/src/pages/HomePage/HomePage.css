@@ -39,6 +39,11 @@ to{
     animation: move linear 500ms infinite;
   }
 
+  .home-buttons button:hover {
+    color: #ed1536;
+    transition: color 0.5s 0s ease;
+  }
+
   @keyframes move {
     0% {
       text-shadow:

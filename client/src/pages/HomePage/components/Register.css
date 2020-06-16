@@ -17,12 +17,12 @@
   }
 
   #registerForm label {
-    color: #30ab73;
+    color: #2a631f;
     font-weight: bold;
     font-size: 24px;
   }
 
-  #registerForm button:first-child:hover {
+  #registerForm button:first-child:hover, #registerForm button:last-child:hover  {
     color: #ed1536;
     transition: color 0.5s 0s ease;
   }

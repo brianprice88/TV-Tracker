@@ -202,7 +202,6 @@ class App extends React.Component {
         {!this.state.user
           ? <HomePage
             axiosHandler={this.axiosHandler.bind(this)}
-            alert={this.state.alert}
           /> :
           <UserPage
             axiosHandler={this.axiosHandler.bind(this)}

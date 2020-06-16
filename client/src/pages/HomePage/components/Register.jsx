@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import './Register.css'
 
-export default function Register({ changeFormDisplay, axiosHandler, alert }) {
+export default function Register({ changeFormDisplay, axiosHandler }) {
 
 
 
@@ -30,7 +30,7 @@ export default function Register({ changeFormDisplay, axiosHandler, alert }) {
         <div className="container-fluid">
             <div className="row justify-content-center">
                 <form id='registerForm' onSubmit={handleSubmit}>
-                    <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close" aria-label="Close">Go Back</button>
+                    <button onClick={() => { changeFormDisplay('Home') }} type="button" className="close">Go Back</button>
                     <h1>Sign up</h1>
                     <div className="form-group">
                         <label>Email:</label>
