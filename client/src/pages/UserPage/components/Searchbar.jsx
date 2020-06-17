@@ -7,22 +7,29 @@ export default function Searchbar({ axiosHandler, user }) {
 
     const [shows, updateShows] = useState([]);
 
-    async function search() {
+    async function search(e) {
+        e.preventDefault();
         let query = document.getElementById('showSearchBar').value;
-        document.getElementById('showSearchBar').value = '';
         if (query.includes('<')) { return; }
         let searchResults = await searchForShow([user.email_address, user.session, query]);
         updateShows(searchResults)
     }
 
     return (
-        <div>
-            <div className="form-group mb-4">
-                <label>Add a show to your list!  </label>
-                <input type="text" id='showSearchBar' placeholder="Enter show name" className="form-control form-control-underlined border-success" />
-                <button className="btn btn-primary" onClick={search}>Search</button>
-                {shows.length > 0 ?
-                    (
+        <form
+        >
+            <div className="form-row align-items-center">
+                <div className="col-auto">
+                    <h4 className="mb-2">Add a show to your list!  </h4>
+                </div>
+                <div className="col-auto">
+                    <input onChange={search} type="text" id='showSearchBar' placeholder="&#xf002;" className="form-control form-control-underlined border-success mb-2" />
+                </div>
+            </div>
+            {shows.length > 0 ?
+                (
+
+                    <div className='form-group'>
                         <table className='table table-striped table-bordered'>
                             <thead>
                                 <tr>
@@ -45,9 +52,9 @@ export default function Searchbar({ axiosHandler, user }) {
                                 )}
                             </tbody>
                         </table>
-                    )
-                    : null}
-            </div>
-        </div>
+                    </div>
+                )
+                : null}
+        </form>
     )
 }

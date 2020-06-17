@@ -87,7 +87,6 @@ export default function TopBar({ axiosHandler, user }) {
 }
 
 
-
 function UpdateEmail({ user, axiosHandler, showForm }) {
     function changeEmail(e) {
         e.preventDefault();
