@@ -29,7 +29,7 @@ export default function Searchbar({ axiosHandler, user }) {
             {shows.length > 0 ?
                 (
                     <div className='form-group'>
-                        <table className='table table-striped table-bordered' id='userShowsTable'>
+                        <table className='table table-hover table-striped table-bordered' id='userShowsTable'>
                             <thead>
                                 <tr>
                                     <th>Name</th>
