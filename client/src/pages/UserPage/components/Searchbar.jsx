@@ -28,14 +28,16 @@ export default function Searchbar({ axiosHandler, user }) {
             </div>
             {shows.length > 0 ?
                 (
-
                     <div className='form-group'>
-                        <table className='table table-striped table-bordered'>
+                        <table className='table table-striped table-bordered' id='userShowsTable'>
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Summary</th>
-                                    <th><button onClick={() => updateShows([])} className='close'>&times;</button></th>
+                                    <th><button onClick={function () {
+                                        updateShows([]);
+                                        document.getElementById('showSearchBar').value = '';
+                                    }} className='close'>&times;</button></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +53,16 @@ export default function Searchbar({ axiosHandler, user }) {
                                     />
                                 )}
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td><button onClick={function () {
+                                        updateShows([]);
+                                        document.getElementById('showSearchBar').value = '';
+                                    }} className='close'>&times;</button></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 )

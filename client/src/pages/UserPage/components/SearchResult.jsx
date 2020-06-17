@@ -6,6 +6,7 @@ export default function SearchResult({ axiosHandler, user, name, id, summary, up
     function addShowToList() {
         axiosHandler('addShowToList', user.email_address, user.session, id, name)
         updateShows([]); // clear search results
+        document.getElementById('showSearchBar').value = '';
     }
 
     return (

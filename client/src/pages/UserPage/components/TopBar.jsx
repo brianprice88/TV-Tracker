@@ -154,7 +154,7 @@ function SendFeedback({ user, axiosHandler, showForm }) {
             <form onSubmit={sendUserFeedback}>
                 <div className="form-row align-items-center">
                 <div className='col-auto'>
-                    <textarea placeholder='Enter your questions or comments here' className="form-control mb-2" id="userMessage" rows="3"></textarea>
+                    <textarea placeholder='Enter questions or comments' className="form-control mb-2" id="userMessage" rows="3"></textarea>
                     </div>
                 <div className='col-auto'>
                     <button type="submit" className="btn btn-primary mb-2">Send message</button>
