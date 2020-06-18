@@ -31,7 +31,7 @@
     font-family: 'Sigmar One';
     text-align: center;
     font-size: 24px;
-    color:  #395870;
+    color: #395870;
 }
 
 .showsTableHeading{ 
@@ -52,6 +52,7 @@
     left: -200px;
     width: 200px
 } 
+
 .showsTableHeading:hover span.showsTableMessage { 
-    display:block; 
+    display: block; 
 } 

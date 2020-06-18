@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Sigmar+One);
  
-
 #addedShowsTable tbody tr td:first-child {
   text-align: left;
 }
@@ -46,9 +45,11 @@
     -moz-user-select:none;
     -ms-user-select: none;
   }
+
   .flipswitch input[type=checkbox] {
     display: none;
   }
+  
   .flipswitch-label {
     display: block;
     overflow: hidden;
@@ -56,6 +57,7 @@
     border: 2px solid #999999;
     border-radius: 50px;
   }
+  
   .flipswitch-inner {
     width: 200%;
     margin-left: -100%;
@@ -64,6 +66,7 @@
     -ms-transition: margin 0.3s ease-in 0s;
     transition: margin 0.3s ease-in 0s;
   }
+  
   .flipswitch-inner:before, .flipswitch-inner:after {
     float: left;
     width: 50%;
@@ -78,6 +81,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
+
   .flipswitch-inner:before {
     content: "ON";
     padding-left: 12px;
@@ -85,6 +89,7 @@
     color: #FFFFFF;
     text-align: left;
   }
+
   .flipswitch-inner:after {
     content: "OFF";
     padding-right: 12px;
@@ -92,6 +97,7 @@
     color: #888888;
     text-align: right;
   }
+
   .flipswitch-switch {
     width: 29px;
     margin: -2.5px;
@@ -107,9 +113,11 @@
     -ms-transition: all 0.3s ease-in 0s;
     transition: all 0.3s ease-in 0s;
   }
+
   .flipswitch-cb:checked + .flipswitch-label .flipswitch-inner {
     margin-left: 0;
   }
+  
   .flipswitch-cb:checked + .flipswitch-label .flipswitch-switch {
     right: 0;
   }

@@ -6,10 +6,6 @@
     text-shadow: 1px 1px 2px black, 0 0 25px purple, 0 0 5px pink;
 }
 
-/* .col-auto button {
-    width: fit-content;
-} */
-
 .col-auto i {
     font-size: 20px;
 }
@@ -63,7 +59,6 @@ font-style: italic;
 #userShowsTable tbody tr button {
     text-transform: uppercase;
 }
-
 
 #userShowsTable tfoot tr td {
     background-color: #4ECDC4;

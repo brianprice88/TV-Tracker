@@ -7,7 +7,6 @@
 	box-shadow: 2px 2px 5px;
 	background: gray;
     filter: contrast(7);
-    /* margin-bottom: 0; */
 }
 
 .userWelcome::before {

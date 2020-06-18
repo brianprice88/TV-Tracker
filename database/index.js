@@ -27,26 +27,3 @@ pool.connect()
             .catch(err => console.error(err))
             .finally(() => pool.end())
     )
-
-    /*
-    
-    USERS
-    id (primary key)
-    email_address
-    password
-    security_question
-    security_answer
-
-    SHOWS
-    id (primary key)
-    tvmaze_id (id on TV maze)
-    name
-    episodes: formatted as array of 'season.episodeNumber' (e.g. 1.1, 1.2 --> then these can be parsed to represent season and episode)
-
-    USERS_SHOWS
-    user_id (foreign key for USERS.id)
-    show_id (foreign key for SHOWS.id)
-    notification (true or false) -> email to alert about new episodes
-    episodes_watched: formatted as array of 'season.episodeNumber' (e.g. 1.1, 1.2 --> then these can be parsed to represent season and episode (then compared against the show master list to determine unwatched episodes))
-
-    */

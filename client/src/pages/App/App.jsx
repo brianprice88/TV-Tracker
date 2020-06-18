@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import HomePage from '../HomePage/HomePage';
 import UserPage from '../UserPage/UserPage';
 import Alert from './components/Alert.jsx'
@@ -35,7 +34,6 @@ class App extends React.Component {
     }
   }
 
-
   async axiosHandler(func) {
     let args = [...arguments].slice(1);
     switch (func) {
@@ -51,7 +49,7 @@ class App extends React.Component {
 
       case 'signIn':
         try {
-          let persistUser = args[2] // whether user checked 'rememberMe'
+          let persistUser = args[2]
           args = args.slice(0, 2)
           let signInReq = await signIn(args);
           signInReq.message

@@ -10,14 +10,13 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
     const defaultState = { name: 'N/A', summary: 'N/A', airdate: 'N/A' }
     const [ep, addEpisodeDetails] = useState(defaultState)
 
-
     async function getInfo() {
         let infoRequest = await getEpisodeInfo([email_address, session, tvmaze_id, season, number])
         addEpisodeDetails(infoRequest);
     }
 
     function toggleWatchedStatus() {
-        axiosHandler('updateEpisodeList', email_address, session, tvmaze_id, episode[0], !episode[1]) // last param is to change from unwatched to watched or vice versa
+        axiosHandler('updateEpisodeList', email_address, session, tvmaze_id, episode[0], !episode[1])
     }
 
     return (
@@ -33,12 +32,12 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
                     ep.name !== 'N/A' ?
                         <div className='col-auto moreEpisodeInfo'>
                             <button onClick={() => addEpisodeDetails(defaultState)} type="button" className="btn btn-primary btn-sm">Close</button>
-                            <h1>{ep.name} <br/><span>(Original Airdate: {ep.airdate.slice(5, 10) + '-' + ep.airdate.slice(0, 4)})</span></h1>
+                            <h1>{ep.name} <br /><span>(Original Airdate: {ep.airdate.slice(5, 10) + '-' + ep.airdate.slice(0, 4)})</span></h1>
                             <div dangerouslySetInnerHTML={{
                                 __html: ep.summary
                             }}></div>
                             <button onClick={() => addEpisodeDetails(defaultState)} type="button" className="btn btn-primary btn-sm">Close</button>
-                            </div>
+                        </div>
                         : null
                 }
             </td>

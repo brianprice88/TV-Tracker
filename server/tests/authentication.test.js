@@ -126,7 +126,7 @@ describe('handing a forgotten password', () => {
 
     it('should provide a user with their security question based on their email, if they forgot their password', async (done) => {
         let forgotPassword = await request.get(`/authentication/forgotPassword/${email_address}`)
-        expect(forgotPassword.text).toBe(security_question)
+        expect(forgotPassword.body.question).toBe(security_question)
         done();
     })
 
@@ -140,7 +140,7 @@ describe('handing a forgotten password', () => {
         let correctAnswer = await request.post('/authentication/checkSecurityAnswer').send({ email_address, security_answer: 'Blue' })
         let userInfo = await users.getUser(email_address);
         let userShows = await usersShows.findShowsForUser(userInfo.rows[0].id)
-        expect(correctAnswer.body.prompt).toBe('Please enter a new password.')
+        expect(correctAnswer.body.prompt).toBe('Please update your password.')
         done();
     })
 

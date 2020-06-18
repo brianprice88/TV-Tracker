@@ -9,7 +9,6 @@ export default function SecurityQuestion({ showSecurityQuestion }) {
     const [prompt, updatePrompt] = useState(null);
     const [alert, updateAlert] = useState(null)
 
-
     async function queryForSecurityQuestion() {
         let email_address = document.getElementById('secQuestionEmail').value;
         let securityQuestionResult = await getSecurityQuestion([email_address]);

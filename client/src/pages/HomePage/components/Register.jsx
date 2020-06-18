@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect } from 'react';
 import './Register.css';
 import Alert from '../../App/components/Alert';
 
-
 export default function Register({ changeFormDisplay, axiosHandler }) {
 
     const [alert, updateAlert] = useState(null);
@@ -30,7 +29,6 @@ export default function Register({ changeFormDisplay, axiosHandler }) {
     }
 
     useEffect(() => createCaptcha())
-
 
     const initialFormInfo = { email_address: '', password: '', security_question: 'What was the name of your first pet?', security_answer: '', captcha: '' }
 
@@ -105,7 +103,6 @@ export default function Register({ changeFormDisplay, axiosHandler }) {
                         <div id='captcha'></div>
                         <input type="text" className="form-control" placeholder="Enter the above captcha (case sensitive)" name="captcha" required onChange={addNewInfo} />
                     </div>
-
                     <button type="submit" className="btn btn-primary">Register!</button>
                 </form>
             </div>
