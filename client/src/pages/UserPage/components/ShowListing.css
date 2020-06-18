@@ -1,4 +1,45 @@
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+ 
+
+#addedShowsTable tbody tr td:first-child {
+  text-align: left;
+}
+ 
+ #addedShowsTable tbody tr td:first-child span {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #3977e3;
+    font-size: 32px;
+    font-family: Impact;
+    margin-right: 15px;
+}
+
+#addedShowsTable tbody tr td:first-child button {
+  font-weight: bold;
+  font-family: Impact;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+#addedShowsTable tbody tr td:first-child button:hover {
+  color: #ed1536;
+  transition: color 0.5s 0s ease;
+}
+
+#addedShowsTable tbody tr td:last-child button {
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium';
+  margin: 5px 0 0 15px;
+  cursor: pointer;
+}
+
+#addedShowsTable tbody tr td:last-child button:hover {
+  color: #ed1536;
+  transition: color 0.5s 0s ease;
+}
+
   .flipswitch {
+    margin: 10px 0 0 25%;
     position: relative;
     width: 83px;
     -webkit-user-select:none;
@@ -21,7 +62,6 @@
     -webkit-transition: margin 0.3s ease-in 0s;
     -moz-transition: margin 0.3s ease-in 0s;
     -ms-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s;
     transition: margin 0.3s ease-in 0s;
   }
   .flipswitch-inner:before, .flipswitch-inner:after {
@@ -43,6 +83,7 @@
     padding-left: 12px;
     background-color: #359917;
     color: #FFFFFF;
+    text-align: left;
   }
   .flipswitch-inner:after {
     content: "OFF";
@@ -64,7 +105,6 @@
     -webkit-transition: all 0.3s ease-in 0s;
     -moz-transition: all 0.3s ease-in 0s;
     -ms-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s;
     transition: all 0.3s ease-in 0s;
   }
   .flipswitch-cb:checked + .flipswitch-label .flipswitch-inner {

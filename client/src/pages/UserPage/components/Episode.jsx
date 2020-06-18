@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Episodes.css';
+import './Episode.css';
 import { getEpisodeInfo } from '../../../utils/axiosFunctions';
 
 export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
@@ -21,7 +21,7 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
     }
 
     return (
-        <tr>
+        <tr className='episodesTableRow'>
             <td>{season}</td>
             <td>{number}</td>
             <td>
@@ -31,12 +31,14 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
                 <button onClick={getInfo} type="button" className="btn btn-info">More Info</button>
                 {
                     ep.name !== 'N/A' ?
-                        <div>
+                        <div className='col-auto moreEpisodeInfo'>
                             <button onClick={() => addEpisodeDetails(defaultState)} type="button" className="btn btn-primary btn-sm">Close</button>
-                            <h1>{ep.name} (originally aired {ep.airdate.slice(5, 10) + '-' + ep.airdate.slice(0, 4)})</h1>
+                            <h1>{ep.name} <br/><span>(Original Airdate: {ep.airdate.slice(5, 10) + '-' + ep.airdate.slice(0, 4)})</span></h1>
                             <div dangerouslySetInnerHTML={{
                                 __html: ep.summary
-                            }}></div></div>
+                            }}></div>
+                            <button onClick={() => addEpisodeDetails(defaultState)} type="button" className="btn btn-primary btn-sm">Close</button>
+                            </div>
                         : null
                 }
             </td>

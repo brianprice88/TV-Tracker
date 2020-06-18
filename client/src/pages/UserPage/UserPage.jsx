@@ -9,23 +9,28 @@ export default function UserPage({ axiosHandler, user, shows }) {
 
     return (
         <div className='container-fluid'>
+            <div className='row'>
             <TopBar
                 axiosHandler={axiosHandler}
                 user={user}
             />
+            </div>
+
+            <div className='row'>
             <Searchbar
                 axiosHandler={axiosHandler}
                 user={user}
             />
+            </div>
+
+            <div className='row userShowsContainer'>
             <h1>Your shows:</h1>
             {
                 userShows.length > 0 ?
-                    <table className='table table-hover table-striped'>
+                    <table className='table table-hover table-striped table-bordered' id='addedShowsTable'>
                         <thead>
                             <tr>
-                                <th>
-                                    Name
-                        </th>
+                                <th>Name</th>
                                 <th>
                                     Notification
                            <i className="fa fa-question-circle showsTableHeading" >
@@ -51,9 +56,11 @@ export default function UserPage({ axiosHandler, user, shows }) {
                         </tbody>
                     </table>
                     :
+                    <>           
                     <h1>You haven't added any shows yet!</h1>
+                    </>
             }
-
+            </div>
         </div>
     )
 }

@@ -1,0 +1,79 @@
+.col-auto h4 {
+    font-family: 'Sigmar One';
+    color: #bb39e3;
+    margin-left: 10px;
+    font-size: 32px;
+    text-shadow: 1px 1px 2px black, 0 0 25px purple, 0 0 5px pink;
+}
+
+/* .col-auto button {
+    width: fit-content;
+} */
+
+.col-auto i {
+    font-size: 20px;
+}
+
+#showSearchBar {
+width: 50px;
+font-family: "Font Awesome 5 Free";
+font-weight: 900;
+transition: width 0.5s ease-in-out;
+border-width: 3px;
+height: 50px;
+}
+
+#showSearchBar:focus {
+    width: 500px;
+}
+
+#userShowsTable {
+    margin-top: 20px
+}
+
+#userShowsTable th {
+    background-color: #4ECDC4;
+    font-family: 'Sigmar One';
+    text-align: center;
+    font-size: 24px;
+    color:  #395870
+}
+
+#userShowsTable th button {
+    margin-right: 35%;
+    font-size: 36px;
+}
+
+#userShowsTable button:hover {
+    color: #ed1536;
+    transition: color 0.5s 0s ease;
+}
+
+#userShowsTable tbody tr td:first-child {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #3977e3;
+    font-size: 16px;
+}
+
+#userShowsTable tbody tr td:nth-child(2) {
+font-style: italic;
+}
+
+#userShowsTable tbody tr button {
+    text-transform: uppercase;
+}
+
+
+#userShowsTable tfoot tr td {
+    background-color: #4ECDC4;
+    font-family: 'Sigmar One';
+    text-align: center;
+    font-size: 24px;
+    color:  #395870
+}
+
+#userShowsTable tfoot td button {
+    margin-right: 35%;
+    font-size: 36px;
+}
