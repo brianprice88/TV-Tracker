@@ -1,5 +1,4 @@
 import React from 'react';
-import './SearchResult.css';
 
 export default function SearchResult({ axiosHandler, user, name, id, summary, updateShows }) {
 

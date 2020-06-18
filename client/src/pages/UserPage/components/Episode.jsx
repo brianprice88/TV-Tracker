@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Episodes.css';
+import './Episode.css';
 import { getEpisodeInfo } from '../../../utils/axiosFunctions';
 
 export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
@@ -21,7 +21,7 @@ export default function Episode({ axiosHandler, user, tvmaze_id, episode }) {
     }
 
     return (
-        <tr>
+        <tr className='episodesTableRow'>
             <td>{season}</td>
             <td>{number}</td>
             <td>

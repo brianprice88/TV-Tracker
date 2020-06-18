@@ -6,26 +6,26 @@ export default function Episodes ({axiosHandler, show, user}) {
     let name = show[0];
     let { tvmaze_id, episodes } = show[1];
 
+
+
     return (
         <div className="modal fade" id={`myModal${tvmaze_id}`}>
         <div className="modal-dialog">
           <div className="modal-content">
-          
-           
+             
             <div className="modal-header">
-    <h4 className="modal-title">{name}</h4>
+        <h4 className="modal-title">{name}</h4>
               <button type="button" className="close" data-dismiss="modal">&times;</button>
             </div>
-            
-            
-            <div className="modal-body">
-            <table className="table table-condensed">
+             
+            <div className="modal-body table-responsive">
+            <table className="table table-hover table-striped table-bordered">
     <thead>
       <tr>
         <th>Season</th>
         <th>Number</th>
         <th>Watched</th>
-        <th>Episode Details</th>
+        <th>Details</th>
       </tr>
     </thead>
     <tbody>

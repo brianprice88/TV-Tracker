@@ -56,8 +56,7 @@ export default function UserPage({ axiosHandler, user, shows }) {
                         </tbody>
                     </table>
                     :
-                    <>
-           
+                    <>           
                     <h1>You haven't added any shows yet!</h1>
                     </>
             }
