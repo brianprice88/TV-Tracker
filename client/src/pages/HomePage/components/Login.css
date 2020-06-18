@@ -26,6 +26,7 @@
   height: 25px;
   width: 50px;
   cursor: pointer;
+  transform: scale(1.5);
   }
 
   #loginForm input:hover {
