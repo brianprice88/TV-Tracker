@@ -17,30 +17,36 @@ export default function ShowList({ show, axiosHandler, user }) {
 
     return (
         <tr>
-            <td>
-                {name}
-                <button onClick={removeShow} type="button" className="btn btn-warning">Remove from list</button>
-            </td>
-
-            <td>
-                <div className="flipswitch">
-                    <input onClick={toggleShowNotification} type="checkbox" name="flipswitch" className="flipswitch-cb" id={`${tvmaze_id}-toggle`} defaultChecked={notification ? 'checked' : ''} />
-                    <label className="flipswitch-label" htmlFor={`${tvmaze_id}-toggle`}>
-                        <div className="flipswitch-inner"></div>
-                        <div className="flipswitch-switch"></div>
-                    </label>
+            <td className='col-auto'>
+                <div>
+                    <span>{name}</span>
+                    <span><button onClick={removeShow} type="button" className="btn btn-warning">Remove from list</button></span>
                 </div>
             </td>
 
             <td>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#myModal${tvmaze_id}`}>
-                {Object.entries(episodes).some(ep => !ep[1]) ? <span>Unwatched episodes!</span> : <span>All caught up!</span>} 
-                </button>
+                <div className='col-auto'>
+                    <div className="flipswitch">
+                        <input onClick={toggleShowNotification} type="checkbox" name="flipswitch" className="flipswitch-cb" id={`${tvmaze_id}-toggle`} defaultChecked={notification ? 'checked' : ''} />
+                        <label className="flipswitch-label" htmlFor={`${tvmaze_id}-toggle`}>
+                            <div className="flipswitch-inner"></div>
+                            <div className="flipswitch-switch"></div>
+                        </label>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div className='col-auto'>
+                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#myModal${tvmaze_id}`}>
+                        {Object.entries(episodes).some(ep => !ep[1]) ? <span>Unwatched episodes!</span> : <span>All caught up!</span>}
+                    </button>
+                </div>
                 <Episodes
                     axiosHandler={axiosHandler}
                     show={show}
                     user={user}
-                />        
+                />
             </td>
 
         </tr>

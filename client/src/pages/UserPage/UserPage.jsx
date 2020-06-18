@@ -23,7 +23,7 @@ export default function UserPage({ axiosHandler, user, shows }) {
             />
             </div>
 
-            <div className='col-auto userShowsContainer'>
+            <div className='row userShowsContainer'>
             <h1>Your shows:</h1>
             {
                 userShows.length > 0 ?

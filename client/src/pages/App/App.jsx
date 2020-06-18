@@ -207,7 +207,6 @@ class App extends React.Component {
             user={this.state.user}
             shows={this.state.shows}
           />}
-
       </>
     );
   }
