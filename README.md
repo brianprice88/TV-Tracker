@@ -8,6 +8,12 @@ TV Tracker makes it easy to know what episodes to watch of what shows, and when.
 
 TO RUN THE APP LOCALLY:
 
-clone this repo and from the root directory run 'NPM INSTALL' then 'NPM RUN APP'
+* clone this repo
 
-**note that email configuration is not displayed, however if you wish to enable email notifications, you can create a .env file in the root directory, with GMAILUSER='yourUserName' and GMAILPASSWORD='yourPassword'.
+* from the root directory, run 'NPM INSTALL'
+
+* from the root directory, 'NPM RUN APP'
+
+**note that email configuration is not displayed, however if you wish to enable email notifications, you can create a .env file in the root directory, with GMAILUSER='yourUserName' and GMAILPASSWORD='yourPassword'.**
+
+![TV-Tracker]('./TV-Tracker.png')
