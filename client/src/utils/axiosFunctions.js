@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
-// const base = 'http://192.168.1.9:3001' // for development
-const base = 'https://tv-tracker-brianprice.herokuapp.com'; // for deployment
+const base = 'http://192.168.1.9:3001' // for development
+// const base = 'https://tv-tracker-brianprice.herokuapp.com'; // for deployment
 
 const authentication = `${base}/authentication`;
 const userAction = `${base}/userAction`;
