@@ -9,8 +9,10 @@
   "scripts": {
     "server-dev": "nodemon server/server.js",
     "server-prod": "node server/server.js",
+    "compile": "cd ./client && npm run start",
     "test": "jest --detectOpenHandles",
     "database-reset": "node database/index.js",
+    "app": "concurrently --kill-others-on-fail \"npm run database-reset\" \"npm run compile\" \"npm run server-dev\"",
     "start": "concurrently --kill-others-on-fail \"npm run server-prod\" \"npm run database-reset\"",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
