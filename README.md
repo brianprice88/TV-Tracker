@@ -16,4 +16,4 @@ TO RUN THE APP LOCALLY:
 
 **note that email configuration is not displayed, however if you wish to enable email notifications, you can create a .env file in the root directory, with GMAILUSER='yourUserName' and GMAILPASSWORD='yourPassword'.**
 
-![TV-Tracker]('./TV-Tracker.png')
+![TV Tracker](TV-Tracker.png)
