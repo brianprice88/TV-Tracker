@@ -1,10 +1,20 @@
 const { Pool, Client } = require('pg');
 
+if (process.env.DATABASE_URL) {
+    let parsedURL = require('url').parse(process.env.DATABASE_URL);
+    process.env.HOST = parsedURL.hostname;
+    process.env.PORT = parsedURL.port;
+    process.env.DATABASE = parsedURL.path.slice(1);
+    process.env.USER = parsedURL.auth.split(':')[0];
+    process.env.PASSWORD = parsedURL.auth.split(':')[1];
+}
+
 const pool = new Pool({
-    host: process.env.PGHost || 'localhost',
-    port: process.env.PGPort || 5432,
-    database: process.env.PGDatabase || 'tvtracker',
-    user: process.env.PGUser || 'brianprice'
+    host: process.env.HOST || 'localhost',
+    port: process.env.PORT || 5432,
+    database: process.env.DATABASE || 'tvtracker',
+    user: process.env.USER || 'brianprice',
+    password: process.env.PASSWORD || ''
 })
 
 const users = {

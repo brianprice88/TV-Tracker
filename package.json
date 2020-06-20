@@ -5,8 +5,11 @@
   "main": "server/index.js",
   "scripts": {
     "server-dev": "nodemon server/server.js",
+    "server-prod": "node server/server.js",
+    "test": "jest --detectOpenHandles",
     "database-reset": "node database/index.js",
-    "test": "jest --detectOpenHandles"
+    "start": "concurrently --kill-others-on-fail \"npm run server-prod\" \"npm run database-reset\"",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,7 @@
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
