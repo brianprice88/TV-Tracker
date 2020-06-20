@@ -1,4 +1,3 @@
-const gmail = require('../../nodemailerConfig');
 const nodemailer = require('nodemailer');
 
 const nodemailerFunctions = {
@@ -23,13 +22,8 @@ const nodemailerFunctions = {
 
         htmlEmail += '<p style="text-decoration: underline">Please note that all show times are EST and may vary by location.</p></div>'
 
-        let user = gmail.user;
-        let pass = gmail.password;
-
-        if (process.env.NODE_ENV === 'production') { // for deployment, use the environment variables on Heroku
-            user = process.env.user;
-            pass = process.env.password
-        }
+        let user = process.env.GMAILUSER;
+        let pass = process.env.GMAILPASSWORD;
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -53,13 +47,8 @@ const nodemailerFunctions = {
 
     sendUserFeedback: function (req, res) {
         let { email_address, message } = req.body
-        let user = gmail.user;
-        let pass = gmail.password;
-
-        if (process.env.NODE_ENV === 'production') { // for deployment, use the environment variables on Heroku
-            user = process.env.user;
-            pass = process.env.password
-        }
+        let user = process.env.GMAILUSER;
+        let pass = process.env.GMAILPASSWORD;
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -71,7 +60,7 @@ const nodemailerFunctions = {
 
         const mailOptions = {
             from: email_address,
-            to: gmail.user,
+            to: user,
             subject: `From ${email_address}`,
             text: message
         };
