@@ -6,6 +6,8 @@ TV Tracker makes it easy to know what episodes to watch of what shows, and when.
 
 **Credit for show information goes to TVmaze.com.**
 
+App deployed at https://tv-tracker-brianprice.herokuapp.com/
+
 TO RUN THE APP LOCALLY:
 
 * clone this repo
